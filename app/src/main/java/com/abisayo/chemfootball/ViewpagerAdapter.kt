@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 class ViewpagerAdapter(fm:FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getCount(): Int {
-        return 3;
+        return 8;
     }
 
     override fun getItem(position: Int): Fragment {
@@ -19,6 +19,21 @@ class ViewpagerAdapter(fm:FragmentManager) : FragmentPagerAdapter(fm) {
             }
             2 -> {
                 return Fragment3()
+            }
+            3 -> {
+                return Fragment4()
+            }
+            4 -> {
+                return Fragment5()
+            }
+            5 -> {
+                return Fragment6()
+            }
+            6 -> {
+                return Fragment7()
+            }
+            7 -> {
+                return Fragment8()
             }
             else -> {
                 return Fragment1()

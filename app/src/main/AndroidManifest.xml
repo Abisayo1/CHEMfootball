@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChemFootball">
         <activity
+            android:name=".SelectKeeperActivity"
+            android:exported="false" />
+        <activity
             android:name=".SelectPlayersActivity"
             android:exported="false" />
         <activity
