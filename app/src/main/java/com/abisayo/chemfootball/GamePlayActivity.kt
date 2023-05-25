@@ -3,9 +3,9 @@ package com.abisayo.chemfootball
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class SelectKeeperActivity : AppCompatActivity() {
+class GamePlayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_select_keeper)
+        setContentView(R.layout.activity_game_play)
     }
 }

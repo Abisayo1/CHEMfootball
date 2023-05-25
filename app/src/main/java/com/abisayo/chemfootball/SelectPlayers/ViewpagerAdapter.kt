@@ -1,10 +1,12 @@
-package com.abisayo.chemfootball
+package com.abisayo.chemfootball.SelectPlayers
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.abisayo.chemfootball.SelectKeepers.*
+import com.abisayo.chemfootball.SelectPlayers.*
 
-class ViewpagerAdapter(fm:FragmentManager) : FragmentPagerAdapter(fm) {
+class ViewpagerAdapter2(fm:FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getCount(): Int {
         return 8;
     }
@@ -36,7 +38,7 @@ class ViewpagerAdapter(fm:FragmentManager) : FragmentPagerAdapter(fm) {
                 return Fragment8()
             }
             else -> {
-                return Fragment1()
+                return FragmentI()
             }
         }
     }

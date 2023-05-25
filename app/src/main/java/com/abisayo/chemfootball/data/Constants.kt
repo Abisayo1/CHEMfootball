@@ -11,6 +11,6 @@ object Constants {
     const val CORRECT_ANSWERS = "correct_answers"
     const val NEXT_LEVEL = "next_level"
     const val ACTIVITY = "activity"
-    const val STUDENT_NAME = "student_name"
+    const val CLASS = "student_class"
 
 }

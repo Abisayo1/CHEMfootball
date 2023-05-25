@@ -10,10 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChemFootball">
         <activity
-            android:name=".SelectKeeperActivity"
+            android:name=".GamePlayActivity"
             android:exported="false" />
         <activity
-            android:name=".SelectPlayersActivity"
+            android:name=".SelectKeepers.SelectKeeperActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SelectPlayers.SelectPlayersActivity"
             android:exported="false" />
         <activity
             android:name=".SelectClassActivity"
