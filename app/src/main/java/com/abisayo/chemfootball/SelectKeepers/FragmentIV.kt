@@ -1,11 +1,16 @@
 package com.abisayo.chemfootball.SelectKeepers
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import com.abisayo.chemfootball.GameIntroActivity
 import com.abisayo.chemfootball.R
+import com.abisayo.chemfootball.data.Constants
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,12 +35,31 @@ class FragmentIV : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_i_v, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_i_v, container, false)
+
+
+        val activity = activity as? SelectKeeperActivity
+        val clas = activity?.getClass()
+        val player = activity?.getPlayer()
+
+        Toast.makeText(requireContext(), player, Toast.LENGTH_SHORT).show()
+        val myButton = view?.findViewById<Button>(R.id.select)
+
+
+        // Set the OnClickListener for the button
+        if (myButton != null) {
+            myButton.setOnClickListener {
+                val intent = Intent(requireActivity(), GameIntroActivity::class.java)
+                intent.putExtra(Constants.CLASS, clas)
+                intent.putExtra(Constants.KEEPER, "FragmentIV")
+                startActivity(intent)
+            }
+        }
+
+
+
+        return view
     }
 
     companion object {

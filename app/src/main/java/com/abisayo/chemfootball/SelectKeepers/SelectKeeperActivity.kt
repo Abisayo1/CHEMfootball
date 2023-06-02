@@ -1,14 +1,18 @@
 package com.abisayo.chemfootball.SelectKeepers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.viewpager.widget.ViewPager
 import com.abisayo.chemfootball.R
+import com.abisayo.chemfootball.data.Constants
 import com.google.android.material.tabs.TabLayout
 
 class SelectKeeperActivity : AppCompatActivity() {
+    private var clas = "SS1"
+    private var player = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,6 +30,19 @@ class SelectKeeperActivity : AppCompatActivity() {
         val tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         tabLayout.setupWithViewPager(viewPager)
 
+
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        player = intent.getStringExtra(Constants.PLAYER).toString()
+
     }
+
+    fun getClass(): String {
+        return clas
+    }
+
+    fun getPlayer(): String {
+        return player
+    }
+
 }
 

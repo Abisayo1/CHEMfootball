@@ -37,6 +37,8 @@ class Fragment5 : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_5, container, false)
 
+        val activity = activity as? SelectPlayersActivity
+        val clas = activity?.getClass()
 
         val myButton = view?.findViewById<Button>(R.id.select)
 
@@ -44,6 +46,7 @@ class Fragment5 : Fragment() {
         if (myButton != null) {
             myButton.setOnClickListener {
                 val intent = Intent(requireActivity(), SelectKeeperActivity::class.java)
+                intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.PLAYER, "Fragment5")
                 startActivity(intent)
             }

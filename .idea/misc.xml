@@ -3,12 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/drawable/default_option_border_bg.xml" value="0.25" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_create_account.xml" value="0.26666666666666666" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_game_intro.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_game_play.xml" value="0.15833333333333333" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_login.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_select_class.xml" value="0.25277777777777777" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_select_keeper.xml" value="0.2074074074074074" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_select_players.xml" value="0.25277777777777777" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_splash_screen.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/dialog_layout.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_1.xml" value="0.25277777777777777" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_2.xml" value="0.25277777777777777" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_3.xml" value="0.25277777777777777" />

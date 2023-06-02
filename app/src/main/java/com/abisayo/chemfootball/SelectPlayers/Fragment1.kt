@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import com.abisayo.chemfootball.GameIntroActivity
 import com.abisayo.chemfootball.R
 import com.abisayo.chemfootball.SelectKeepers.SelectKeeperActivity
 import com.abisayo.chemfootball.data.Constants
@@ -45,7 +46,7 @@ class Fragment1 : Fragment() {
         val activity = activity as? SelectPlayersActivity
         val clas = activity?.getClass()
 
-        Toast.makeText(requireContext(), clas, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(requireContext(), clas, Toast.LENGTH_SHORT).show()
         val myButton = view?.findViewById<Button>(R.id.select)
 
 
@@ -54,6 +55,7 @@ class Fragment1 : Fragment() {
             myButton.setOnClickListener {
                 val intent = Intent(requireActivity(), SelectKeeperActivity::class.java)
                 intent.putExtra(Constants.PLAYER, "Fragment1")
+                intent.putExtra(Constants.CLASS, clas)
                 startActivity(intent)
             }
         }
