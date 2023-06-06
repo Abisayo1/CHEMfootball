@@ -43,6 +43,7 @@ class FragmentVII : Fragment() {
         val clas = activity?.getClass()
         val player = activity?.getPlayer()
 
+
         Toast.makeText(requireContext(), player, Toast.LENGTH_SHORT).show()
         val myButton = view?.findViewById<Button>(R.id.select)
 
@@ -53,6 +54,7 @@ class FragmentVII : Fragment() {
                 val intent = Intent(requireActivity(), GameIntroActivity::class.java)
                 intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.KEEPER, "FragmentVII")
+                intent.putExtra(Constants.PLAYER, player)
                 startActivity(intent)
             }
         }

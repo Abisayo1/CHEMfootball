@@ -53,6 +53,7 @@ class FragmentII : Fragment() {
                 val intent = Intent(requireActivity(), GameIntroActivity::class.java)
                 intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.KEEPER, "FragmentII")
+                intent.putExtra(Constants.PLAYER, player)
                 startActivity(intent)
             }
         }

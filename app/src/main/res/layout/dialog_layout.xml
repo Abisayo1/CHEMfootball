@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/foot_dialog"
+    android:background="@drawable/dialog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,23 +11,22 @@
         android:layout_width="221dp"
         android:layout_height="70dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="13dp"
         android:layout_marginRight="20dp"
-        android:textColor="#FFFFFF"
         android:gravity="center"
         android:text="What is the meaning of relative molecular number?"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.557"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/secondbtn"
-        android:layout_width="100dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="221dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="13dp"
         android:background="@drawable/default_option_border_bg"
         android:elevation="10dp"
         android:gravity="center"
@@ -35,29 +34,60 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/firstbtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/firstbtn"
-        app:layout_constraintTop_toTopOf="@+id/firstbtn"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="@+id/firstbtn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/firstbtn"
+        app:layout_constraintTop_toBottomOf="@+id/firstbtn" />
 
     <TextView
         android:id="@+id/firstbtn"
-        android:layout_width="100dp"
-        android:layout_height="46dp"
-        android:layout_marginRight="40dp"
+        android:layout_width="221dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/default_option_border_bg"
         android:gravity="center"
         android:text="RMM"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tv_login"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_login"
+        app:layout_constraintTop_toBottomOf="@+id/tv_login" />
+
+    <TextView
+        android:id="@+id/thridbtn"
+        android:layout_width="221dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="13dp"
+        android:background="@drawable/default_option_border_bg"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:text="ROMd"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/secondbtn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/secondbtn"
+        app:layout_constraintTop_toBottomOf="@+id/secondbtn" />
+
+    <TextView
+        android:id="@+id/fourthbtn"
+        android:layout_width="221dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="13dp"
+        android:background="@drawable/default_option_border_bg"
+        android:gravity="center"
+        android:text="RMMb"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/secondbtn"
-        app:layout_constraintHorizontal_bias="0.052"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_login"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintEnd_toEndOf="@+id/thridbtn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/thridbtn"
+        app:layout_constraintTop_toBottomOf="@+id/thridbtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

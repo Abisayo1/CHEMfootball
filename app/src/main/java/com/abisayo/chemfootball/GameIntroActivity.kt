@@ -1,5 +1,6 @@
 package com.abisayo.chemfootball
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -7,12 +8,17 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import android.widget.MediaController
+import android.widget.Toast
 import android.widget.VideoView
+import androidx.core.content.ContentProviderCompat.requireContext
+import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityGameIntroBinding
 
 class GameIntroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGameIntroBinding
     private lateinit var videoView: VideoView
+    private var clas = "SS1"
+    private var player = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
@@ -33,6 +39,12 @@ class GameIntroActivity : AppCompatActivity() {
 //        videoView.setMediaController(mediaController)
 
         videoView.start()
+
+        player = intent.getStringExtra(Constants.PLAYER).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+
+        Toast.makeText(this, "$player, $clas,  $keeper", Toast.LENGTH_SHORT).show()
 
         binding.screen.setOnClickListener {
          videoView.stopPlayback()

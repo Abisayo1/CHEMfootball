@@ -7,7 +7,7 @@ object Constants {
     const val EXTRA_FLASH_CARD = "EXTRA_FLASH_CARD"
     const val EXTRA_CLOSE_APP = "EXTRA_CLOSE_APP"
     const val PLAYER: String = "messi"
-    const val KEEPER: String = "messi"
+    const val KEEPER: String = ""
     const val TOTAL_QUESTIONS = "total_questions"
     const val CORRECT_ANSWERS = "correct_answers"
     const val NEXT_LEVEL = "next_level"
