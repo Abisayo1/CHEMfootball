@@ -7,33 +7,20 @@ import com.abisayo.chemfootball.SelectPlayers.*
 
 class ViewpagerAdapter1(fm:FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getCount(): Int {
-        return 7;
+        return 3;
     }
 
     override fun getItem(position: Int): Fragment {
         when(position) {
             0 -> {
-                return FragmentI()
-            }
-            1 -> {
                 return FragmentII()
             }
-            2 -> {
-                return FragmentIII()
-            }
-            3 -> {
-                return FragmentIV()
-            }
-            4 -> {
+            1 -> {
                 return FragmentV()
             }
-            5 -> {
-                return FragmentVI()
-            }
-            6 -> {
+            2 -> {
                 return FragmentVII()
             }
-
             else -> {
                 return Fragment1()
             }
