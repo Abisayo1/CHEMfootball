@@ -28,6 +28,7 @@ class GamePlayActivity : AppCompatActivity() {
     var score = 0
     var trialNum = 0
     private var clas = "SS1"
+    private var scoreC = 0
     private var player = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +42,15 @@ class GamePlayActivity : AppCompatActivity() {
         binding = ActivityGamePlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.background.setOnClickListener {
+            openDialog()
+        }
+
         openDialog()
 
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
-
-        Toast.makeText(this, "$player, $clas,  $keeper", Toast.LENGTH_SHORT).show()
 
     }
 
@@ -93,8 +96,10 @@ class GamePlayActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun openDialog() {
+        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+        Toast.makeText(this, "$trialNum and $keeper", Toast.LENGTH_SHORT).show()
         val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
-        val question = dialogLayoutBinding.findViewById<TextView>(R.id.tv_login)
+        val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
         val secondBtn = dialogLayoutBinding.findViewById<TextView>(R.id.secondbtn)
         val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
         val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
@@ -104,8 +109,61 @@ class GamePlayActivity : AppCompatActivity() {
         mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         mydialog.setCancelable(true)
-        mydialog.show()
 
+        when (trialNum){
+            1 -> {
+                question.text = "Which of the following salts is insoluble in water?"
+                firstBtn.text = "Pb(NO)3"
+                secondBtn.text = "Na2CO3"
+                thirdBtn.text = "AgNO3"
+                fourthBtn.text = "AgCl"
+            }
+            2 -> {
+                question.text = "Which of the following statements is correct"
+                firstBtn.text = "Gases increase with increase in temperature"
+                secondBtn.text = "Gases decrese with increase in temperature"
+                thirdBtn.text = "most solid solute decrease with increase in temperature"
+                fourthBtn.text = "most solid solute is constant"
+            }
+            3 -> {
+                question.text = "for a given solute, the concentration of its saturated solution in different solvents are:"
+                firstBtn.text = "the same at the same temperature"
+                secondBtn.text = "different at the same temperature"
+                thirdBtn.text = "the same at different temperature"
+                fourthBtn.text = "constant"
+            }
+            4 -> {
+                question.text = "On which of the following is the solubility of gaseous substance dependent?"
+                firstBtn.text = "Nature of solvent, Nature of solute, Temperature and Pressure"
+                secondBtn.text = "Nature of solvent & nature of Nature of solute"
+                thirdBtn.text = "Nature of solute"
+                fourthBtn.text = "None of the above"
+            }
+            5 -> {
+                question.text = "A change in temperature of a saturated solution disturbs the equilibrium between the:"
+                firstBtn.text = "Dissolved solute and the solvent"
+                secondBtn.text = "Solvent and undissolved solute"
+                thirdBtn.text = "Dissolved solute and undissolved solute"
+                fourthBtn.text = "Dissolved solute and the solution"
+            }
+            6 -> {
+                question.text = "A super saturated solution is said to contain"
+                firstBtn.text = "More solute than it can dissolve at a given temperature in the presence of undissolved solute"
+                secondBtn.text = "as much solute as it can dissolve at a given temperature in the presence of undissolved solute"
+                thirdBtn.text = "I don't know"
+                fourthBtn.text = "All of the above"
+            }
+            7 -> {
+                question.text = "Sodium Chloride has no solubility product value because of its"
+                firstBtn.text = "Saline nature"
+                secondBtn.text = "high solubility"
+                thirdBtn.text = "low solubility"
+                fourthBtn.text = "insolubility"
+            }
+
+        }
+
+        mydialog.show()
 
         firstBtn.setOnClickListener {
             mydialog.dismiss()
@@ -133,6 +191,8 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     fun playVideo(option: String) {
+        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+        Toast.makeText(this, "$trialNum", Toast.LENGTH_SHORT).show()
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
 
@@ -178,10 +238,32 @@ class GamePlayActivity : AppCompatActivity() {
                 }
 
             }
-        if (option == "b") {
-            playVideo(play)
 
-        }  else if (option == "a" || option == "c" || option == "d") {
+        when (keeper){
+            "FragmentII" -> {
+                keep = R.raw.ederson_keeper_wins
+                keep_misses = R.raw.ederson_keeper_misses
+            }
+            "FragmentV" -> {
+                keep = R.raw.allison_keeper_wins
+                keep_misses = R.raw.alisson_keeper_misses
+            }
+            "FragmentVII" -> {
+                keep = R.raw.donarouma_keeper_wins
+                keep_misses = R.raw.donarouma_keeper_misses
+            }
+
+        }
+
+        if (trialNum == 1 && option == "a") {
+            playVideo(keep)
+        } else if (trialNum == 1  && option != "a") {
+            VideoMisssPlay(keep_misses)
+        }
+
+        if (trialNum == 0 && option == "b") {
+            playVideo(play)
+        }  else if (trialNum == 0 && option != "b") {
             VideoMissPlay(play_misses)
 
         }
@@ -189,6 +271,7 @@ class GamePlayActivity : AppCompatActivity() {
 
         videoView.setOnCompletionListener {
             // Video playback completed
+            trialNum++
             NextQuestion()
         }
     }
@@ -199,14 +282,27 @@ class GamePlayActivity : AppCompatActivity() {
         PlayVideoM().setVideoURI(videoUri)
 
         videoView.start()
+        binding.scoreV.text = "$score"
+    }
+
+    private fun VideoMisssPlay(play_misses: Int) {
+        scoreC++
+        val videoUri =
+            Uri.parse("android.resource://" + packageName + "/" + play_misses) // Replace with your video file or URL
+        PlayVideoM().setVideoURI(videoUri)
+
+        videoView.start()
+        binding.scoreC.text = "$scoreC"
     }
 
     private fun playVideo(play: Int) {
+        score++
         val videoUri =
             Uri.parse("android.resource://" + packageName + "/" + play) // Replace with your video file or URL
         videoView.setVideoURI(videoUri)
 
         videoView.start()
+        binding.scoreV.text = "$score"
     }
 
     private fun PlayVideoM() = videoView
@@ -214,7 +310,6 @@ class GamePlayActivity : AppCompatActivity() {
     private fun NextQuestion() {
         binding.background.visibility = View.VISIBLE
         binding.videoView.visibility = View.GONE
-        openDialog()
     }
 
 }
