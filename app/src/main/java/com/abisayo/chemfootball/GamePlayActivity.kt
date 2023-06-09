@@ -43,7 +43,11 @@ class GamePlayActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.background.setOnClickListener {
-            openDialog()
+            if (trialNum == 8){
+                Toast.makeText(this, "You have reached the end of the game", Toast.LENGTH_SHORT).show()
+            }else {
+                openDialog()
+            }
         }
 
         openDialog()
@@ -160,6 +164,9 @@ class GamePlayActivity : AppCompatActivity() {
                 thirdBtn.text = "low solubility"
                 fourthBtn.text = "insolubility"
             }
+            else -> {
+
+            }
 
         }
 
@@ -255,17 +262,48 @@ class GamePlayActivity : AppCompatActivity() {
 
         }
 
-        if (trialNum == 1 && option == "a") {
-            playVideo(keep)
-        } else if (trialNum == 1  && option != "a") {
-            VideoMisssPlay(keep_misses)
-        }
-
         if (trialNum == 0 && option == "b") {
             playVideo(play)
         }  else if (trialNum == 0 && option != "b") {
             VideoMissPlay(play_misses)
 
+        }
+        if (trialNum == 1 && option == "d") {
+            playyVideo(keep)
+        } else if (trialNum == 1  && option != "d") {
+            VideoMisssPlay(keep_misses)
+        }
+
+        if (trialNum == 2 && option =="b" ){
+            playVideo(play)
+        } else if (trialNum == 2 && option != "b") {
+            VideoMissPlay(play_misses)
+        }
+
+        if (trialNum == 3 && option =="b" ){
+            playyVideo(keep)
+        } else if (trialNum == 3 && option != "b") {
+            VideoMisssPlay(keep_misses)
+        }
+        if (trialNum == 4 && option =="a" ){
+            playVideo(play)
+        } else if (trialNum == 4 && option != "a") {
+            VideoMissPlay(play_misses)
+        }
+        if (trialNum == 5 && option =="c" ){
+            playyVideo(keep)
+        } else if (trialNum == 5 && option != "c") {
+            VideoMisssPlay(keep_misses)
+        }
+        if (trialNum == 6 && option =="a" ){
+            playVideo(play)
+        } else if (trialNum == 6 && option != "a") {
+            VideoMissPlay(play_misses)
+        }
+        if (trialNum == 7 && option =="a" ){
+            playyVideo(keep)
+        } else if (trialNum == 7 && option != "a") {
+            VideoMisssPlay(keep_misses)
         }
 
 
@@ -297,6 +335,15 @@ class GamePlayActivity : AppCompatActivity() {
 
     private fun playVideo(play: Int) {
         score++
+        val videoUri =
+            Uri.parse("android.resource://" + packageName + "/" + play) // Replace with your video file or URL
+        videoView.setVideoURI(videoUri)
+
+        videoView.start()
+        binding.scoreV.text = "$score"
+    }
+
+    private fun playyVideo(play: Int) {
         val videoUri =
             Uri.parse("android.resource://" + packageName + "/" + play) // Replace with your video file or URL
         videoView.setVideoURI(videoUri)
