@@ -10,13 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChemFootball">
         <activity
-            android:name=".GameIntroActivity"
-            android:screenOrientation="landscape"
+            android:name=".AddQuestionsActivity"
             android:exported="false" />
         <activity
-            android:name=".GamePlayActivity"
-            android:screenOrientation="landscape"
+            android:name=".EnterNameActivity"
             android:exported="false" />
+        <activity
+            android:name=".GameIntroActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".GamePlayActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".SelectKeepers.SelectKeeperActivity"
             android:exported="false" />

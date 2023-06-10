@@ -22,7 +22,7 @@
         android:id="@+id/SS1"
         android:layout_width="311dp"
         android:layout_height="83dp"
-        android:layout_marginTop="248dp"
+        android:layout_marginTop="224dp"
         android:backgroundTint="#5D9BA4"
         android:gravity="center"
         android:text="SS1"
@@ -30,7 +30,7 @@
         android:textColor="#FFFFFF"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome" />
 
@@ -77,10 +77,24 @@
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/play_puzzle"
         app:layout_constraintVertical_bias="0.048" />
+
+    <Button
+        android:id="@+id/manage"
+        android:layout_width="311dp"
+        android:layout_height="83dp"
+        android:backgroundTint="#335155"
+        android:gravity="center"
+        android:text="Manage LMS"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SS3"
+        tools:layout_editor_absoluteX="53dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

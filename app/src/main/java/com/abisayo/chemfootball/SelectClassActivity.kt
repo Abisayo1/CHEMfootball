@@ -31,5 +31,9 @@ class SelectClassActivity : AppCompatActivity() {
             intent.putExtra(Constants.CLASS, "SS3")
             startActivity(intent)
         }
+        binding.manage.setOnClickListener {
+            val intent = Intent(this, AddQuestionsActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

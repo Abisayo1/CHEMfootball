@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import com.abisayo.chemfootball.EnterNameActivity
 import com.abisayo.chemfootball.GameIntroActivity
 import com.abisayo.chemfootball.R
 import com.abisayo.chemfootball.data.Constants
@@ -50,7 +51,7 @@ class FragmentIII : Fragment() {
         // Set the OnClickListener for the button
         if (myButton != null) {
             myButton.setOnClickListener {
-                val intent = Intent(requireActivity(), GameIntroActivity::class.java)
+                val intent = Intent(requireActivity(), EnterNameActivity::class.java)
                 intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.KEEPER, "FragmentIII")
                 intent.putExtra(Constants.PLAYER, player)

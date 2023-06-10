@@ -42,6 +42,10 @@ class GamePlayActivity : AppCompatActivity() {
         binding = ActivityGamePlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val name = intent.getStringExtra(Constants.NAME).toString()
+
+        binding.namePlayer.text = name
+
         binding.background.setOnClickListener {
             if (trialNum == 8){
                 Toast.makeText(this, "You have reached the end of the game", Toast.LENGTH_SHORT).show()

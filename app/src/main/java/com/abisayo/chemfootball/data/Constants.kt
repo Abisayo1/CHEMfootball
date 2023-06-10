@@ -4,6 +4,7 @@ import com.abisayo.chemfootball.R
 
 object Constants {
 
+    const val NAME = "John"
     const val EXTRA_FLASH_CARD = "EXTRA_FLASH_CARD"
     const val EXTRA_CLOSE_APP = "EXTRA_CLOSE_APP"
     const val PLAYER: String = "messi"
