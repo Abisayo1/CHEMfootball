@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/football_field2"
+    tools:context=".manageLMS.ManageLMSActivity">
+
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="112dp"
+        android:gravity="center"
+        android:text="Welcome Mr Tochukwu"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/add_questions"
+        android:layout_width="311dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="172dp"
+        android:backgroundTint="#5200FF"
+        android:gravity="center"
+        android:text="Add Questions"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome" />
+
+    <Button
+        android:id="@+id/check_student_scores"
+        android:layout_width="311dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#5200FF"
+        android:gravity="center"
+        android:text="Student Scores"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_questions" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivitySelectClassBinding
+import com.abisayo.chemfootball.manageLMS.ManageLMSActivity
 
 class SelectClassActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySelectClassBinding
@@ -32,7 +33,7 @@ class SelectClassActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.manage.setOnClickListener {
-            val intent = Intent(this, AddQuestionsActivity::class.java)
+            val intent = Intent(this, ManageLMSActivity::class.java)
             startActivity(intent)
         }
     }

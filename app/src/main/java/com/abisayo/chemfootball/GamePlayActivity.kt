@@ -19,11 +19,16 @@ import android.widget.VideoView
 import androidx.appcompat.app.AppCompatDelegate
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityGamePlayBinding
+import com.abisayo.chemfootball.models.Scores
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class GamePlayActivity : AppCompatActivity() {
     private lateinit var videoView: VideoView
     var mMediaPlayer: MediaPlayer? = null
+    private lateinit var database : DatabaseReference
     private lateinit var binding: ActivityGamePlayBinding
     var score = 0
     var trialNum = 0
@@ -43,11 +48,29 @@ class GamePlayActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val name = intent.getStringExtra(Constants.NAME).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
 
         binding.namePlayer.text = name
 
         binding.background.setOnClickListener {
             if (trialNum == 8){
+                val noteTitle = clas
+                val studentName = name
+                val score = "$score - ${scoreC}"
+                val  userID = FirebaseAuth.getInstance().currentUser?.uid
+
+                database = FirebaseDatabase.getInstance().getReference("Scores")
+                val Score = Scores(studentName,noteTitle, score,  userID)
+                if (noteTitle != null) {
+                    if (userID != null) {
+                        database.child(userID + noteTitle).setValue(Score).addOnSuccessListener {
+                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
                 Toast.makeText(this, "You have reached the end of the game", Toast.LENGTH_SHORT).show()
             }else {
                 openDialog()

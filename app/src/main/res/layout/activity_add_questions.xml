@@ -4,54 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/next_level"
-    tools:context=".ManageLMSActivity">
+    android:background="@drawable/football_field2"
+    tools:context=".manageLMS.AddQuestionsActivity">
 
 
-    <TextView
-        android:id="@+id/welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
-        android:gravity="center"
-        android:text="Welcome Mrs Ebisin"
-        android:textColor="#FFFFFF"
-        android:textSize="50sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/course"
-        android:layout_width="311dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="172dp"
-        android:backgroundTint="#5200FF"
-        android:gravity="center"
-        android:text="Manage Courses"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        app:cornerRadius="20dp"
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:background="@drawable/dialog"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/check_student_scores"
-        android:layout_width="311dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="#5200FF"
-        android:gravity="center"
-        android:text="Student Scores"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        app:cornerRadius="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course" />
+        <!-- Question Text -->
+        <TextView
+            android:id="@+id/questionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:text="Question:"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
+        <EditText
+            android:id="@+id/questionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your question here"
+            android:inputType="text" />
 
+        <!-- Options -->
+
+        <TextView
+            android:id="@+id/optionsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:text="Options:"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/option1EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Option 1"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/option2EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Option 2"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/option3EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Option 3"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/option4EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Option 4"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#4C00FF"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="6dp"
+            android:text="Update"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="20dp"
+             />
+        <!-- Add any additional views or buttons as needed -->
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
