@@ -6,10 +6,16 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
+import com.abisayo.chemfootball.MultiplayerData.SelectOpponentActivity
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityEnterNameBinding
+import com.abisayo.chemfootball.models.Player
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class EnterNameActivity : AppCompatActivity() {
+    private lateinit var database : DatabaseReference
     private var clas = "SS1"
     private var player = ""
     private lateinit var binding: ActivityEnterNameBinding
@@ -23,6 +29,8 @@ class EnterNameActivity : AppCompatActivity() {
         )
         binding = ActivityEnterNameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
 
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
@@ -44,5 +52,37 @@ class EnterNameActivity : AppCompatActivity() {
             }
 
         }
+
+        binding.mulyiPlayer.setOnClickListener {
+            if (name.isNotEmpty()) {
+                saveName("$name")
+                val intent = Intent(this, SelectOpponentActivity::class.java)
+                intent.putExtra(Constants.CLASS, clas)
+                intent.putExtra(Constants.KEEPER, keeper)
+                intent.putExtra(Constants.PLAYER, player)
+                intent.putExtra(Constants.NAME, "$name")
+                intent.putExtra(Constants.GAME_MODE, "multi_player")
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun saveName(name : String) {
+        val name = name
+        val trialNum = "0-0"
+        val score = "0-0"
+        val  userID = FirebaseAuth.getInstance().currentUser?.uid
+
+        database = FirebaseDatabase.getInstance().getReference("Player")
+        val player = Player("$name",trialNum, score)
+            if (userID != null) {
+                database.child(userID).setValue(player).addOnSuccessListener {
+                    Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 }

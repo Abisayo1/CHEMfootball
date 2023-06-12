@@ -19,6 +19,7 @@ import android.widget.VideoView
 import androidx.appcompat.app.AppCompatDelegate
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityGamePlayBinding
+import com.abisayo.chemfootball.models.Player
 import com.abisayo.chemfootball.models.Scores
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -49,11 +50,15 @@ class GamePlayActivity : AppCompatActivity() {
 
         val name = intent.getStringExtra(Constants.NAME).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
+        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+        Toast.makeText(this, "$game_mode", Toast.LENGTH_SHORT).show()
 
         binding.namePlayer.text = name
 
         binding.background.setOnClickListener {
-            if (trialNum == 8){
+            if (trialNum == 8 && game_mode == "multi_player"){
+                saveName(name, "$trialNum", "$score - $scoreC")
+            } else if (trialNum == 8 && game_mode != "multi_player"){
                 val noteTitle = clas
                 val studentName = name
                 val score = "$score - ${scoreC}"
@@ -72,9 +77,10 @@ class GamePlayActivity : AppCompatActivity() {
                 }
 
                 Toast.makeText(this, "You have reached the end of the game", Toast.LENGTH_SHORT).show()
-            }else {
+            } else {
                 openDialog()
             }
+
         }
 
         openDialog()
@@ -384,6 +390,20 @@ class GamePlayActivity : AppCompatActivity() {
     private fun NextQuestion() {
         binding.background.visibility = View.VISIBLE
         binding.videoView.visibility = View.GONE
+    }
+
+    fun saveName(name : String, trialNum : String, score: String) {
+        val  userID = FirebaseAuth.getInstance().currentUser?.uid
+
+        database = FirebaseDatabase.getInstance().getReference("Player")
+        val player = Player("$name",trialNum, score)
+        if (userID != null) {
+            database.child(userID).setValue(player).addOnSuccessListener {
+                Toast.makeText(this, "Go Player!", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

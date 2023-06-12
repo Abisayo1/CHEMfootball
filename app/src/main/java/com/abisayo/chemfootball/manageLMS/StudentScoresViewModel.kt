@@ -10,7 +10,7 @@ class StudentScoresViewModel : ViewModel() {
 
     private val repository : StudentScoresRepository
     private val _allScores = MutableLiveData<List<Scores>>()
-    val allScores : LiveData<List<Scores>> = _allScores
+    val allData : LiveData<List<Scores>> = _allScores
 
     init {
         repository = StudentScoresRepository().getInstance()

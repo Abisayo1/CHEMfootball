@@ -12,7 +12,7 @@ object Constants {
     const val TOTAL_QUESTIONS = "total_questions"
     const val CORRECT_ANSWERS = "correct_answers"
     const val NEXT_LEVEL = "next_level"
-    const val ACTIVITY = "activity"
+    const val GAME_MODE = "single"
     const val CLASS = "student_class"
 
 }

@@ -1,17 +1,18 @@
-package com.abisayo.chemfootball.manageLMS
+package com.abisayo.chemfootball.MultiplayerData
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.abisayo.chemfootball.R
+import com.abisayo.chemfootball.models.Player
 import com.abisayo.chemfootball.models.Scores
 
 
-class DisplayScoreAdapter : RecyclerView.Adapter<DisplayScoreAdapter.MyViewHolder>() {
+class DisplayMultiplayerDataAdapter : RecyclerView.Adapter<DisplayMultiplayerDataAdapter.MyViewHolder>() {
 
     private lateinit var mListener: onItemClickListener
-    private lateinit var currentitem : Scores
+    private lateinit var currentitem : Player
 
     interface onItemClickListener{
         fun onItemClicked(position: Int)
@@ -22,13 +23,13 @@ class DisplayScoreAdapter : RecyclerView.Adapter<DisplayScoreAdapter.MyViewHolde
         mListener = listener
     }
 
-    private val dataList: ArrayList<Scores> = ArrayList()
+    private val dataList: ArrayList<Player> = ArrayList()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.display_score_item,
+            R.layout.display_data_item,
             parent, false
         )
         return MyViewHolder(itemView, mListener)
@@ -39,11 +40,11 @@ class DisplayScoreAdapter : RecyclerView.Adapter<DisplayScoreAdapter.MyViewHolde
 
         currentitem = dataList[position]
 
-        holder.courseTopic.text = currentitem.courseTitle
-        holder.studentName.text = currentitem.studentName
-        holder.studentScore.text = currentitem.studentScore
+        holder.trialNum.text = currentitem.trialNum
+        holder.studentName.text = currentitem.name
+        holder.studentScore.text = currentitem.score
 
-        val courseTitle = currentitem.courseTitle
+        val trialNum = currentitem.trialNum
 
         val itemView = holder.itemView
 
@@ -59,16 +60,16 @@ class DisplayScoreAdapter : RecyclerView.Adapter<DisplayScoreAdapter.MyViewHolde
     }
 
 
-    fun updatedataList(scoreList: List<Scores>) {
+    fun updatedataList(dataList: List<Player>) {
         this.dataList.clear()
-        this.dataList.addAll(scoreList)
+        this.dataList.addAll(dataList)
         notifyDataSetChanged()
     }
 
 
     class MyViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
 
-        val courseTopic: TextView = itemView.findViewById(R.id.topic)
+        val trialNum: TextView = itemView.findViewById(R.id.trialNum)
         val studentName: TextView = itemView.findViewById(R.id.student_name)
         val studentScore: TextView = itemView.findViewById(R.id.student_score)
 

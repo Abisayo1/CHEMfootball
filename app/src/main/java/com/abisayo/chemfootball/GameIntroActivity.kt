@@ -43,6 +43,7 @@ class GameIntroActivity : AppCompatActivity() {
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
 
         val name = intent.getStringExtra(Constants.NAME).toString()
 
@@ -51,16 +52,16 @@ class GameIntroActivity : AppCompatActivity() {
 
         binding.screen.setOnClickListener {
          videoView.stopPlayback()
-            startNextActivity()
+            startNextActivity(game_mode)
         }
 
         videoView.setOnCompletionListener {
             // Video playback completed
-            startNextActivity()
+            startNextActivity(game_mode)
         }
     }
 
-    private fun startNextActivity() {
+    private fun startNextActivity(gameMode: String) {
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         val name = intent.getStringExtra(Constants.NAME).toString()
         val intent = Intent(this, GamePlayActivity::class.java)
@@ -68,6 +69,7 @@ class GameIntroActivity : AppCompatActivity() {
         intent.putExtra(Constants.KEEPER, keeper)
         intent.putExtra(Constants.PLAYER, player)
         intent.putExtra(Constants.NAME, name)
+        intent.putExtra(Constants.GAME_MODE, gameMode)
         startActivity(intent)
         finish() // Optional: Finish the current activity if needed
     }
