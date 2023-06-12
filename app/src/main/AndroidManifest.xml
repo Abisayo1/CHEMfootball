@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChemFootball">
         <activity
+            android:name=".UploadPlayerDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".MultiplayerData.SelectOpponentActivity"
             android:exported="false" />
         <activity

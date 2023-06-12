@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/football_field_bg"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:text="Name:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewName"
+            android:hint="Enter your name" />
+
+        <TextView
+            android:id="@+id/textViewOpponentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_below="@id/editTextName"
+            android:layout_marginTop="16dp"
+            android:text="Opponent Name:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editTextComputer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewOpponentName"
+            android:hint="Enter opponent's name" />
+
+        <TextView
+            android:id="@+id/textViewTrialNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_below="@id/editTextComputer"
+            android:layout_marginTop="16dp"
+            android:text="Special code:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editTextGameCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewTrialNumber"
+            android:hint="Enter special code" />
+
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextGameCode"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="Submit" />
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
