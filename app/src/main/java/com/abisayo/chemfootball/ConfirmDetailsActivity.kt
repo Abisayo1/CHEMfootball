@@ -29,6 +29,7 @@ class ConfirmDetailsActivity : AppCompatActivity() {
         binding = ActivityConfirmDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
@@ -45,10 +46,21 @@ class ConfirmDetailsActivity : AppCompatActivity() {
 
         Toast.makeText(this, "$name, $playFirst, $gameCode, $oppName", Toast.LENGTH_SHORT).show()
 
-
         binding.button1.setOnClickListener {
 
+            val intent = Intent(this, GameIntroActivity::class.java)
+            intent.putExtra(Constants.CLASS, clas)
+            intent.putExtra(Constants.KEEPER, keeper)
+            intent.putExtra(Constants.PLAYER, player)
+            intent.putExtra(Constants.NAME, "$name")
+            intent.putExtra("oppName", "$oppName")
+            intent.putExtra(Constants.GAME_MODE, "multi_player")
+            intent.putExtra("1111", "$gameCode")
+            intent.putExtra("samyy", "$playFirst")
+            startActivity(intent)
+
         }
+
 
         binding.button2.setOnClickListener {
             onBackPressed()

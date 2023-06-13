@@ -17,6 +17,7 @@ class UploadPlayerDetailsActivity : AppCompatActivity() {
     private lateinit var database : DatabaseReference
     private var clas = "SS1"
     private var player = ""
+    private var code = ""
     private lateinit var binding: ActivityUploadPlayerDetailsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +38,9 @@ class UploadPlayerDetailsActivity : AppCompatActivity() {
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
 
-        val computer_name = binding.editTextComputer.text.toString().trim()
-        val game_code = binding.editTextGameCode.text.toString().trim()
-        val whoPlayFirst = binding.editTextWhoPlaying.text.toString().trim()
+        val computer_name = binding.editTextComputer.text
+        val game_code = binding.editTextGameCode.text
+        val whoPlayFirst = binding.editTextWhoPlaying.text
         val myName = binding.editTextName.text
 
 
@@ -48,11 +49,16 @@ class UploadPlayerDetailsActivity : AppCompatActivity() {
 
 
         binding.btnSubmit.setOnClickListener {
+            if ("$whoPlayFirst" == "$name") {
+                code = "$userID + $game_code"
+            } else if ("$whoPlayFirst" == "$computer_name") {
+                code = "$game_code + $userID"
+            }
             if (computer_name.isNotBlank() && binding.editTextName.text.isNotBlank()) {
                 if ("$whoPlayFirst" != "$computer_name" && "$whoPlayFirst" != "$name"){
                     Toast.makeText(this, "Select a valid player to start first", Toast.LENGTH_SHORT).show()
                 } else {
-                    saveName("$name", "$computer_name", "$game_code", "$whoPlayFirst")
+                    saveName("$name", "$computer_name", "$code", "$whoPlayFirst")
                     saveNames("$name", "$computer_name", "$game_code", "$whoPlayFirst")
                     val intent = Intent(this, ConfirmDetailsActivity::class.java)
                     intent.putExtra(Constants.CLASS, clas)
@@ -84,7 +90,7 @@ class UploadPlayerDetailsActivity : AppCompatActivity() {
         val multi_player = Multiplayer(name,opp_name, code, scoreStatus, my_score, opponent_score, trialNum, whoPlayFirst)
         if (userID != null) {
             database.child(code).setValue(multi_player).addOnSuccessListener {
-                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "$code", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
             }
