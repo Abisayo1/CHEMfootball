@@ -26,7 +26,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="20dp"
-            android:text="9999"
+            android:text="Confirm your opponent details. Please ensure there are no mistakes"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -45,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/textViewName"
+            android:enabled="false"
             android:hint="Enter your name" />
 
         <TextView
@@ -61,6 +62,7 @@
             android:id="@+id/editTextComputer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:layout_below="@id/textViewOpponentName"
             android:hint="Enter opponent's name" />
 
@@ -79,6 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/textViewTrialNumber"
+            android:enabled="false"
             android:hint="Enter special code" />
 
         <TextView
@@ -96,17 +99,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/who_playing_txt"
+            android:enabled="false"
             android:hint="Enter name of first player" />
 
 
-        <Button
-            android:id="@+id/btnSubmit"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/edit_text_who_playing"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:text="Submit" />
+            android:layout_below="@id/edit_text_who_playing"
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Start game" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Go back"
+                android:layout_marginStart="16dp" />
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

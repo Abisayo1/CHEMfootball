@@ -22,8 +22,7 @@ import com.abisayo.chemfootball.databinding.ActivityGamePlayBinding
 import com.abisayo.chemfootball.models.Player
 import com.abisayo.chemfootball.models.Scores
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 
 class GamePlayActivity : AppCompatActivity() {
@@ -51,7 +50,15 @@ class GamePlayActivity : AppCompatActivity() {
         val name = intent.getStringExtra(Constants.NAME).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+        val gameCode = intent.getStringExtra(Constants.CODE).toString()
+        val oppName = intent.getStringExtra(Constants.COMPUTER_NAME).toString()
         Toast.makeText(this, "$game_mode", Toast.LENGTH_SHORT).show()
+
+        if (game_mode == "multi_player") {
+            binding.computerPlayer.text = oppName
+        }
+
+        readData(gameCode)
 
         binding.namePlayer.text = name
 
@@ -406,4 +413,25 @@ class GamePlayActivity : AppCompatActivity() {
         }
     }
 
+    private fun readData(code: String) {
+        database = FirebaseDatabase.getInstance().getReference("Multiplayer")
+        database.child(code).get().addOnSuccessListener {
+
+            if (it.exists()){
+
+                val trialNum = it.child("trialNum").value
+                val code = it.child("scoreStatus").value
+                Toast.makeText(this, "trialNum = $trialNum", Toast.LENGTH_SHORT).show()
+
+            }
+            else
+            {
+                Toast.makeText(this, "User Does not Exist", Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener {
+
+            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        }
+
+    }
 }

@@ -10,8 +10,9 @@ data class Multiplayer(
     var name: String?= null,
     var opponent_name : String?= null,
     var code: String?= null,
-    var my_score_status: String?= null,
-    var opponent_score_status: String?= null,
+    var scoreStatus: String?= null,
     var my_score : String? = null,
     var opponent_score : String?=null,
-    var trialNum: String? = null)
+    var trialNum: String? = null,
+    var whoPlayFirst: String? = null
+)

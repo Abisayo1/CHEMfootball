@@ -44,6 +44,7 @@ class GameIntroActivity : AppCompatActivity() {
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+        val gameCode = intent.getStringExtra(Constants.CODE).toString()
 
         val name = intent.getStringExtra(Constants.NAME).toString()
 
@@ -64,12 +65,14 @@ class GameIntroActivity : AppCompatActivity() {
     private fun startNextActivity(gameMode: String) {
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         val name = intent.getStringExtra(Constants.NAME).toString()
+        val gameCode = intent.getStringExtra(Constants.CODE).toString()
         val intent = Intent(this, GamePlayActivity::class.java)
         intent.putExtra(Constants.CLASS, clas)
         intent.putExtra(Constants.KEEPER, keeper)
         intent.putExtra(Constants.PLAYER, player)
         intent.putExtra(Constants.NAME, name)
         intent.putExtra(Constants.GAME_MODE, gameMode)
+        intent.putExtra(Constants.CODE, gameCode)
         startActivity(intent)
         finish() // Optional: Finish the current activity if needed
     }
