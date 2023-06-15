@@ -70,6 +70,7 @@ class GameIntroActivity : AppCompatActivity() {
         val gameCode = intent.getStringExtra("1111").toString()
         val oppName = intent.getStringExtra("oppName").toString()
         val playFirst = intent.getStringExtra("samyy").toString()
+        val jointCode = intent.getStringExtra("123").toString()
         val intent = Intent(this, GamePlayActivity::class.java)
         intent.putExtra(Constants.CLASS, clas)
         intent.putExtra(Constants.KEEPER, keeper)
@@ -79,6 +80,7 @@ class GameIntroActivity : AppCompatActivity() {
         intent.putExtra("1111", gameCode)
         intent.putExtra("samyy", playFirst)
         intent.putExtra("oppName", oppName)
+        intent.putExtra("123", "$jointCode")
         startActivity(intent)
         finish() // Optional: Finish the current activity if needed
     }

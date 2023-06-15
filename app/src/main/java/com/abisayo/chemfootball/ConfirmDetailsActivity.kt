@@ -36,6 +36,7 @@ class ConfirmDetailsActivity : AppCompatActivity() {
         val name = intent.getStringExtra(Constants.NAME).toString()
         val playFirst = intent.getStringExtra("samyy").toString()
         val gameCode = intent.getStringExtra("1111").toString()
+        val jointCode = intent.getStringExtra("123").toString()
         val oppName = intent.getStringExtra("oppName").toString()
 
 
@@ -47,7 +48,7 @@ class ConfirmDetailsActivity : AppCompatActivity() {
         Toast.makeText(this, "$name, $playFirst, $gameCode, $oppName", Toast.LENGTH_SHORT).show()
 
         binding.button1.setOnClickListener {
-
+            val jointCode = intent.getStringExtra("123").toString()
             val intent = Intent(this, GameIntroActivity::class.java)
             intent.putExtra(Constants.CLASS, clas)
             intent.putExtra(Constants.KEEPER, keeper)
@@ -57,6 +58,7 @@ class ConfirmDetailsActivity : AppCompatActivity() {
             intent.putExtra(Constants.GAME_MODE, "multi_player")
             intent.putExtra("1111", "$gameCode")
             intent.putExtra("samyy", "$playFirst")
+            intent.putExtra("123", "$jointCode")
             startActivity(intent)
 
         }

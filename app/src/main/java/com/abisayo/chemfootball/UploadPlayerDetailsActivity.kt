@@ -58,12 +58,13 @@ class UploadPlayerDetailsActivity : AppCompatActivity() {
                 if ("$whoPlayFirst" != "$computer_name" && "$whoPlayFirst" != "$name"){
                     Toast.makeText(this, "Select a valid player to start first", Toast.LENGTH_SHORT).show()
                 } else {
-                    saveName("$name", "$computer_name", "$code", "$whoPlayFirst")
-                    saveNames("$name", "$computer_name", "$game_code", "$whoPlayFirst")
+                    saveName("$name", "$computer_name", "$code", "$whoPlayFirst", player)
+                    saveNames("$name", "$computer_name", "$game_code", "$whoPlayFirst", player)
                     val intent = Intent(this, ConfirmDetailsActivity::class.java)
                     intent.putExtra(Constants.CLASS, clas)
                     intent.putExtra(Constants.KEEPER, keeper)
                     intent.putExtra(Constants.PLAYER, player)
+                    intent.putExtra("123", "$code")
                     intent.putExtra(Constants.NAME, "$name")
                     intent.putExtra("oppName", "$computer_name")
                     intent.putExtra(Constants.GAME_MODE, "multi_player")
@@ -78,16 +79,17 @@ class UploadPlayerDetailsActivity : AppCompatActivity() {
 
     }
 
-    fun saveName(name : String, opp_name : String, code: String, whoPlayFirst : String) {
+    fun saveName(name : String, opp_name : String, code: String, whoPlayFirst : String, Player: String) {
         val scoreStatus = "0"
         val my_score = "0"
         val opponent_score = "0"
-        val trialNum = "0"
+        val trialNum = 0
         val whoPlayFirst = whoPlayFirst
+        val players = Player
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
         database = FirebaseDatabase.getInstance().getReference("Multiplayer")
-        val multi_player = Multiplayer(name,opp_name, code, scoreStatus, my_score, opponent_score, trialNum, whoPlayFirst)
+        val multi_player = Multiplayer(name,opp_name, code, scoreStatus, my_score, opponent_score, trialNum, whoPlayFirst, players)
         if (userID != null) {
             database.child(code).setValue(multi_player).addOnSuccessListener {
                 Toast.makeText(this, "$code", Toast.LENGTH_SHORT).show()
@@ -97,16 +99,16 @@ class UploadPlayerDetailsActivity : AppCompatActivity() {
         }
     }
 
-    fun saveNames(name : String, opp_name : String, code: String, whoPlayFirst : String) {
+    fun saveNames(name : String, opp_name : String, code: String, whoPlayFirst : String, Player: String) {
         val scoreStatus = "0"
         val my_score = "0"
         val opponent_score = "0"
-        val trialNum = "0"
+        val trialNum = 0
         val whoPlayFirst = whoPlayFirst
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
         database = FirebaseDatabase.getInstance().getReference("Multiplayer")
-        val multi_player = Multiplayer(name,opp_name, code, scoreStatus, my_score, opponent_score, trialNum, whoPlayFirst)
+        val multi_player = Multiplayer(name,opp_name, code, scoreStatus, my_score, opponent_score, trialNum, whoPlayFirst, Player)
         if (userID != null) {
             database.child(userID).setValue(multi_player).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
