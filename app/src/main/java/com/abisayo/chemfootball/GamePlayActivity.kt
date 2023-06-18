@@ -37,6 +37,7 @@ class GamePlayActivity : AppCompatActivity() {
     private var clas = "SS1"
     private var scoreC = 0
     private var player = ""
+    lateinit var mydialog : Dialog
     var oppPlayer = "Fragment6"
     var oppScoreStatus = "nil"
     var hasVideoPlay = 0
@@ -68,6 +69,8 @@ class GamePlayActivity : AppCompatActivity() {
 //        Toast.makeText(this, "$game_mode", Toast.LENGTH_SHORT).show()
 
         binding.namePlayer.text = name
+
+
 
 
 
@@ -184,9 +187,11 @@ class GamePlayActivity : AppCompatActivity() {
         val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
         val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
         val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-        val mydialog = Dialog(this)
+        mydialog = Dialog(this)
         mydialog.setContentView(dialogLayoutBinding)
         mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        mydialog.cancel()
 
 
         mydialog.setCancelable(true)
@@ -374,6 +379,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun oppTurn(option: String) {
+        mydialog.cancel()
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
         val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
