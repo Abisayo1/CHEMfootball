@@ -37,7 +37,7 @@ class GamePlayActivity : AppCompatActivity() {
     private var clas = "SS1"
     private var scoreC = 0
     private var player = ""
-    private var oppPlayer = "Abisayo"
+    var oppPlayer = "Fragment6"
     var oppScoreStatus = "nil"
     var hasVideoPlay = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +63,7 @@ class GamePlayActivity : AppCompatActivity() {
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+        getOppPlayer(gameCode)
 
 //        Toast.makeText(this, "$game_mode", Toast.LENGTH_SHORT).show()
 
@@ -260,15 +261,6 @@ class GamePlayActivity : AppCompatActivity() {
                         Toast.makeText(this, "It is not your turn to play", Toast.LENGTH_SHORT)
                             .show()
                     } else if (trialNum % 2 != 0 || trialNum != 0) {
-                        trialNum++
-                        saveTrialNum(
-                            "$name",
-                            "$oppName",
-                            "$jointCode",
-                            "$playFirst",
-                            "$player",
-                            trialNum
-                        )
                         mydialog.dismiss()
                         playVideos("a")
                     }
@@ -279,15 +271,6 @@ class GamePlayActivity : AppCompatActivity() {
                 "$name" -> {
                     if (trialNum % 2 == 0 || trialNum == 0) {
                         mydialog.dismiss()
-                        trialNum++
-                        saveTrialNum(
-                            "$name",
-                            "$oppName",
-                            "$jointCode",
-                            "$playFirst",
-                            "$player",
-                            trialNum
-                        )
                         playVideos("a")
 
                     } else if (trialNum % 2 != 0 || trialNum != 0) {
@@ -308,15 +291,6 @@ class GamePlayActivity : AppCompatActivity() {
                             .show()
                     } else if (trialNum % 2 != 0 || trialNum != 0) {
                         mydialog.dismiss()
-                        trialNum++
-                        saveTrialNum(
-                            "$name",
-                            "$oppName",
-                            "$jointCode",
-                            "$playFirst",
-                            "$player",
-                            trialNum
-                        )
                         playVideos("b")
                     }
 
@@ -326,15 +300,6 @@ class GamePlayActivity : AppCompatActivity() {
                 "$name" -> {
                     if (trialNum % 2 == 0 || trialNum == 0) {
                         mydialog.dismiss()
-                        trialNum++
-                        saveTrialNum(
-                            "$name",
-                            "$oppName",
-                            "$jointCode",
-                            "$playFirst",
-                            "$player",
-                            trialNum
-                        )
                         playVideos("b")
 
                     } else if (trialNum % 2 != 0 || trialNum != 0) {
@@ -355,15 +320,6 @@ class GamePlayActivity : AppCompatActivity() {
                             .show()
                     } else if (trialNum % 2 != 0 || trialNum != 0) {
                         mydialog.dismiss()
-                        trialNum++
-                        saveTrialNum(
-                            "$name",
-                            "$oppName",
-                            "$jointCode",
-                            "$playFirst",
-                            "$player",
-                            trialNum
-                        )
                         playVideos("c")
                     }
 
@@ -373,15 +329,6 @@ class GamePlayActivity : AppCompatActivity() {
                 "$name" -> {
                     if (trialNum % 2 == 0 || trialNum == 0) {
                         mydialog.dismiss()
-                        trialNum++
-                        saveTrialNum(
-                            "$name",
-                            "$oppName",
-                            "$jointCode",
-                            "$playFirst",
-                            "$player",
-                            trialNum
-                        )
                         playVideos("c")
 
                     } else if (trialNum % 2 != 0 || trialNum != 0) {
@@ -402,15 +349,6 @@ class GamePlayActivity : AppCompatActivity() {
                             .show()
                     } else if (trialNum % 2 != 0 || trialNum != 0) {
                         mydialog.dismiss()
-                        trialNum++
-                        saveTrialNum(
-                            "$name",
-                            "$oppName",
-                            "$jointCode",
-                            "$playFirst",
-                            "$player",
-                            trialNum
-                        )
                         playVideos("d")
                     }
 
@@ -420,15 +358,6 @@ class GamePlayActivity : AppCompatActivity() {
                 "$name" -> {
                     if (trialNum % 2 == 0 || trialNum == 0) {
                         mydialog.dismiss()
-                        trialNum++
-                        saveTrialNum(
-                            "$name",
-                            "$oppName",
-                            "$jointCode",
-                            "$playFirst",
-                            "$player",
-                            trialNum
-                        )
                         playVideos("d")
 
                     } else if (trialNum % 2 != 0 || trialNum != 0) {
@@ -452,14 +381,22 @@ class GamePlayActivity : AppCompatActivity() {
         val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
         val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
         val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-        val mydialog = Dialog(this)
+        var mydialog = Dialog(this)
         mydialog.setContentView(dialogLayoutBinding)
         mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
 
         mydialog.setCancelable(true)
 
-        mydialog.dismiss()
+
+            if (mydialog.isShowing == true) {
+                // Dialog is open
+                // Dismiss the dialog
+                mydialog.dismiss()
+                // Set the dialog reference to null
+
+            }
+
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
 
@@ -508,47 +445,62 @@ class GamePlayActivity : AppCompatActivity() {
         }
 
         if (trialNum == 0 && option == "win") {
+            mydialog.dismiss()
             playOppVideo(play)
-            saveScoreStatus("win")
         } else if (trialNum == 0 && option == "lose") {
+            mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
 
         }
         if (trialNum == 1 && option == "win") {
+            mydialog.dismiss()
             playOppVideo(play)
         } else if (trialNum == 1 && option == "lose") {
+            mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
         }
 
         if (trialNum == 2 && option == "win") {
+            mydialog.dismiss()
             playOppVideo(play)
         } else if (trialNum == 2 && option == "lose") {
+            mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
         }
 
         if (trialNum == 3 && option == "win") {
+            mydialog.dismiss()
             playOppVideo(play)
         } else if (trialNum == 3 && option == "lose") {
+            mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
         }
         if (trialNum == 4 && option == "win") {
+            mydialog.dismiss()
             playOppVideo(play)
         } else if (trialNum == 4 && option == "lose") {
+            mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
         }
         if (trialNum == 5 && option == "win") {
+            mydialog.dismiss()
             playOppVideo(play)
         } else if (trialNum == 5 && option == "lose") {
+            mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
         }
         if (trialNum == 6 && option == "win") {
+            mydialog.dismiss()
             playOppVideo(play)
         } else if (trialNum == 6 && option == "lose") {
+            mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
         }
         if (trialNum == 7 && option == "win") {
+            mydialog.dismiss()
             playOppVideo(play)
         } else if (trialNum == 7 && option == "lose") {
+            mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
         }
 
@@ -562,6 +514,27 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun playVideos(option: String) {
+        val name = intent.getStringExtra(Constants.NAME).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+        val gameCode = intent.getStringExtra("1111").toString()
+        val oppName = intent.getStringExtra("oppName").toString()
+        val playFirst = intent.getStringExtra("samyy")
+        val jointCode = intent.getStringExtra("123")
+        getTrialNum("$jointCode")
+        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+        val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
+        val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
+        val secondBtn = dialogLayoutBinding.findViewById<TextView>(R.id.secondbtn)
+        val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
+        val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
+        val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
+        val mydialog = Dialog(this)
+        mydialog.setContentView(dialogLayoutBinding)
+        mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        mydialog.setCancelable(true)
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
 
@@ -571,7 +544,7 @@ class GamePlayActivity : AppCompatActivity() {
 
         videoView = binding.videoView
 
-        when (oppPlayer) {
+        when (player) {
             "Fragment1" -> {
                 play = R.raw.ronaldo
                 play_misses = R.raw.ronaldo_misses
@@ -672,8 +645,18 @@ class GamePlayActivity : AppCompatActivity() {
 
         videoView.setOnCompletionListener {
             // Video playback completed
+            trialNum++
+            saveTrialNum(
+                "$name",
+                "$oppName",
+                "$jointCode",
+                "$playFirst",
+                "$player",
+                trialNum
+            )
             NextQuestion()
             saveScoreStatus("nil")
+
         }
 
     }
@@ -916,6 +899,7 @@ class GamePlayActivity : AppCompatActivity() {
         // Code for the function you want to perform
         getTrialNum("$jointCode")
         getOppPlayerStatus(gameCode)
+        getOppPlayer(gameCode)
         if (oppScoreStatus == "win" || oppScoreStatus == "lose") {
 
             runOnUiThread {
@@ -929,7 +913,7 @@ class GamePlayActivity : AppCompatActivity() {
 
     fun main() {
         // Define the interval in milliseconds
-        val interval = 5000L // 5 seconds
+        val interval = 3000L // 5 seconds
 
         val timer = Timer()
         val timerTask = object : TimerTask() {
@@ -981,7 +965,7 @@ class GamePlayActivity : AppCompatActivity() {
         val my_score = "$score"
         val opponent_score = "0"
         val whoPlayFirst = ""
-        val players = ""
+        val players = player
         val userID = FirebaseAuth.getInstance().currentUser?.uid
 
         database = FirebaseDatabase.getInstance().getReference("Multiplayer")
@@ -1120,6 +1104,7 @@ class GamePlayActivity : AppCompatActivity() {
 
                 val player = it.child("player").getValue(String::class.java)!!
                 oppPlayer = player
+
 
 
             } else {
