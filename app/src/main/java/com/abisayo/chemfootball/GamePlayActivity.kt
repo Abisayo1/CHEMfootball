@@ -19,9 +19,7 @@ import android.widget.VideoView
 import androidx.appcompat.app.AppCompatDelegate
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityGamePlayBinding
-import com.abisayo.chemfootball.models.Multiplayer
-import com.abisayo.chemfootball.models.Player
-import com.abisayo.chemfootball.models.Scores
+import com.abisayo.chemfootball.models.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
@@ -53,6 +51,8 @@ class GamePlayActivity : AppCompatActivity() {
         binding = ActivityGamePlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         val name = intent.getStringExtra(Constants.NAME).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
@@ -69,6 +69,17 @@ class GamePlayActivity : AppCompatActivity() {
 //        Toast.makeText(this, "$game_mode", Toast.LENGTH_SHORT).show()
 
         binding.namePlayer.text = name
+
+        if (clas=="SS1") {
+            getQuestionsSS1(classs = clas)
+        } else if (clas == "SS2") {
+            getQuestionsSS2(classs = clas)
+        } else if (clas == "SS3") {
+            getQuestionsSS3(classs = clas)
+        }
+
+
+
 
 
 
@@ -1141,6 +1152,123 @@ class GamePlayActivity : AppCompatActivity() {
             Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
         }
 
+
+    }
+
+    private fun getQuestionsSS1(classs : String){
+        // Retrieve the "questions" node from the database
+        val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
+
+// Initialize an empty array to store the questions
+        val questions: ArrayList<SS1> = ArrayList()
+
+
+// Add a listener to retrieve the questions
+        questionsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Clear the existing questions array
+                questions.clear()
+
+                // Iterate through the questions in the snapshot
+                for (childSnapshot in dataSnapshot.children) {
+                    // Get the question data
+                    val question = childSnapshot.getValue(SS1::class.java)
+
+                    // Add the question to the array
+                    question?.let { questions.add(it) }
+                }
+                val questionCount = questions.size
+
+                // Call a function to present the questions to the user
+                presentQuestionsToUser("$questions", questionCount)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle the error
+            }
+        })
+
+        // Define a data class to represent a question
+        data class Question(val text: String, val options: List<String>)
+    }
+    private fun getQuestionsSS2(classs : String){
+        // Retrieve the "questions" node from the database
+        val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
+
+// Initialize an empty array to store the questions
+        val questions: ArrayList<SS2> = ArrayList()
+
+
+// Add a listener to retrieve the questions
+        questionsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Clear the existing questions array
+                questions.clear()
+
+
+                // Iterate through the questions in the snapshot
+                for (childSnapshot in dataSnapshot.children) {
+                    // Get the question data
+                    val question = childSnapshot.getValue(SS2::class.java)
+
+                    // Add the question to the array
+                    question?.let { questions.add(it) }
+                }
+                val questionCount = questions.size
+
+                // Call a function to present the questions to the user
+                presentQuestionsToUser("$questions", questionCount)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle the error
+            }
+        })
+
+        // Define a data class to represent a question
+        data class Question(val text: String, val options: List<String>)
+    }
+    private fun getQuestionsSS3(classs : String){
+        // Retrieve the "questions" node from the database
+        val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
+
+// Initialize an empty array to store the questions
+        val questions: ArrayList<SS3> = ArrayList()
+
+
+// Add a listener to retrieve the questions
+        questionsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Clear the existing questions array
+                questions.clear()
+
+                // Iterate through the questions in the snapshot
+                for (childSnapshot in dataSnapshot.children) {
+                    // Get the question data
+                    val question = childSnapshot.getValue(SS3::class.java)
+
+                    // Add the question to the array
+                    question?.let { questions.add(it) }
+                }
+
+                val questionCount = questions.size
+
+                // Call a function to present the questions to the user
+                presentQuestionsToUser("$questions", questionCount)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle the error
+            }
+        })
+
+        // Define a data class to represent a question
+        data class Question(val text: String, val options: List<String>)
+    }
+
+
+    private fun presentQuestionsToUser(questions: String, num: Int) {
+             Toast.makeText(this, "$num", Toast.LENGTH_SHORT).show()
 
     }
 }

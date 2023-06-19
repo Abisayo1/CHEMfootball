@@ -22,8 +22,7 @@ class ManageLMSActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.addQuestions.setOnClickListener {
-            val intent = Intent(this, AddQuestionsActivity::class.java)
-            intent.putExtra(Constants.CLASS, "SS3")
+            val intent = Intent(this, SelectQuestionClassActivity::class.java)
             startActivity(intent)
         }
 
