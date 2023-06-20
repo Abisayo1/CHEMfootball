@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -32,6 +33,7 @@ class GamePlayActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGamePlayBinding
     var score = 0
     var trialNum = 0
+    var trial = 0
     private var clas = "SS1"
     private var scoreC = 0
     private var player = ""
@@ -39,6 +41,7 @@ class GamePlayActivity : AppCompatActivity() {
     var oppPlayer = "Fragment6"
     var oppScoreStatus = "nil"
     var hasVideoPlay = 0
+    var currentQuestionIndex = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
@@ -50,7 +53,6 @@ class GamePlayActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         binding = ActivityGamePlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
 
         val name = intent.getStringExtra(Constants.NAME).toString()
@@ -70,7 +72,7 @@ class GamePlayActivity : AppCompatActivity() {
 
         binding.namePlayer.text = name
 
-        if (clas=="SS1") {
+        if (clas == "SS1") {
             getQuestionsSS1(classs = clas)
         } else if (clas == "SS2") {
             getQuestionsSS2(classs = clas)
@@ -91,54 +93,57 @@ class GamePlayActivity : AppCompatActivity() {
             getOppScore(gameCode)
             main()
             binding.computerPlayer.text = oppName
-            openDialog()
+
         } else {
             binding.computerPlayer.text = "Computer"
-            openSingleDialog()
+
         }
 
         binding.background.setOnClickListener {
-            getOppScore(gameCode)
-            if (trialNum == 8 && game_mode == "multi_player") {
-                saveName(name, "$trialNum", "$score - $scoreC")
-            } else if (trialNum == 8 && game_mode != "multi_player") {
-                val noteTitle = clas
-                val studentName = name
-                val score = "$score - ${scoreC}"
-                val userID = FirebaseAuth.getInstance().currentUser?.uid
+            if (hasVideoPlay != 0) {
+                getOppScore(gameCode)
+                if (trialNum == 8 && game_mode == "multi_player") {
+                    saveName(name, "$trialNum", "$score - $scoreC")
+                } else if (trialNum == 8 && game_mode != "multi_player") {
+                    val noteTitle = clas
+                    val studentName = name
+                    val score = "$score - ${scoreC}"
+                    val userID = FirebaseAuth.getInstance().currentUser?.uid
 
-                database = FirebaseDatabase.getInstance().getReference("Scores")
-                val Score = Scores(studentName, noteTitle, score, userID)
-                if (noteTitle != null) {
-                    if (userID != null) {
-                        database.child(userID + noteTitle).setValue(Score).addOnSuccessListener {
+                    database = FirebaseDatabase.getInstance().getReference("Scores")
+                    val Score = Scores(studentName, noteTitle, score, userID)
+                    if (noteTitle != null) {
+                        if (userID != null) {
+                            database.child(userID + noteTitle).setValue(Score)
+                                .addOnSuccessListener {
 //                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                        }.addOnFailureListener {
-                            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                                }.addOnFailureListener {
+                                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
-                }
 
-                Toast.makeText(this, "You have reached the end of the game", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                if (game_mode == "multi_player") {
-                    openDialog()
-                    getOppPlayerStatus(gameCode)
-                    if (oppScoreStatus == "win" || oppScoreStatus == "lose") {
-                        oppTurn(oppScoreStatus)
-                    } else if (oppScoreStatus == "nil") {
-                        binding.dash.visibility = View.VISIBLE
+                    Toast.makeText(this, "You have reached the end of the game", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    if (game_mode == "multi_player") {
+                        openDialog()
+                        getOppPlayerStatus(gameCode)
+                        if (oppScoreStatus == "win" || oppScoreStatus == "lose") {
+                            oppTurn(oppScoreStatus)
+                        } else if (oppScoreStatus == "nil") {
+                            binding.dash.visibility = View.VISIBLE
+                        }
+                    } else if (game_mode != "multi_player") {
+                        openSingleDialog()
                     }
-                } else if (game_mode != "multi_player") {
-                    openSingleDialog()
+
                 }
 
             }
 
+
         }
-
-
     }
 
 
@@ -742,54 +747,16 @@ class GamePlayActivity : AppCompatActivity() {
 
         }
 
-        if (trialNum == 0 && option == "b") {
+        if (option == "win") {
             playVideo(play)
-        } else if (trialNum == 0 && option != "b") {
+        } else if (option == "lose") {
             VideoMissPlay(play_misses)
 
         }
-        if (trialNum == 1 && option == "d") {
-            playyVideo(keep)
-        } else if (trialNum == 1 && option != "d") {
-            VideoMisssPlay(keep_misses)
-        }
-
-        if (trialNum == 2 && option == "b") {
-            playVideo(play)
-        } else if (trialNum == 2 && option != "b") {
-            VideoMissPlay(play_misses)
-        }
-
-        if (trialNum == 3 && option == "b") {
-            playyVideo(keep)
-        } else if (trialNum == 3 && option != "b") {
-            VideoMisssPlay(keep_misses)
-        }
-        if (trialNum == 4 && option == "a") {
-            playVideo(play)
-        } else if (trialNum == 4 && option != "a") {
-            VideoMissPlay(play_misses)
-        }
-        if (trialNum == 5 && option == "c") {
-            playyVideo(keep)
-        } else if (trialNum == 5 && option != "c") {
-            VideoMisssPlay(keep_misses)
-        }
-        if (trialNum == 6 && option == "a") {
-            playVideo(play)
-        } else if (trialNum == 6 && option != "a") {
-            VideoMissPlay(play_misses)
-        }
-        if (trialNum == 7 && option == "a") {
-            playyVideo(keep)
-        } else if (trialNum == 7 && option != "a") {
-            VideoMisssPlay(keep_misses)
-        }
-
 
         videoView.setOnCompletionListener {
-            // Video playback completed
             NextQuestion()
+            trial++
         }
     }
 
@@ -1008,109 +975,17 @@ class GamePlayActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun openSingleDialog() {
-        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
-        val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
-        val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
-        val secondBtn = dialogLayoutBinding.findViewById<TextView>(R.id.secondbtn)
-        val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
-        val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
-        val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-        val mydialog = Dialog(this)
-        mydialog.setContentView(dialogLayoutBinding)
-        mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
 
-        mydialog.setCancelable(true)
-
-        when (trialNum) {
-            1 -> {
-                question.text = "Which of the following salts is insoluble in water?"
-                firstBtn.text = "Pb(NO)3"
-                secondBtn.text = "Na2CO3"
-                thirdBtn.text = "AgNO3"
-                fourthBtn.text = "AgCl"
-            }
-            2 -> {
-                question.text = "Which of the following statements is correct"
-                firstBtn.text = "Gases increase with increase in temperature"
-                secondBtn.text = "Gases decrese with increase in temperature"
-                thirdBtn.text = "most solid solute decrease with increase in temperature"
-                fourthBtn.text = "most solid solute is constant"
-            }
-            3 -> {
-                question.text =
-                    "for a given solute, the concentration of its saturated solution in different solvents are:"
-                firstBtn.text = "the same at the same temperature"
-                secondBtn.text = "different at the same temperature"
-                thirdBtn.text = "the same at different temperature"
-                fourthBtn.text = "constant"
-            }
-            4 -> {
-                question.text =
-                    "On which of the following is the solubility of gaseous substance dependent?"
-                firstBtn.text = "Nature of solvent, Nature of solute, Temperature and Pressure"
-                secondBtn.text = "Nature of solvent & nature of Nature of solute"
-                thirdBtn.text = "Nature of solute"
-                fourthBtn.text = "None of the above"
-            }
-            5 -> {
-                question.text =
-                    "A change in temperature of a saturated solution disturbs the equilibrium between the:"
-                firstBtn.text = "Dissolved solute and the solvent"
-                secondBtn.text = "Solvent and undissolved solute"
-                thirdBtn.text = "Dissolved solute and undissolved solute"
-                fourthBtn.text = "Dissolved solute and the solution"
-            }
-            6 -> {
-                question.text = "A super saturated solution is said to contain"
-                firstBtn.text =
-                    "More solute than it can dissolve at a given temperature in the presence of undissolved solute"
-                secondBtn.text =
-                    "as much solute as it can dissolve at a given temperature in the presence of undissolved solute"
-                thirdBtn.text = "I don't know"
-                fourthBtn.text = "All of the above"
-            }
-            7 -> {
-                question.text = "Sodium Chloride has no solubility product value because of its"
-                firstBtn.text = "Saline nature"
-                secondBtn.text = "high solubility"
-                thirdBtn.text = "low solubility"
-                fourthBtn.text = "insolubility"
-            }
-            else -> {
-
-            }
-
+        if (clas=="SS1") {
+            getQuestionsSS1(classs = clas)
+        } else if (clas == "SS2") {
+            getQuestionsSS2(classs = clas)
+        } else if (clas == "SS3") {
+            getQuestionsSS3(classs = clas)
         }
 
-        mydialog.show()
 
-        firstBtn.setOnClickListener {
-            trialNum++
-            mydialog.dismiss()
-            playVideo("a")
-        }
-
-        secondBtn.setOnClickListener {
-            trialNum++
-            mydialog.dismiss()
-            playVideo("b")
-        }
-
-        thirdBtn.setOnClickListener {
-            trialNum++
-            mydialog.dismiss()
-            playVideo("c")
-
-
-        }
-
-        fourthBtn.setOnClickListener {
-            trialNum++
-            mydialog.dismiss()
-            playVideo("d")
-
-        }
     }
 
     private fun getOppPlayer(code: String) {
@@ -1180,7 +1055,7 @@ class GamePlayActivity : AppCompatActivity() {
                 val questionCount = questions.size
 
                 // Call a function to present the questions to the user
-                presentQuestionsToUser("$questions", questionCount)
+               // presentQuestionsToUser(questions, questionCount)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -1217,7 +1092,7 @@ class GamePlayActivity : AppCompatActivity() {
                 val questionCount = questions.size
 
                 // Call a function to present the questions to the user
-                presentQuestionsToUser("$questions", questionCount)
+                presentQuestionsToUser(questions, questionCount)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -1250,11 +1125,10 @@ class GamePlayActivity : AppCompatActivity() {
                     // Add the question to the array
                     question?.let { questions.add(it) }
                 }
-
                 val questionCount = questions.size
 
                 // Call a function to present the questions to the user
-                presentQuestionsToUser("$questions", questionCount)
+                //presentQuestionsToUser(questions, questionCount)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -1262,13 +1136,83 @@ class GamePlayActivity : AppCompatActivity() {
             }
         })
 
-        // Define a data class to represent a question
-        data class Question(val text: String, val options: List<String>)
     }
 
+    private fun presentQuestionsToUser(questions: ArrayList<SS2>, questionCount: Int) {
+        // Get the current question
+        val currentQuestion = questions[currentQuestionIndex]
 
-    private fun presentQuestionsToUser(questions: String, num: Int) {
-             Toast.makeText(this, "$num", Toast.LENGTH_SHORT).show()
+        // Inflate the dialog box with the question and options
+        // You can use a custom dialog or an AlertDialog for this
 
+        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+        val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
+        val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
+        val secondBtn = dialogLayoutBinding.findViewById<TextView>(R.id.secondbtn)
+        val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
+        val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
+        val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
+        val mydialog = Dialog(this)
+        mydialog.setContentView(dialogLayoutBinding)
+        mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+// Set the question and options in the dialog
+
+        question.text = currentQuestion.question
+        firstBtn.text = currentQuestion.option1
+        secondBtn.text = currentQuestion.option2
+        thirdBtn.text = currentQuestion.option3
+        fourthBtn.text = currentQuestion.option4
+
+// Store the correct answer
+        val correctAnswer = currentQuestion.answer
+
+
+            currentQuestionIndex++
+            if (currentQuestionIndex < questionCount) {
+            //    presentQuestionsToUser(questions, questionCount)
+            } else {
+                // All questions have been answered
+                // Handle end of quiz or any other desired action
+            }
+
+            // Dismiss the dialog
+
+
+
+// Set click listeners for the option buttons
+        val optionButtons = listOf(firstBtn, secondBtn, thirdBtn, fourthBtn)
+        for (button in optionButtons) {
+            button.setOnClickListener {
+                hasVideoPlay = 1
+                mydialog.cancel()
+                mydialog.dismiss()
+                hasVideoPlay = 1
+
+                // Handle option selection here
+                // You can check if the selected option is correct and perform any necessary actions
+
+                // Check if the selected option is the correct answer
+                val selectedAnswer = button.text.toString()
+                val isCorrect = selectedAnswer == correctAnswer
+
+                if (isCorrect) {
+                    if (trial % 2 == 0 || trial == 0) {
+                        playVideo("win")
+                    }
+
+                    } else if (!isCorrect) {
+                    if (trial % 2 == 0 || trial == 0) {
+                        playVideo("lose")
+                    }
+                }
+
+
+            }
+        }
+
+        mydialog.setCancelable(true)
+        mydialog.show()
     }
+
 }
