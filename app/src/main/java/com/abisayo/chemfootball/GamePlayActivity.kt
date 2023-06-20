@@ -37,7 +37,7 @@ class GamePlayActivity : AppCompatActivity() {
     private var clas = "SS1"
     private var scoreC = 0
     private var player = ""
-    lateinit var mydialog : Dialog
+    lateinit var mydialog: Dialog
     var oppPlayer = "Fragment6"
     var oppScoreStatus = "nil"
     var hasVideoPlay = 0
@@ -118,8 +118,8 @@ class GamePlayActivity : AppCompatActivity() {
                                 .addOnSuccessListener {
 //                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
                                 }.addOnFailureListener {
-                                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                            }
+                                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                                }
                         }
                     }
 
@@ -411,13 +411,13 @@ class GamePlayActivity : AppCompatActivity() {
         mydialog.setCancelable(true)
 
 
-            if (mydialog.isShowing == true) {
-                // Dialog is open
-                // Dismiss the dialog
-                mydialog.dismiss()
-                // Set the dialog reference to null
+        if (mydialog.isShowing == true) {
+            // Dialog is open
+            // Dismiss the dialog
+            mydialog.dismiss()
+            // Set the dialog reference to null
 
-            }
+        }
 
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
@@ -683,7 +683,7 @@ class GamePlayActivity : AppCompatActivity() {
 
     }
 
-    fun playVideo(option: String) {
+    fun playVideo(option: String, playerd: Boolean) {
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
@@ -747,11 +747,16 @@ class GamePlayActivity : AppCompatActivity() {
 
         }
 
-        if (option == "win") {
+        if (option == "win" && playerd) {
             playVideo(play)
-        } else if (option == "lose") {
+        } else if (option == "lose" && playerd) {
             VideoMissPlay(play_misses)
 
+        } else if (option == "win" && !playerd) {
+            playVideo(keep)
+
+        } else if (option == "lose" && !playerd) {
+            VideoMisssPlay(keep_misses)
         }
 
         videoView.setOnCompletionListener {
@@ -977,7 +982,7 @@ class GamePlayActivity : AppCompatActivity() {
     fun openSingleDialog() {
 
 
-        if (clas=="SS1") {
+        if (clas == "SS1") {
             getQuestionsSS1(classs = clas)
         } else if (clas == "SS2") {
             getQuestionsSS2(classs = clas)
@@ -996,7 +1001,6 @@ class GamePlayActivity : AppCompatActivity() {
 
                 val player = it.child("player").getValue(String::class.java)!!
                 oppPlayer = player
-
 
 
             } else {
@@ -1030,7 +1034,7 @@ class GamePlayActivity : AppCompatActivity() {
 
     }
 
-    private fun getQuestionsSS1(classs : String){
+    private fun getQuestionsSS1(classs: String) {
         // Retrieve the "questions" node from the database
         val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
 
@@ -1055,7 +1059,7 @@ class GamePlayActivity : AppCompatActivity() {
                 val questionCount = questions.size
 
                 // Call a function to present the questions to the user
-               // presentQuestionsToUser(questions, questionCount)
+                // presentQuestionsToUser(questions, questionCount)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -1066,7 +1070,8 @@ class GamePlayActivity : AppCompatActivity() {
         // Define a data class to represent a question
         data class Question(val text: String, val options: List<String>)
     }
-    private fun getQuestionsSS2(classs : String){
+
+    private fun getQuestionsSS2(classs: String) {
         // Retrieve the "questions" node from the database
         val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
 
@@ -1103,7 +1108,8 @@ class GamePlayActivity : AppCompatActivity() {
         // Define a data class to represent a question
         data class Question(val text: String, val options: List<String>)
     }
-    private fun getQuestionsSS3(classs : String){
+
+    private fun getQuestionsSS3(classs: String) {
         // Retrieve the "questions" node from the database
         val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
 
@@ -1168,16 +1174,15 @@ class GamePlayActivity : AppCompatActivity() {
         val correctAnswer = currentQuestion.answer
 
 
-            currentQuestionIndex++
-            if (currentQuestionIndex < questionCount) {
+        currentQuestionIndex++
+        if (currentQuestionIndex < questionCount) {
             //    presentQuestionsToUser(questions, questionCount)
-            } else {
-                // All questions have been answered
-                // Handle end of quiz or any other desired action
-            }
+        } else {
+            // All questions have been answered
+            // Handle end of quiz or any other desired action
+        }
 
-            // Dismiss the dialog
-
+        // Dismiss the dialog
 
 
 // Set click listeners for the option buttons
@@ -1198,21 +1203,28 @@ class GamePlayActivity : AppCompatActivity() {
 
                 if (isCorrect) {
                     if (trial % 2 == 0 || trial == 0) {
-                        playVideo("win")
+                        playVideo("win", true)
+                    } else if (trial % 2 == 1 || trial == 1) {
+                        playVideo("win", false)
                     }
 
                     } else if (!isCorrect) {
-                    if (trial % 2 == 0 || trial == 0) {
-                        playVideo("lose")
+                        if (trial % 2 == 0 || trial == 0) {
+                            playVideo("lose", true)
+                        } else if (trial % 2 == 1 || trial == 1) {
+                            playVideo("lose", false)
+                        }
+
+
                     }
-                }
+
 
 
             }
-        }
 
+
+        }
         mydialog.setCancelable(true)
         mydialog.show()
     }
-
 }
