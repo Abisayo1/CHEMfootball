@@ -1173,14 +1173,22 @@ class GamePlayActivity : AppCompatActivity() {
 // Store the correct answer
         val correctAnswer = currentQuestion.answer
 
+        if (currentQuestionIndex+1 > questionCount) {
+            Toast.makeText(this, "You have reached the end of the game", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            mydialog.setCancelable(true)
+            mydialog.show()
+            currentQuestionIndex++
+            if (currentQuestionIndex < questionCount) {
+                //    presentQuestionsToUser(questions, questionCount)
+            }
+        }
 
-        currentQuestionIndex++
-        if (currentQuestionIndex < questionCount) {
-            //    presentQuestionsToUser(questions, questionCount)
-        } else {
+
+
             // All questions have been answered
             // Handle end of quiz or any other desired action
-        }
 
         // Dismiss the dialog
 
@@ -1224,7 +1232,6 @@ class GamePlayActivity : AppCompatActivity() {
 
 
         }
-        mydialog.setCancelable(true)
-        mydialog.show()
+
     }
 }
