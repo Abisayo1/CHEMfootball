@@ -46,6 +46,7 @@ class AddQuestionsActivity : AppCompatActivity() {
             questNum++
 
             val selectedOption = intent.getStringExtra("selectedOption")
+            val topic = intent.getStringExtra("tt")
             val question = question
             val option1 = option1
             val option2 = option2
@@ -54,7 +55,7 @@ class AddQuestionsActivity : AppCompatActivity() {
             val answer = answer
             val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
-            database = FirebaseDatabase.getInstance().getReference("$selectedOption")
+            database = FirebaseDatabase.getInstance().getReference("$selectedOption, $topic")
             val Question = Questions(selectedOption, questNum, "$question", "$option1", "$option2", "$option3", "$option4", "$answer")
             if (question.isNotEmpty()) {
                 if (option2.isNotEmpty()) {

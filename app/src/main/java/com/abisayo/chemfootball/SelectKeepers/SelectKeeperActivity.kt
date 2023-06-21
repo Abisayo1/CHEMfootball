@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayout
 class SelectKeeperActivity : AppCompatActivity() {
     private var clas = "SS1"
     private var player = ""
+    private var topic = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,6 +34,7 @@ class SelectKeeperActivity : AppCompatActivity() {
 
         clas = intent.getStringExtra(Constants.CLASS).toString()
         player = intent.getStringExtra(Constants.PLAYER).toString()
+        topic = intent.getStringExtra("re").toString()
 
     }
 
@@ -42,6 +44,10 @@ class SelectKeeperActivity : AppCompatActivity() {
 
     fun getPlayer(): String {
         return player
+    }
+
+    fun getTopic(): String {
+        return topic
     }
 
 }

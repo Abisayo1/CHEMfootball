@@ -43,6 +43,7 @@ class FragmentVII : Fragment() {
         val activity = activity as? SelectKeeperActivity
         val clas = activity?.getClass()
         val player = activity?.getPlayer()
+        val topic = activity?.getTopic()
 
 
         Toast.makeText(requireContext(), player, Toast.LENGTH_SHORT).show()
@@ -56,6 +57,7 @@ class FragmentVII : Fragment() {
                 intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.KEEPER, "FragmentVII")
                 intent.putExtra(Constants.PLAYER, player)
+                intent.putExtra("re", topic)
                 startActivity(intent)
             }
         }

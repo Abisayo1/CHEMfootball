@@ -19,10 +19,29 @@
 
         <!-- Question Text -->
         <TextView
+            android:id="@+id/topic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:layout_marginTop="40dp"
+            android:text="Topic:"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/questionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter topic"
+            android:inputType="text" />
+
+        <!-- Question Text -->
+        <TextView
             android:id="@+id/questionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="20dp"
             android:paddingBottom="8dp"
             android:text="Select class"
             android:textAlignment="center"

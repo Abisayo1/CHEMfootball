@@ -63,6 +63,7 @@ class GamePlayActivity : AppCompatActivity() {
         val oppName = intent.getStringExtra("oppName").toString()
         val playFirst = intent.getStringExtra("samyy")
         val jointCode = intent.getStringExtra("123")
+        val topic = intent.getStringExtra("re").toString()
 
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()

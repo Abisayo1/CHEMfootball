@@ -33,6 +33,7 @@ class UploadPlayerDetailsActivity : AppCompatActivity() {
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+        val topic = intent.getStringExtra("re").toString()
         val name = intent.getStringExtra(Constants.NAME)
 
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
@@ -70,6 +71,7 @@ class UploadPlayerDetailsActivity : AppCompatActivity() {
                     intent.putExtra(Constants.GAME_MODE, "multi_player")
                     intent.putExtra("1111", "$game_code")
                     intent.putExtra("samyy", "$whoPlayFirst")
+                    intent.putExtra("re", "$topic")
                     startActivity(intent)
                 }
             } else {

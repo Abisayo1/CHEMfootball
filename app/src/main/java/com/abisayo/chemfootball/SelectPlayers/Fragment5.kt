@@ -39,6 +39,7 @@ class Fragment5 : Fragment() {
 
         val activity = activity as? SelectPlayersActivity
         val clas = activity?.getClass()
+        val topic = activity?.getTopic()
 
         val myButton = view?.findViewById<Button>(R.id.select)
 
@@ -48,6 +49,7 @@ class Fragment5 : Fragment() {
                 val intent = Intent(requireActivity(), SelectKeeperActivity::class.java)
                 intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.PLAYER, "Fragment5")
+                intent.putExtra("re", topic)
                 startActivity(intent)
             }
         }

@@ -38,6 +38,7 @@ class ConfirmDetailsActivity : AppCompatActivity() {
         val gameCode = intent.getStringExtra("1111").toString()
         val jointCode = intent.getStringExtra("123").toString()
         val oppName = intent.getStringExtra("oppName").toString()
+        val topic = intent.getStringExtra("re").toString()
 
 
         binding.editTextName.setText("$name")
@@ -59,6 +60,7 @@ class ConfirmDetailsActivity : AppCompatActivity() {
             intent.putExtra("1111", "$gameCode")
             intent.putExtra("samyy", "$playFirst")
             intent.putExtra("123", "$jointCode")
+            intent.putExtra("re", "$topic")
             startActivity(intent)
 
         }

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChemFootball">
         <activity
+            android:name=".SelectTopicActivity"
+            android:exported="false" />
+        <activity
             android:name=".manageLMS.SelectQuestionClassActivity"
             android:exported="false" />
         <activity

@@ -45,6 +45,7 @@ class Fragment1 : Fragment() {
 
         val activity = activity as? SelectPlayersActivity
         val clas = activity?.getClass()
+        val topic = activity?.getTopic()
 
 //        Toast.makeText(requireContext(), clas, Toast.LENGTH_SHORT).show()
         val myButton = view?.findViewById<Button>(R.id.select)
@@ -56,6 +57,7 @@ class Fragment1 : Fragment() {
                 val intent = Intent(requireActivity(), SelectKeeperActivity::class.java)
                 intent.putExtra(Constants.PLAYER, "Fragment1")
                 intent.putExtra(Constants.CLASS, clas)
+                intent.putExtra("re", topic)
                 startActivity(intent)
             }
         }

@@ -3,7 +3,6 @@ package com.abisayo.chemfootball
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivitySelectClassBinding
 import com.abisayo.chemfootball.manageLMS.ManageLMSActivity
@@ -16,19 +15,19 @@ class SelectClassActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.SS1.setOnClickListener {
-            val intent = Intent(this, SelectPlayersActivity::class.java)
+            val intent = Intent(this, SelectTopicActivity::class.java)
             intent.putExtra(Constants.CLASS, "SS1")
             startActivity(intent)
         }
 
         binding.SS2.setOnClickListener {
-            val intent = Intent(this, SelectPlayersActivity::class.java)
+            val intent = Intent(this, SelectTopicActivity::class.java)
             intent.putExtra(Constants.CLASS, "SS2")
             startActivity(intent)
         }
 
         binding.SS3.setOnClickListener {
-            val intent = Intent(this, SelectPlayersActivity::class.java)
+            val intent = Intent(this, SelectTopicActivity::class.java)
             intent.putExtra(Constants.CLASS, "SS3")
             startActivity(intent)
         }

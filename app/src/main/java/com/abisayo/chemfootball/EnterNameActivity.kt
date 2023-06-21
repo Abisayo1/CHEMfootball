@@ -34,6 +34,7 @@ class EnterNameActivity : AppCompatActivity() {
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+        val topic = intent.getStringExtra("re").toString()
 
         val name = binding.editText.text
 
@@ -45,6 +46,7 @@ class EnterNameActivity : AppCompatActivity() {
                 intent.putExtra(Constants.KEEPER, keeper)
                 intent.putExtra(Constants.PLAYER, player)
                 intent.putExtra(Constants.NAME, "$name")
+                intent.putExtra("re", "$topic")
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show()
@@ -61,6 +63,7 @@ class EnterNameActivity : AppCompatActivity() {
                 intent.putExtra(Constants.PLAYER, player)
                 intent.putExtra(Constants.NAME, "$name")
                 intent.putExtra(Constants.GAME_MODE, "multi_player")
+                intent.putExtra("re", "$topic")
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show()

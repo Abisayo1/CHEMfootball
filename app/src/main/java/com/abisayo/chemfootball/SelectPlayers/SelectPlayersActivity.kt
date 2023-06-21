@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayout
 
 class SelectPlayersActivity : AppCompatActivity() {
     private var clas = "SS1"
+    private var topic = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
@@ -29,11 +30,16 @@ class SelectPlayersActivity : AppCompatActivity() {
         tabLayout.setupWithViewPager(viewPager)
 
         clas = intent.getStringExtra(Constants.CLASS)!!
+        topic = intent.getStringExtra("re")!!
 
     }
 
     fun getClass(): String {
         return clas
+    }
+
+    fun getTopic(): String {
+        return topic
     }
 
 
