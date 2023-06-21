@@ -42,6 +42,7 @@ class GamePlayActivity : AppCompatActivity() {
     var oppScoreStatus = "nil"
     var hasVideoPlay = 0
     var currentQuestionIndex = 0
+    var questionCount = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
@@ -968,8 +969,14 @@ class GamePlayActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun openSingleDialog() {
 
+        if (trial == questionCount) {
+            Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+        } else if (trial < questionCount) {
+            getQuestionsSS2(classs = clas)
+        }
 
-        getQuestionsSS2(classs = clas)
+
+
 
 
     }
@@ -1039,7 +1046,7 @@ class GamePlayActivity : AppCompatActivity() {
                     // Add the question to the array
                     question?.let { questions.add(it) }
                 }
-                val questionCount = questions.size
+                questionCount = questions.size
 
                 // Call a function to present the questions to the user
                 presentQuestionsToUser(questions, questionCount)
