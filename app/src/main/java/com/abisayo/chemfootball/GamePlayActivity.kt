@@ -72,20 +72,7 @@ class GamePlayActivity : AppCompatActivity() {
 
         binding.namePlayer.text = name
 
-        if (clas == "SS1") {
-            getQuestionsSS1(classs = clas)
-        } else if (clas == "SS2") {
-            getQuestionsSS2(classs = clas)
-        } else if (clas == "SS3") {
-            getQuestionsSS3(classs = clas)
-        }
-
-
-
-
-
-
-
+        getQuestionsSS2(classs = clas)
 
         if (game_mode == "multi_player") {
             getTrialNum("$jointCode")
@@ -982,13 +969,7 @@ class GamePlayActivity : AppCompatActivity() {
     fun openSingleDialog() {
 
 
-        if (clas == "SS1") {
-            getQuestionsSS1(classs = clas)
-        } else if (clas == "SS2") {
-            getQuestionsSS2(classs = clas)
-        } else if (clas == "SS3") {
-            getQuestionsSS3(classs = clas)
-        }
+        getQuestionsSS2(classs = clas)
 
 
     }
@@ -1034,42 +1015,6 @@ class GamePlayActivity : AppCompatActivity() {
 
     }
 
-    private fun getQuestionsSS1(classs: String) {
-        // Retrieve the "questions" node from the database
-        val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
-
-// Initialize an empty array to store the questions
-        val questions: ArrayList<SS1> = ArrayList()
-
-
-// Add a listener to retrieve the questions
-        questionsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Clear the existing questions array
-                questions.clear()
-
-                // Iterate through the questions in the snapshot
-                for (childSnapshot in dataSnapshot.children) {
-                    // Get the question data
-                    val question = childSnapshot.getValue(SS1::class.java)
-
-                    // Add the question to the array
-                    question?.let { questions.add(it) }
-                }
-                val questionCount = questions.size
-
-                // Call a function to present the questions to the user
-                // presentQuestionsToUser(questions, questionCount)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle the error
-            }
-        })
-
-        // Define a data class to represent a question
-        data class Question(val text: String, val options: List<String>)
-    }
 
     private fun getQuestionsSS2(classs: String) {
         // Retrieve the "questions" node from the database
@@ -1109,40 +1054,7 @@ class GamePlayActivity : AppCompatActivity() {
         data class Question(val text: String, val options: List<String>)
     }
 
-    private fun getQuestionsSS3(classs: String) {
-        // Retrieve the "questions" node from the database
-        val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
 
-// Initialize an empty array to store the questions
-        val questions: ArrayList<SS3> = ArrayList()
-
-
-// Add a listener to retrieve the questions
-        questionsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Clear the existing questions array
-                questions.clear()
-
-                // Iterate through the questions in the snapshot
-                for (childSnapshot in dataSnapshot.children) {
-                    // Get the question data
-                    val question = childSnapshot.getValue(SS3::class.java)
-
-                    // Add the question to the array
-                    question?.let { questions.add(it) }
-                }
-                val questionCount = questions.size
-
-                // Call a function to present the questions to the user
-                //presentQuestionsToUser(questions, questionCount)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle the error
-            }
-        })
-
-    }
 
     private fun presentQuestionsToUser(questions: ArrayList<SS2>, questionCount: Int) {
         // Get the current question
