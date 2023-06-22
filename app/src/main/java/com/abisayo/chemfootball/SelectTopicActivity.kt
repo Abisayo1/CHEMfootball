@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityEnterNameBinding
@@ -29,10 +30,14 @@ class SelectTopicActivity : AppCompatActivity() {
         val topic = binding.editText.text
 
         binding.button.setOnClickListener {
-            val intent = Intent(this, SelectPlayersActivity::class.java)
-            intent.putExtra(Constants.CLASS, "$clas")
-            intent.putExtra("re", topic)
-            startActivity(intent)
+            if(topic.isNotEmpty()) {
+                val intent = Intent(this, SelectPlayersActivity::class.java)
+                intent.putExtra(Constants.CLASS, "$clas")
+                intent.putExtra("re", "$topic")
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Enter a topic", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

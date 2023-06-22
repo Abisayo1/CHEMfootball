@@ -74,7 +74,7 @@ class GamePlayActivity : AppCompatActivity() {
 
         binding.namePlayer.text = name
 
-        getQuestionsSS2(classs = clas)
+        getQuestionsSS2(classs = clas, topic)
 
         if (game_mode == "multi_player") {
             getTrialNum("$jointCode")
@@ -969,11 +969,12 @@ class GamePlayActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun openSingleDialog() {
+        val topic = intent.getStringExtra("re").toString()
 
         if (trial == questionCount) {
             Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
         } else if (trial < questionCount) {
-            getQuestionsSS2(classs = clas)
+            getQuestionsSS2(classs = clas, topic)
         }
 
 
@@ -1024,9 +1025,9 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
 
-    private fun getQuestionsSS2(classs: String) {
+    private fun getQuestionsSS2(classs: String, topic: String) {
         // Retrieve the "questions" node from the database
-        val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
+        val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs, $topic")
 
 // Initialize an empty array to store the questions
         val questions: ArrayList<SS2> = ArrayList()
