@@ -365,16 +365,16 @@ class GamePlayActivity : AppCompatActivity() {
             VideoMissPlay(play_misses)
         }
 
+        saveTrialNum(
+            "$name",
+            "$oppName",
+            "$jointCode",
+            "$playFirst",
+            "$player",
+            trial
+        )
+
         videoView.setOnCompletionListener {
-            NextQuestion()
-            saveTrialNum(
-                "$name",
-                "$oppName",
-                "$jointCode",
-                "$playFirst",
-                "$player",
-                trial
-            )
             NextQuestion()
             saveScoreStatus("nil")
         }
@@ -464,7 +464,6 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun VideoMissPlay(play_misses: Int) {
-        trial++
         val videoUri =
             Uri.parse("android.resource://" + packageName + "/" + play_misses) // Replace with your video file or URL
         PlayVideoM().setVideoURI(videoUri)
@@ -474,7 +473,6 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun VideoMisssPlay(play_misses: Int) {
-        trial++
         scoreC++
         val videoUri =
             Uri.parse("android.resource://" + packageName + "/" + play_misses) // Replace with your video file or URL
@@ -494,7 +492,6 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun playVideo(play: Int) {
-        trial++
         score++
         val videoUri =
             Uri.parse("android.resource://" + packageName + "/" + play) // Replace with your video file or URL
@@ -808,7 +805,6 @@ class GamePlayActivity : AppCompatActivity() {
         else {
             mydialog.setCancelable(true)
             mydialog.show()
-            currentQuestionIndex++
             if (currentQuestionIndex < questionCount) {
                 //    presentQuestionsToUser(questions, questionCount)
             }
@@ -837,6 +833,7 @@ class GamePlayActivity : AppCompatActivity() {
                                 )
                                     .show()
                             } else if (trial % 2 != 0 || trial != 0) {
+                                currentQuestionIndex++
                                 hasVideoPlay = 1
                                 mydialog.cancel()
                                 mydialog.dismiss()
@@ -872,6 +869,7 @@ class GamePlayActivity : AppCompatActivity() {
 
                         "$name" -> {
                             if (trial % 2 == 0 || trial == 0) {
+                                currentQuestionIndex++
                                 hasVideoPlay = 1
                                 mydialog.cancel()
                                 mydialog.dismiss()
@@ -914,6 +912,7 @@ class GamePlayActivity : AppCompatActivity() {
 
                     }
                 } else if (game_mode != "multi_player") {
+                    trial++
                     hasVideoPlay = 1
                     mydialog.cancel()
                     mydialog.dismiss()
