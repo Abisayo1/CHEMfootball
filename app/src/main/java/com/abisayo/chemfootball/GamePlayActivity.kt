@@ -32,7 +32,6 @@ class GamePlayActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var binding: ActivityGamePlayBinding
     var score = 0
-    var trialNum = 0
     var trial = 0
     private var clas = "SS1"
     private var scoreC = 0
@@ -89,11 +88,10 @@ class GamePlayActivity : AppCompatActivity() {
         }
 
         binding.background.setOnClickListener {
-            if (hasVideoPlay != 0) {
                 getOppScore(gameCode)
-                if (trialNum == 8 && game_mode == "multi_player") {
-                    saveName(name, "$trialNum", "$score - $scoreC")
-                } else if (trialNum == 8 && game_mode != "multi_player") {
+                if (trial == 8 && game_mode == "multi_player") {
+                    saveName(name, "$trial", "$score - $scoreC")
+                } else if (trial == 8 && game_mode != "multi_player") {
                     val noteTitle = clas
                     val studentName = name
                     val score = "$score - ${scoreC}"
@@ -129,7 +127,6 @@ class GamePlayActivity : AppCompatActivity() {
 
                 }
 
-            }
 
 
         }
@@ -177,214 +174,27 @@ class GamePlayActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun openDialog() {
-        val name = intent.getStringExtra(Constants.NAME).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
-        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
-        val gameCode = intent.getStringExtra("1111").toString()
-        val oppName = intent.getStringExtra("oppName").toString()
-        val playFirst = intent.getStringExtra("samyy")
-        val jointCode = intent.getStringExtra("123")
-        getTrialNum("$jointCode")
-        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
-        val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
-        val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
-        val secondBtn = dialogLayoutBinding.findViewById<TextView>(R.id.secondbtn)
-        val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
-        val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
-        val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-        mydialog = Dialog(this)
-        mydialog.setContentView(dialogLayoutBinding)
-        mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val topic = intent.getStringExtra("re").toString()
 
-        mydialog.cancel()
-
-
-        mydialog.setCancelable(true)
-
-        when (trialNum) {
-            1 -> {
-                question.text = "Which of the following salts is insoluble in water?"
-                firstBtn.text = "Pb(NO)3"
-                secondBtn.text = "Na2CO3"
-                thirdBtn.text = "AgNO3"
-                fourthBtn.text = "AgCl"
-            }
-            2 -> {
-                question.text = "Which of the following statements is correct"
-                firstBtn.text = "Gases increase with increase in temperature"
-                secondBtn.text = "Gases decrese with increase in temperature"
-                thirdBtn.text = "most solid solute decrease with increase in temperature"
-                fourthBtn.text = "most solid solute is constant"
-            }
-            3 -> {
-                question.text =
-                    "for a given solute, the concentration of its saturated solution in different solvents are:"
-                firstBtn.text = "the same at the same temperature"
-                secondBtn.text = "different at the same temperature"
-                thirdBtn.text = "the same at different temperature"
-                fourthBtn.text = "constant"
-            }
-            4 -> {
-                question.text =
-                    "On which of the following is the solubility of gaseous substance dependent?"
-                firstBtn.text = "Nature of solvent, Nature of solute, Temperature and Pressure"
-                secondBtn.text = "Nature of solvent & nature of Nature of solute"
-                thirdBtn.text = "Nature of solute"
-                fourthBtn.text = "None of the above"
-            }
-            5 -> {
-                question.text =
-                    "A change in temperature of a saturated solution disturbs the equilibrium between the:"
-                firstBtn.text = "Dissolved solute and the solvent"
-                secondBtn.text = "Solvent and undissolved solute"
-                thirdBtn.text = "Dissolved solute and undissolved solute"
-                fourthBtn.text = "Dissolved solute and the solution"
-            }
-            6 -> {
-                question.text = "A super saturated solution is said to contain"
-                firstBtn.text =
-                    "More solute than it can dissolve at a given temperature in the presence of undissolved solute"
-                secondBtn.text =
-                    "as much solute as it can dissolve at a given temperature in the presence of undissolved solute"
-                thirdBtn.text = "I don't know"
-                fourthBtn.text = "All of the above"
-            }
-            7 -> {
-                question.text = "Sodium Chloride has no solubility product value because of its"
-                firstBtn.text = "Saline nature"
-                secondBtn.text = "high solubility"
-                thirdBtn.text = "low solubility"
-                fourthBtn.text = "insolubility"
-            }
-            else -> {
-
-            }
-
+        if (trial == questionCount) {
+            Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+        } else if (trial < questionCount) {
+            getQuestionsSS2(classs = clas, topic)
         }
+    }
 
-        mydialog.show()
+    @SuppressLint("SetTextI18n")
+    fun openSingleDialog() {
+        val topic = intent.getStringExtra("re").toString()
 
-        firstBtn.setOnClickListener {
-            when ("$playFirst") {
-                "$oppName" -> {
-                    if (trialNum % 2 == 0 || trialNum == 0) {
-                        Toast.makeText(this, "It is not your turn to play", Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (trialNum % 2 != 0 || trialNum != 0) {
-                        mydialog.dismiss()
-                        playVideos("a")
-                    }
-
-
-                }
-
-                "$name" -> {
-                    if (trialNum % 2 == 0 || trialNum == 0) {
-                        mydialog.dismiss()
-                        playVideos("a")
-
-                    } else if (trialNum % 2 != 0 || trialNum != 0) {
-                        Toast.makeText(this, "It is not your turn to play", Toast.LENGTH_SHORT)
-                            .show()
-
-                    }
-                }
-
-            }
+        if (trial == questionCount) {
+            Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+        } else if (trial < questionCount) {
+            getQuestionsSS2(classs = clas, topic)
         }
-
-        secondBtn.setOnClickListener {
-            when ("$playFirst") {
-                "$oppName" -> {
-                    if (trialNum % 2 == 0 || trialNum == 0) {
-                        Toast.makeText(this, "It is not your turn to play", Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (trialNum % 2 != 0 || trialNum != 0) {
-                        mydialog.dismiss()
-                        playVideos("b")
-                    }
-
-
-                }
-
-                "$name" -> {
-                    if (trialNum % 2 == 0 || trialNum == 0) {
-                        mydialog.dismiss()
-                        playVideos("b")
-
-                    } else if (trialNum % 2 != 0 || trialNum != 0) {
-                        Toast.makeText(this, "It is not your turn to play", Toast.LENGTH_SHORT)
-                            .show()
-
-                    }
-                }
-
-            }
-        }
-
-        thirdBtn.setOnClickListener {
-            when ("$playFirst") {
-                "$oppName" -> {
-                    if (trialNum % 2 == 0 || trialNum == 0) {
-                        Toast.makeText(this, "It is not your turn to play", Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (trialNum % 2 != 0 || trialNum != 0) {
-                        mydialog.dismiss()
-                        playVideos("c")
-                    }
-
-
-                }
-
-                "$name" -> {
-                    if (trialNum % 2 == 0 || trialNum == 0) {
-                        mydialog.dismiss()
-                        playVideos("c")
-
-                    } else if (trialNum % 2 != 0 || trialNum != 0) {
-                        Toast.makeText(this, "It is not your turn to play", Toast.LENGTH_SHORT)
-                            .show()
-
-                    }
-                }
-
-            }
-        }
-
-        fourthBtn.setOnClickListener {
-            when ("$playFirst") {
-                "$oppName" -> {
-                    if (trialNum % 2 == 0 || trialNum == 0) {
-                        Toast.makeText(this, "It is not your turn to play", Toast.LENGTH_SHORT)
-                            .show()
-                    } else if (trialNum % 2 != 0 || trialNum != 0) {
-                        mydialog.dismiss()
-                        playVideos("d")
-                    }
-
-
-                }
-
-                "$name" -> {
-                    if (trialNum % 2 == 0 || trialNum == 0) {
-                        mydialog.dismiss()
-                        playVideos("d")
-
-                    } else if (trialNum % 2 != 0 || trialNum != 0) {
-                        Toast.makeText(this, "It is not your turn to play", Toast.LENGTH_SHORT)
-                            .show()
-
-                    }
-                }
-
-            }
-        }
-
-
     }
 
     private fun oppTurn(option: String) {
-        mydialog.cancel()
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
         val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
@@ -392,21 +202,18 @@ class GamePlayActivity : AppCompatActivity() {
         val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
         val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
         val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-        var mydialog = Dialog(this)
         mydialog.setContentView(dialogLayoutBinding)
         mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
 
+
+
         mydialog.setCancelable(true)
 
+        mydialog.cancel()
+        mydialog.dismiss()
 
-        if (mydialog.isShowing == true) {
-            // Dialog is open
-            // Dismiss the dialog
-            mydialog.dismiss()
-            // Set the dialog reference to null
 
-        }
 
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
@@ -455,62 +262,10 @@ class GamePlayActivity : AppCompatActivity() {
 
         }
 
-        if (trialNum == 0 && option == "win") {
+        if(option == "win") {
             mydialog.dismiss()
             playOppVideo(play)
-        } else if (trialNum == 0 && option == "lose") {
-            mydialog.dismiss()
-            VideoOppMisssPlay(play_misses)
-
-        }
-        if (trialNum == 1 && option == "win") {
-            mydialog.dismiss()
-            playOppVideo(play)
-        } else if (trialNum == 1 && option == "lose") {
-            mydialog.dismiss()
-            VideoOppMisssPlay(play_misses)
-        }
-
-        if (trialNum == 2 && option == "win") {
-            mydialog.dismiss()
-            playOppVideo(play)
-        } else if (trialNum == 2 && option == "lose") {
-            mydialog.dismiss()
-            VideoOppMisssPlay(play_misses)
-        }
-
-        if (trialNum == 3 && option == "win") {
-            mydialog.dismiss()
-            playOppVideo(play)
-        } else if (trialNum == 3 && option == "lose") {
-            mydialog.dismiss()
-            VideoOppMisssPlay(play_misses)
-        }
-        if (trialNum == 4 && option == "win") {
-            mydialog.dismiss()
-            playOppVideo(play)
-        } else if (trialNum == 4 && option == "lose") {
-            mydialog.dismiss()
-            VideoOppMisssPlay(play_misses)
-        }
-        if (trialNum == 5 && option == "win") {
-            mydialog.dismiss()
-            playOppVideo(play)
-        } else if (trialNum == 5 && option == "lose") {
-            mydialog.dismiss()
-            VideoOppMisssPlay(play_misses)
-        }
-        if (trialNum == 6 && option == "win") {
-            mydialog.dismiss()
-            playOppVideo(play)
-        } else if (trialNum == 6 && option == "lose") {
-            mydialog.dismiss()
-            VideoOppMisssPlay(play_misses)
-        }
-        if (trialNum == 7 && option == "win") {
-            mydialog.dismiss()
-            playOppVideo(play)
-        } else if (trialNum == 7 && option == "lose") {
+        } else if (option == "lose") {
             mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
         }
@@ -524,7 +279,8 @@ class GamePlayActivity : AppCompatActivity() {
 
     }
 
-    private fun playVideos(option: String) {
+    private fun playVideos(option: String, playerd: Boolean) {
+        trial++
         val name = intent.getStringExtra(Constants.NAME).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
@@ -593,82 +349,36 @@ class GamePlayActivity : AppCompatActivity() {
 
         }
 
-        if (trialNum == 0 && option == "b") {
-            playVideo(play)
+        if (option == "win" && playerd) {
             saveScoreStatus("win")
-        } else if (trialNum == 0 && option != "b") {
-            VideoMissPlay(play_misses)
+            playVideo(play)
+        } else if (option == "lose" && playerd) {
             saveScoreStatus("lose")
+            VideoMissPlay(play_misses)
 
-        }
-        if (trialNum == 1 && option == "d") {
-            playVideo(play)
+        } else if (option == "win" && !playerd) {
             saveScoreStatus("win")
-        } else if (trialNum == 1 && option != "d") {
-            VideoMissPlay(play_misses)
-            saveScoreStatus("lose")
-        }
+            playVideo(play)
 
-        if (trialNum == 2 && option == "b") {
-            playVideo(play)
-            saveScoreStatus("win")
-        } else if (trialNum == 2 && option != "b") {
-            VideoMissPlay(play_misses)
+        } else if (option == "lose" && !playerd) {
             saveScoreStatus("lose")
-        }
-
-        if (trialNum == 3 && option == "b") {
-            playVideo(play)
-            saveScoreStatus("win")
-        } else if (trialNum == 3 && option != "b") {
             VideoMissPlay(play_misses)
-            saveScoreStatus("lose")
         }
-        if (trialNum == 4 && option == "a") {
-            playVideo(play)
-            saveScoreStatus("win")
-        } else if (trialNum == 4 && option != "a") {
-            VideoMissPlay(play_misses)
-            saveScoreStatus("lose")
-        }
-        if (trialNum == 5 && option == "c") {
-            playVideo(play)
-            saveScoreStatus("win")
-        } else if (trialNum == 5 && option != "c") {
-            VideoMissPlay(play_misses)
-            saveScoreStatus("lose")
-        }
-        if (trialNum == 6 && option == "a") {
-            playVideo(play)
-            saveScoreStatus("win")
-        } else if (trialNum == 6 && option != "a") {
-            VideoMissPlay(play_misses)
-            saveScoreStatus("lose")
-        }
-        if (trialNum == 7 && option == "a") {
-            playVideo(play)
-            saveScoreStatus("win")
-        } else if (trialNum == 7 && option != "a") {
-            VideoMissPlay(play_misses)
-            saveScoreStatus("lose")
-        }
-
 
         videoView.setOnCompletionListener {
-            // Video playback completed
-            trialNum++
+            NextQuestion()
             saveTrialNum(
                 "$name",
                 "$oppName",
                 "$jointCode",
                 "$playFirst",
                 "$player",
-                trialNum
+                trial
             )
             NextQuestion()
             saveScoreStatus("nil")
-
         }
+
 
     }
 
@@ -750,11 +460,11 @@ class GamePlayActivity : AppCompatActivity() {
 
         videoView.setOnCompletionListener {
             NextQuestion()
-            trial++
         }
     }
 
     private fun VideoMissPlay(play_misses: Int) {
+        trial++
         val videoUri =
             Uri.parse("android.resource://" + packageName + "/" + play_misses) // Replace with your video file or URL
         PlayVideoM().setVideoURI(videoUri)
@@ -764,6 +474,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun VideoMisssPlay(play_misses: Int) {
+        trial++
         scoreC++
         val videoUri =
             Uri.parse("android.resource://" + packageName + "/" + play_misses) // Replace with your video file or URL
@@ -783,6 +494,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun playVideo(play: Int) {
+        trial++
         score++
         val videoUri =
             Uri.parse("android.resource://" + packageName + "/" + play) // Replace with your video file or URL
@@ -858,7 +570,7 @@ class GamePlayActivity : AppCompatActivity() {
             if (it.exists()) {
 
                 val trialsNum = it.child("trialNum").getValue(Int::class.java)!!
-                trialNum = trialsNum
+                trial = trialsNum
 
             } else {
                 Toast.makeText(this, "User Does not Exist", Toast.LENGTH_SHORT).show()
@@ -954,7 +666,7 @@ class GamePlayActivity : AppCompatActivity() {
             scoreStatus,
             my_score,
             opponent_score,
-            trialNum,
+            trial,
             whoPlayFirst,
             players
         )
@@ -966,22 +678,6 @@ class GamePlayActivity : AppCompatActivity() {
         }
     }
 
-
-    @SuppressLint("SetTextI18n")
-    fun openSingleDialog() {
-        val topic = intent.getStringExtra("re").toString()
-
-        if (trial == questionCount) {
-            Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
-        } else if (trial < questionCount) {
-            getQuestionsSS2(classs = clas, topic)
-        }
-
-
-
-
-
-    }
 
     private fun getOppPlayer(code: String) {
         database = FirebaseDatabase.getInstance().getReference("Multiplayer")
@@ -1066,6 +762,18 @@ class GamePlayActivity : AppCompatActivity() {
 
 
     private fun presentQuestionsToUser(questions: ArrayList<SS2>, questionCount: Int) {
+        val name = intent.getStringExtra(Constants.NAME).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+        val gameCode = intent.getStringExtra("1111").toString()
+        val oppName = intent.getStringExtra("oppName").toString()
+        val playFirst = intent.getStringExtra("samyy")
+        val jointCode = intent.getStringExtra("123")
+        val topic = intent.getStringExtra("re").toString()
+
+        player = intent.getStringExtra(Constants.PLAYER).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+
         // Get the current question
         val currentQuestion = questions[currentQuestionIndex]
 
@@ -1079,7 +787,7 @@ class GamePlayActivity : AppCompatActivity() {
         val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
         val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
         val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-        val mydialog = Dialog(this)
+        mydialog = Dialog(this)
         mydialog.setContentView(dialogLayoutBinding)
         mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -1118,24 +826,112 @@ class GamePlayActivity : AppCompatActivity() {
         val optionButtons = listOf(firstBtn, secondBtn, thirdBtn, fourthBtn)
         for (button in optionButtons) {
             button.setOnClickListener {
-                hasVideoPlay = 1
-                mydialog.cancel()
-                mydialog.dismiss()
-                hasVideoPlay = 1
+                if (game_mode == "multi_player") {
+                    when ("$playFirst") {
+                        "$oppName" -> {
+                            if (trial % 2 == 0 || trial == 0) {
+                                Toast.makeText(
+                                    this,
+                                    "It is not your turn to play",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            } else if (trial % 2 != 0 || trial != 0) {
+                                hasVideoPlay = 1
+                                mydialog.cancel()
+                                mydialog.dismiss()
+                                hasVideoPlay = 1
 
-                // Handle option selection here
-                // You can check if the selected option is correct and perform any necessary actions
+                                // Handle option selection here
+                                // You can check if the selected option is correct and perform any necessary actions
 
-                // Check if the selected option is the correct answer
-                val selectedAnswer = button.text.toString()
-                val isCorrect = selectedAnswer == correctAnswer
+                                // Check if the selected option is the correct answer
+                                val selectedAnswer = button.text.toString()
+                                val isCorrect = selectedAnswer == correctAnswer
 
-                if (isCorrect) {
-                    if (trial % 2 == 0 || trial == 0) {
-                        playVideo("win", true)
-                    } else if (trial % 2 == 1 || trial == 1) {
-                        playVideo("win", false)
+                                if (isCorrect) {
+                                    if (trial % 2 == 0 || trial == 0) {
+                                        playVideos("win", true)
+                                    } else if (trial % 2 == 1 || trial == 1) {
+                                        playVideos("win", true)
+                                    }
+
+                                } else if (!isCorrect) {
+                                    if (trial % 2 == 0 || trial == 0) {
+                                        playVideos("lose", true)
+                                    } else if (trial % 2 == 1 || trial == 1) {
+                                        playVideos("lose", true)
+                                    }
+
+
+                                }
+                            }
+
+
+                        }
+
+                        "$name" -> {
+                            if (trial % 2 == 0 || trial == 0) {
+                                hasVideoPlay = 1
+                                mydialog.cancel()
+                                mydialog.dismiss()
+                                hasVideoPlay = 1
+
+                                // Handle option selection here
+                                // You can check if the selected option is correct and perform any necessary actions
+
+                                // Check if the selected option is the correct answer
+                                val selectedAnswer = button.text.toString()
+                                val isCorrect = selectedAnswer == correctAnswer
+
+                                if (isCorrect) {
+                                    if (trial % 2 == 0 || trial == 0) {
+                                        playVideos("win", true)
+                                    } else if (trial % 2 == 1 || trial == 1) {
+                                        playVideos("win", true)
+                                    }
+
+                                } else if (!isCorrect) {
+                                    if (trial % 2 == 0 || trial == 0) {
+                                        playVideos("lose", true)
+                                    } else if (trial % 2 == 1 || trial == 1) {
+                                        playVideos("lose", true)
+                                    }
+
+
+                                }
+
+                            } else if (trial % 2 != 0 || trial != 0) {
+                                Toast.makeText(
+                                    this,
+                                    "It is not your turn to play",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+
+                            }
+                        }
+
                     }
+                } else if (game_mode != "multi_player") {
+                    hasVideoPlay = 1
+                    mydialog.cancel()
+                    mydialog.dismiss()
+                    hasVideoPlay = 1
+
+                    // Handle option selection here
+                    // You can check if the selected option is correct and perform any necessary actions
+
+                    // Check if the selected option is the correct answer
+                    val selectedAnswer = button.text.toString()
+                    val isCorrect = selectedAnswer == correctAnswer
+
+                    if (isCorrect) {
+                        if (trial % 2 == 0 || trial == 0) {
+                            playVideo("win", true)
+                        } else if (trial % 2 == 1 || trial == 1) {
+                            playVideo("win", false)
+                        }
 
                     } else if (!isCorrect) {
                         if (trial % 2 == 0 || trial == 0) {
@@ -1148,7 +944,7 @@ class GamePlayActivity : AppCompatActivity() {
                     }
 
 
-
+                }
             }
 
 

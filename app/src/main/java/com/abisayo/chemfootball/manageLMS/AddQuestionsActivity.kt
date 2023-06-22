@@ -68,6 +68,7 @@ class AddQuestionsActivity : AppCompatActivity() {
                                 option2.clear()
                                 option3.clear()
                                 option4.clear()
+                                answer.clear()
                             }.addOnFailureListener {
                                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                             }
