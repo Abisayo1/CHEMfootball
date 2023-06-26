@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.continueButton.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, SelectClassActivity::class.java)
             startActivity(intent)
         }
     }

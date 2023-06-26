@@ -51,27 +51,15 @@ class SelectTopicActivity : AppCompatActivity() {
 
 
         binding.button.setOnClickListener {
+            if (topics != null) {
                 if (topics.isNotEmpty()) {
                     Toast.makeText(this, "Loading...", Toast.LENGTH_LONG).show()
                     readUserData()
                     getQuestionsSS2(clas, "$topics")
-                    val handler = Handler()
-                    val delayMillis = 6000L // 5 seconds
-                    handler.postDelayed({
-                        Toast.makeText(this, "$topic, $topics $countNum", Toast.LENGTH_SHORT).show()
-                        if (topic == "$topics" && countNum == "Once") {
-                            Toast.makeText(this, "Access denied", Toast.LENGTH_SHORT).show()
-                        } else {
-                            val intent = Intent(this, SelectPlayersActivity::class.java)
-                            intent.putExtra(Constants.CLASS, "$clas")
-                            intent.putExtra("re", "$topics")
-                            startActivity(intent)
-                        }
-                    }, delayMillis)
-
                 } else {
                     Toast.makeText(this, "Enter a topic", Toast.LENGTH_SHORT).show()
                 }
+            }
 
         }
     }
@@ -87,23 +75,32 @@ class SelectTopicActivity : AppCompatActivity() {
 // Add a listener to retrieve the questions
         questionsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Clear the existing questions array
-                questions.clear()
+
+                if (dataSnapshot.exists()) {
+                    // Clear the existing questions array
+                    questions.clear()
+
+                    progress()
 
 
-                // Iterate through the questions in the snapshot
-                for (childSnapshot in dataSnapshot.children) {
-                    // Get the question data
-                    val question = childSnapshot.getValue(Questions::class.java)
+                    // Iterate through the questions in the snapshot
+                    for (childSnapshot in dataSnapshot.children) {
+                        // Get the question data
+                        val question = childSnapshot.getValue(Questions::class.java)
 
-                    // Add the question to the array
-                    question?.let { questions.add(it) }
+                        // Add the question to the array
+                        question?.let { questions.add(it) }
+                    }
+                    val questionCount = questions.size
+
+                    // Call a function to present the questions to the user
+                    presentQuestionsToUser(questions, questionCount)
+
+                } else {
+                    Toast.makeText(applicationContext, "Choose a Valid Topic", Toast.LENGTH_SHORT).show()
                 }
-               val questionCount = questions.size
-
-                // Call a function to present the questions to the user
-                presentQuestionsToUser(questions, questionCount)
             }
+
 
             override fun onCancelled(databaseError: DatabaseError) {
                 // Handle the error
@@ -139,30 +136,6 @@ class SelectTopicActivity : AppCompatActivity() {
 
     }
 
-    private fun readData(classs: String, topics: String) {
-        database = FirebaseDatabase.getInstance().getReference("$classs, $topics")
-        database.child("question").get().addOnSuccessListener {
-
-            if (it.exists()){
-
-                val count = it.child("count").getValue(String::class.java)!!
-                countNum = count
-
-                Toast.makeText(this, "$count", Toast.LENGTH_SHORT).show()
-                Toast.makeText(this, "Successfully Read", Toast.LENGTH_SHORT).show()
-
-            }
-            else
-            {
-                Toast.makeText(this, "User Does not Exist", Toast.LENGTH_SHORT).show()
-            }
-        }.addOnFailureListener {
-
-            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-        }
-
-    }
-
     private fun readUserData() {
         val userID = FirebaseAuth.getInstance().currentUser?.uid
         val topics = binding.editText.text
@@ -175,8 +148,6 @@ class SelectTopicActivity : AppCompatActivity() {
                     val courseTitle = it.child("courseTitle").getValue(String::class.java)!!
                     topic = courseTitle
 
-                    Toast.makeText(this, "$courseTitle", Toast.LENGTH_SHORT).show()
-
                 } else {
                     //Toast.makeText(this, "User Does not Exist", Toast.LENGTH_SHORT).show()
                 }
@@ -187,4 +158,23 @@ class SelectTopicActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun progress() {
+        val clas = intent.getStringExtra(Constants.CLASS)!!
+        val topics = binding.editText.text
+        val handler = Handler()
+        val delayMillis = 8000L // 5 seconds
+        handler.postDelayed({
+            if (topic == "$topics" && countNum == "Once") {
+                Toast.makeText(this, "Access denied", Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(this, SelectPlayersActivity::class.java)
+                intent.putExtra(Constants.CLASS, "$clas")
+                intent.putExtra("re", "$topics")
+                startActivity(intent)
+            }
+        }, delayMillis)
+    }
+
+
 }

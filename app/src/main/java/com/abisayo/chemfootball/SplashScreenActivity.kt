@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
 import com.abisayo.chemfootball.databinding.ActivitySplashScreenBinding
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -22,9 +23,9 @@ class SplashScreenActivity : AppCompatActivity() {
 
         binding.splash.alpha = 0f
         binding.splash.animate().setDuration(1500).alpha(1f).withEndAction {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }
