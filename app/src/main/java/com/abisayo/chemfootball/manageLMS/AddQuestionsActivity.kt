@@ -5,16 +5,14 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
-import com.abisayo.chemfootball.R
 import com.abisayo.chemfootball.databinding.ActivityAddQuestionsBinding
 import com.abisayo.chemfootball.models.Questions
-import com.abisayo.chemfootball.models.Scores
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class AddQuestionsActivity : AppCompatActivity() {
-    var questNum = 0
+    var questNum = "0"
     private lateinit var database : DatabaseReference
     private lateinit var binding: ActivityAddQuestionsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,10 +40,8 @@ class AddQuestionsActivity : AppCompatActivity() {
 
         // Set a click listener for the update button
         binding.button.setOnClickListener {
-
-            questNum++
-
             val selectedOption = intent.getStringExtra("selectedOption")
+            val selectedOption2 = intent.getStringExtra("selectedOption2")
             val topic = intent.getStringExtra("tt")
             val question = question
             val option1 = option1
@@ -56,7 +52,7 @@ class AddQuestionsActivity : AppCompatActivity() {
             val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
             database = FirebaseDatabase.getInstance().getReference("$selectedOption, $topic")
-            val Question = Questions(selectedOption, questNum, "$question", "$option1", "$option2", "$option3", "$option4", "$answer")
+            val Question = Questions(selectedOption, selectedOption2, "$question", "$option1", "$option2", "$option3", "$option4", "$answer")
             if (question.isNotEmpty()) {
                 if (option2.isNotEmpty()) {
                     if (userID != null) {

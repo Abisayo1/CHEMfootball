@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="300dp"
-        android:layout_height="500dp"
+        android:layout_height="600dp"
         android:background="@drawable/dialog"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,6 +74,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SS3" />
+
+        </RadioGroup>
+
+        <!-- Question Text -->
+        <TextView
+            android:id="@+id/questionTextView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="8dp"
+            android:text="How many times for game-play?"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radio_group2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp">
+
+            <RadioButton
+                android:id="@+id/radio_option12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Once" />
+
+            <RadioButton
+                android:id="@+id/radio_option22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Repeated" />
+
 
         </RadioGroup>
 

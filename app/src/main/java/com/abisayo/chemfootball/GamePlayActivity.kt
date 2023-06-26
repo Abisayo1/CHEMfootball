@@ -97,6 +97,7 @@ class GamePlayActivity : AppCompatActivity() {
         }
 
         binding.background.setOnClickListener {
+                saveScore()
                 getOppScore(gameCode)
                 if (trial == 8 && game_mode == "multi_player") {
                     saveName(name, "$trial", "$score - $scoreC")
@@ -808,6 +809,7 @@ class GamePlayActivity : AppCompatActivity() {
         thirdBtn.text = currentQuestion.option3
         fourthBtn.text = currentQuestion.option4
 
+
 // Store the correct answer
         val correctAnswer = currentQuestion.answer
 
@@ -968,7 +970,7 @@ class GamePlayActivity : AppCompatActivity() {
 
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
-        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+
 
         val studentName = name
         val courseTitle = topic
@@ -978,7 +980,7 @@ class GamePlayActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().getReference("Scores")
         val scores = Scores(studentName, courseTitle, studentScore, userID)
         if (userID != null) {
-            database.child(userID).setValue(scores).addOnSuccessListener {
+            database.child("$userID, $topic").setValue(scores).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
