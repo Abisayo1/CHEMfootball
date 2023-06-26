@@ -20,6 +20,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Welcome to ChemFootball!\n\nPlease ensure that your internet connection is turned on for better experience"
+        android:textAlignment="center"
         android:textSize="24sp" />
 
     <TextView
