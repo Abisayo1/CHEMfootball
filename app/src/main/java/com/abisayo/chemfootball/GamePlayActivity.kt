@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -17,6 +21,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.VideoView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityGamePlayBinding
@@ -42,6 +47,8 @@ class GamePlayActivity : AppCompatActivity() {
     var hasVideoPlay = 0
     var currentQuestionIndex = 0
     var questionCount = 0
+    var oppName = "Computer"
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
@@ -59,7 +66,6 @@ class GamePlayActivity : AppCompatActivity() {
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
         val gameCode = intent.getStringExtra("1111").toString()
-        val oppName = intent.getStringExtra("oppName").toString()
         val playFirst = intent.getStringExtra("samyy")
         val jointCode = intent.getStringExtra("123")
         val topic = intent.getStringExtra("re").toString()
@@ -71,6 +77,7 @@ class GamePlayActivity : AppCompatActivity() {
 
 //        Toast.makeText(this, "$game_mode", Toast.LENGTH_SHORT).show()
 
+
         binding.namePlayer.text = name
 
         getQuestionsSS2(classs = clas, topic)
@@ -81,9 +88,11 @@ class GamePlayActivity : AppCompatActivity() {
             getOppScore(gameCode)
             main()
             binding.computerPlayer.text = oppName
+            oppName = intent.getStringExtra("oppName").toString()
 
-        } else {
+        } else if (game_mode != "multi_player") {
             binding.computerPlayer.text = "Computer"
+            oppName = "Computer"
 
         }
 
@@ -174,6 +183,7 @@ class GamePlayActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun openDialog() {
+        saveScore()
         val topic = intent.getStringExtra("re").toString()
 
         if (trial == questionCount) {
@@ -185,6 +195,7 @@ class GamePlayActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun openSingleDialog() {
+        saveScore()
         val topic = intent.getStringExtra("re").toString()
 
         if (trial == questionCount) {
@@ -383,6 +394,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     fun playVideo(option: String, playerd: Boolean) {
+        trial++
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
@@ -912,11 +924,9 @@ class GamePlayActivity : AppCompatActivity() {
 
                     }
                 } else if (game_mode != "multi_player") {
-                    trial++
-                    hasVideoPlay = 1
                     mydialog.cancel()
                     mydialog.dismiss()
-                    hasVideoPlay = 1
+                    currentQuestionIndex++
 
                     // Handle option selection here
                     // You can check if the selected option is correct and perform any necessary actions
@@ -928,14 +938,14 @@ class GamePlayActivity : AppCompatActivity() {
                     if (isCorrect) {
                         if (trial % 2 == 0 || trial == 0) {
                             playVideo("win", true)
-                        } else if (trial % 2 == 1 || trial == 1) {
+                        } else if (trial % 2 != 0 || trial == 1) {
                             playVideo("win", false)
                         }
 
                     } else if (!isCorrect) {
                         if (trial % 2 == 0 || trial == 0) {
                             playVideo("lose", true)
-                        } else if (trial % 2 == 1 || trial == 1) {
+                        } else if (trial % 2 != 1 || trial == 1) {
                             playVideo("lose", false)
                         }
 
@@ -949,5 +959,30 @@ class GamePlayActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    fun saveScore() {
+        val name = intent.getStringExtra(Constants.NAME).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val topic = intent.getStringExtra("re").toString()
+
+        player = intent.getStringExtra(Constants.PLAYER).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+
+        val studentName = name
+        val courseTitle = topic
+        val studentScore = "$name: $score - $oppName: $scoreC"
+        val  userID = FirebaseAuth.getInstance().currentUser?.uid
+
+        database = FirebaseDatabase.getInstance().getReference("Scores")
+        val scores = Scores(studentName, courseTitle, studentScore, userID)
+        if (userID != null) {
+            database.child(userID).setValue(scores).addOnSuccessListener {
+                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

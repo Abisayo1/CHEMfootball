@@ -74,7 +74,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
-                    android:text="100 - 100"
+                    android:text="$name: $score - $oppName: $scoreC"
                     android:textAlignment="center"
                     android:textColor="#ffff"
                     android:textSize="18sp"
@@ -88,8 +88,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    android:padding="4dp"
                     android:maxHeight="100dp"
+                    android:padding="4dp"
                     android:src="@drawable/ic_delete"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -99,14 +99,13 @@
                     android:id="@+id/textView22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="48dp"
-                    android:layout_marginRight="48dp"
+                    android:layout_marginEnd="16dp"
                     android:text="Name:"
                     android:textColor="#ffff"
                     app:layout_constraintBottom_toBottomOf="@+id/student_name"
                     app:layout_constraintEnd_toStartOf="@+id/student_name"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/textView24"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.62" />
 
@@ -119,22 +118,9 @@
                     app:layout_constraintBottom_toBottomOf="@+id/topic"
                     app:layout_constraintEnd_toStartOf="@+id/topic"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/textView24"
+                    app:layout_constraintStart_toStartOf="@+id/textView22"
                     app:layout_constraintTop_toBottomOf="@+id/textView22"
                     app:layout_constraintVertical_bias="0.782" />
-
-                <TextView
-                    android:id="@+id/textView24"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Recent score:"
-                    android:textColor="#ffff"
-                    app:layout_constraintBottom_toBottomOf="@+id/student_score"
-                    app:layout_constraintEnd_toStartOf="@+id/student_score"
-                    app:layout_constraintHorizontal_bias="0.25"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView23"
-                    app:layout_constraintVertical_bias="1.0" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,7 +32,7 @@ class SelectClassActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.manage.setOnClickListener {
-            val intent = Intent(this, ManageLMSActivity::class.java)
+            val intent = Intent(this, EnterAdminPassword::class.java)
             startActivity(intent)
         }
     }
