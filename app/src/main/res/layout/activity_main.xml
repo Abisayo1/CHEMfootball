@@ -5,26 +5,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#90EE90"
     tools:context=".MainActivity">
 
-    <ImageView
+    <androidx.cardview.widget.CardView
         android:id="@+id/userPicture"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="100dp"
         android:layout_marginTop="22dp"
-        android:src="@drawable/mr_tochukwu" />
+        android:layout_centerHorizontal="true"
+        android:elevation="200dp">
+
+        <ImageView
+            android:id="@+id/userPictures"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="22dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/mr_tochukwu" />
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/userPicture"
-        android:layout_marginTop="10dp"
+        android:fontFamily = "sans-serif-condensed"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:text="Welcome to ChemFootball!\n\nPlease ensure that your internet connection is turned on for better experience"
+        android:text="Welcome to ChemFootball!\n\nPlease ensure that your internet connection is turned on for better experience."
         android:textAlignment="center"
         android:textSize="24sp" />
 
@@ -35,6 +48,7 @@
         android:layout_below="@id/welcomeText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
+        android:fontFamily = "sans-serif-condensed"
         android:text="Have fun!"
         android:textSize="16sp" />
 
@@ -44,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/appDescription"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         android:text="Continue"
         android:textSize="20sp" />
 
