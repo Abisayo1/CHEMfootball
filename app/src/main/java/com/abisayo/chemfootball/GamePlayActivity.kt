@@ -83,12 +83,13 @@ class GamePlayActivity : AppCompatActivity() {
         getQuestionsSS2(classs = clas, topic)
 
         if (game_mode == "multi_player") {
+            oppName = intent.getStringExtra("oppName").toString()
             getTrialNum("$jointCode")
             getOppPlayer(gameCode)
             getOppScore(gameCode)
             main()
             binding.computerPlayer.text = oppName
-            oppName = intent.getStringExtra("oppName").toString()
+
 
         } else if (game_mode != "multi_player") {
             binding.computerPlayer.text = "Computer"
@@ -99,43 +100,11 @@ class GamePlayActivity : AppCompatActivity() {
         binding.background.setOnClickListener {
                 saveScore()
                 getOppScore(gameCode)
-                if (trial == 8 && game_mode == "multi_player") {
-                    saveName(name, "$trial", "$score - $scoreC")
-                } else if (trial == 8 && game_mode != "multi_player") {
-                    val noteTitle = clas
-                    val studentName = name
-                    val score = "$score - ${scoreC}"
-                    val userID = FirebaseAuth.getInstance().currentUser?.uid
-
-                    database = FirebaseDatabase.getInstance().getReference("Scores")
-                    val Score = Scores(studentName, noteTitle, score, userID)
-                    if (noteTitle != null) {
-                        if (userID != null) {
-                            database.child(userID + noteTitle).setValue(Score)
-                                .addOnSuccessListener {
-//                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                                }.addOnFailureListener {
-                                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                                }
-                        }
-                    }
-
-                    Toast.makeText(this, "You have reached the end of the game", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
                     if (game_mode == "multi_player") {
                         openDialog()
-                        getOppPlayerStatus(gameCode)
-                        if (oppScoreStatus == "win" || oppScoreStatus == "lose") {
-                            oppTurn(oppScoreStatus)
-                        } else if (oppScoreStatus == "nil") {
-                            binding.dash.visibility = View.VISIBLE
-                        }
                     } else if (game_mode != "multi_player") {
                         openSingleDialog()
                     }
-
-                }
 
 
 
@@ -187,7 +156,7 @@ class GamePlayActivity : AppCompatActivity() {
         saveScore()
         val topic = intent.getStringExtra("re").toString()
 
-        if (trial == questionCount) {
+        if (trial >= questionCount) {
             Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
         } else if (trial < questionCount) {
             getQuestionsSS2(classs = clas, topic)
@@ -275,9 +244,11 @@ class GamePlayActivity : AppCompatActivity() {
         }
 
         if(option == "win") {
+            currentQuestionIndex++
             mydialog.dismiss()
             playOppVideo(play)
         } else if (option == "lose") {
+            currentQuestionIndex++
             mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
         }
@@ -292,7 +263,6 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun playVideos(option: String, playerd: Boolean) {
-        trial++
         val name = intent.getStringExtra(Constants.NAME).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
@@ -376,15 +346,6 @@ class GamePlayActivity : AppCompatActivity() {
             saveScoreStatus("lose")
             VideoMissPlay(play_misses)
         }
-
-        saveTrialNum(
-            "$name",
-            "$oppName",
-            "$jointCode",
-            "$playFirst",
-            "$player",
-            trial
-        )
 
         videoView.setOnCompletionListener {
             NextQuestion()
@@ -861,6 +822,15 @@ class GamePlayActivity : AppCompatActivity() {
                                 val isCorrect = selectedAnswer == correctAnswer
 
                                 if (isCorrect) {
+                                    trial++
+                                    saveTrialNum(
+                                        "$name",
+                                        "$oppName",
+                                        "$jointCode",
+                                        "$playFirst",
+                                        "$player",
+                                        trial
+                                    )
                                     if (trial % 2 == 0 || trial == 0) {
                                         playVideos("win", true)
                                     } else if (trial % 2 == 1 || trial == 1) {
@@ -868,6 +838,15 @@ class GamePlayActivity : AppCompatActivity() {
                                     }
 
                                 } else if (!isCorrect) {
+                                    trial++
+                                    saveTrialNum(
+                                        "$name",
+                                        "$oppName",
+                                        "$jointCode",
+                                        "$playFirst",
+                                        "$player",
+                                        trial
+                                    )
                                     if (trial % 2 == 0 || trial == 0) {
                                         playVideos("lose", true)
                                     } else if (trial % 2 == 1 || trial == 1) {
@@ -897,6 +876,15 @@ class GamePlayActivity : AppCompatActivity() {
                                 val isCorrect = selectedAnswer == correctAnswer
 
                                 if (isCorrect) {
+                                    trial++
+                                    saveTrialNum(
+                                        "$name",
+                                        "$oppName",
+                                        "$jointCode",
+                                        "$playFirst",
+                                        "$player",
+                                        trial
+                                    )
                                     if (trial % 2 == 0 || trial == 0) {
                                         playVideos("win", true)
                                     } else if (trial % 2 == 1 || trial == 1) {
@@ -904,6 +892,15 @@ class GamePlayActivity : AppCompatActivity() {
                                     }
 
                                 } else if (!isCorrect) {
+                                    trial++
+                                    saveTrialNum(
+                                        "$name",
+                                        "$oppName",
+                                        "$jointCode",
+                                        "$playFirst",
+                                        "$player",
+                                        trial
+                                    )
                                     if (trial % 2 == 0 || trial == 0) {
                                         playVideos("lose", true)
                                     } else if (trial % 2 == 1 || trial == 1) {
