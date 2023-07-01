@@ -15,19 +15,19 @@ class SelectClassActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.SS1.setOnClickListener {
-            val intent = Intent(this, SelectTopicActivity::class.java)
+            val intent = Intent(this, DisplayCoursesActivity::class.java)
             intent.putExtra(Constants.CLASS, "SS1")
             startActivity(intent)
         }
 
         binding.SS2.setOnClickListener {
-            val intent = Intent(this, SelectTopicActivity::class.java)
+            val intent = Intent(this, DisplayCoursesActivity::class.java)
             intent.putExtra(Constants.CLASS, "SS2")
             startActivity(intent)
         }
 
         binding.SS3.setOnClickListener {
-            val intent = Intent(this, SelectTopicActivity::class.java)
+            val intent = Intent(this, DisplayCoursesActivity::class.java)
             intent.putExtra(Constants.CLASS, "SS3")
             startActivity(intent)
         }

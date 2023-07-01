@@ -6,7 +6,9 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import com.abisayo.chemfootball.databinding.ActivityAddQuestionsBinding
+import com.abisayo.chemfootball.models.Courses
 import com.abisayo.chemfootball.models.Questions
+import com.abisayo.chemfootball.models.Scores
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -58,6 +60,7 @@ class AddQuestionsActivity : AppCompatActivity() {
                     if (userID != null) {
                         if (selectedOption != null) {
                             database.child("$question").setValue(Question).addOnSuccessListener {
+                                saveTopics("$selectedOption", "$topic")
                                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
                                 question.clear()
                                 option1.clear()
@@ -79,4 +82,20 @@ class AddQuestionsActivity : AppCompatActivity() {
 
         }
     }
+
+
+    fun saveTopics(clas: String, topic: String) {
+        val  userID = FirebaseAuth.getInstance().currentUser?.uid
+
+        database = FirebaseDatabase.getInstance().getReference("$clas")
+        val courses = Courses(topic, "")
+        if (userID != null) {
+            database.child(topic).setValue(courses).addOnSuccessListener {
+                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 }
