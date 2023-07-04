@@ -1,23 +1,22 @@
-package com.abisayo.chemfootball
+package com.abisayo.chemfootball.displaySS2Courses
 
 import androidx.lifecycle.MutableLiveData
 import com.abisayo.chemfootball.models.Courses
 import com.google.firebase.database.*
 
+class SS2CoursesRepo {
 
-class CoursesRepository {
+    private val databaseReference : DatabaseReference = FirebaseDatabase.getInstance().getReference("SS2")
 
-    private val databaseReference : DatabaseReference = FirebaseDatabase.getInstance().getReference("SS1")
+    @Volatile private var INSTANCE : SS2CoursesRepo?= null
 
-    @Volatile private var INSTANCE : CoursesRepository ?= null
+    fun getInstance() : SS2CoursesRepo {
+        return INSTANCE ?: synchronized(this) {
 
-    fun getInstance() : CoursesRepository {
-    return INSTANCE ?: synchronized(this) {
-
-        val instance = CoursesRepository()
-        INSTANCE = instance
-        instance
-    }
+            val instance = SS2CoursesRepo()
+            INSTANCE = instance
+            instance
+        }
 
     }
 
@@ -29,7 +28,7 @@ class CoursesRepository {
 
                     val _courseList : List<Courses> = snapshot.children.map { dataSnapshot ->
 
-                    dataSnapshot.getValue(Courses::class.java)!!
+                        dataSnapshot.getValue(Courses::class.java)!!
 
                     }
 

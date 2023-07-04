@@ -1,17 +1,17 @@
-package com.abisayo.chemfootball
+package com.abisayo.chemfootball.displaySS2Courses
+
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.abisayo.chemfootball.R
 import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.models.Courses
 
-
-class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class SS2CoursesAdapter: RecyclerView.Adapter<SS2CoursesAdapter.MyViewHolder>() {
 
     private lateinit var mListener: onItemClickListener
     private lateinit var currentitem : Courses
@@ -49,13 +49,13 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
         itemView.setOnClickListener {
             val intent = Intent(itemView.context, SelectPlayersActivity::class.java)
-            intent.putExtra(Constants.CLASS, "SS1")
+            intent.putExtra(Constants.CLASS, "SS2")
             intent.putExtra("re", courseTitle)
             itemView.context.startActivity(intent)
 
 
-            }
         }
+    }
 
 
 
