@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivitySelectClassBinding
 import com.abisayo.chemfootball.displaySS2Courses.DisplaySS2CoursesActivity
+import com.abisayo.chemfootball.displaySS3courses.DisplaySS3CoursesActivity
 
 class SelectClassActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySelectClassBinding
@@ -30,7 +31,7 @@ class SelectClassActivity : AppCompatActivity() {
         }
 
         binding.SS3.setOnClickListener {
-            val intent = Intent(this, DisplayCoursesActivity::class.java)
+            val intent = Intent(this, DisplaySS3CoursesActivity::class.java)
             intent.putExtra(Constants.CLASS, "SS3")
             startActivity(intent)
         }

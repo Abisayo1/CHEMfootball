@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChemFootball">
         <activity
+            android:name=".displaySS3courses.DisplaySS3CoursesActivity"
+            android:exported="false" />
+        <activity
             android:name=".displaySS2Courses.DisplaySS2CoursesActivity"
             android:exported="false" />
         <activity
