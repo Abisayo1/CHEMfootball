@@ -5,9 +5,10 @@
 
 
     <string-array name="answer_options">
-        <item>Option 1</item>
-        <item>Option 2</item>
-        <item>Option 3</item>
-        <item>Option 4</item>
+        <item>Select Answer</item>
+        <item>Option A</item>
+        <item>Option B</item>
+        <item>Option C</item>
+        <item>Option D</item>
     </string-array>
 </resources>

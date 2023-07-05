@@ -7,8 +7,10 @@ import android.view.Window
 import android.view.WindowManager
 import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
 import com.abisayo.chemfootball.databinding.ActivitySplashScreenBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class SplashScreenActivity : AppCompatActivity() {
+    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var binding: ActivitySplashScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,12 +23,24 @@ class SplashScreenActivity : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.splash.alpha = 0f
-        binding.splash.animate().setDuration(1500).alpha(1f).withEndAction {
+        firebaseAuth = FirebaseAuth.getInstance()
+
+
+        if (firebaseAuth.currentUser != null) {
+
+            binding.splash.alpha = 0f
+            binding.splash.animate().setDuration(2000).alpha(1f).withEndAction {
+                val intent = Intent(this, MainActivity::class.java)
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
+                startActivity(intent)
+                finish()
+            }
+
+        } else {
             val intent = Intent(this, LoginActivity::class.java)
-            overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
             startActivity(intent)
-            finish()
         }
+
+
     }
 }

@@ -55,19 +55,23 @@ class AddQuestionsActivity : AppCompatActivity() {
             val option4 = option4
             var answer = ""
             when (selectedAnswer) {
-                "Option 1" -> {
+                "Option A" -> {
                     answer = "$option1"
                 }
-                "Option 2" -> {
+                "Option B" -> {
                     answer = "$option2"
                 }
-                "Option 3" -> {
+                "Option C" -> {
                     answer = "$option3"
 
                 }
-                "Option 4" -> {
+                "Option D" -> {
                     answer = "$option4"
 
+                }
+
+                "Select Answer" -> {
+                    answer = "null"
                 }
 
             }
@@ -78,7 +82,7 @@ class AddQuestionsActivity : AppCompatActivity() {
                 answer
             )
             if (binding.questionEditText.text.isNotEmpty()) {
-                if (binding.option2EditText.text.isNotEmpty()) {
+                if (binding.option2EditText.text.isNotEmpty() && answer != "null") {
                     if (userID != null) {
                         if (selectedOption != null) {
                             database.child("$question").setValue(Question).addOnSuccessListener {
@@ -95,7 +99,7 @@ class AddQuestionsActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    Toast.makeText(this, "Please enter option", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Please enter option or select a valid answer", Toast.LENGTH_LONG).show()
                 }
             } else {
                 Toast.makeText(this, "Please enter question", Toast.LENGTH_SHORT).show()
