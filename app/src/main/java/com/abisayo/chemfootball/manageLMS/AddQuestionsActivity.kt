@@ -29,7 +29,7 @@ class AddQuestionsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val question = binding.questionEditText.text
+        val question = "${binding.questionEditText.text.toString().trim()}"
         val option1 = binding.option1EditText.text
         val option2 = binding.option2EditText.text
         val option3 = binding.option3EditText.text
@@ -55,14 +55,14 @@ class AddQuestionsActivity : AppCompatActivity() {
 
             database = FirebaseDatabase.getInstance().getReference("$selectedOption, $topic")
             val Question = Questions(selectedOption, selectedOption2, "$question", "$option1", "$option2", "$option3", "$option4", "$answer")
-            if (question.isNotEmpty()) {
+            if (binding.questionEditText.text.isNotEmpty()) {
                 if (option2.isNotEmpty()) {
                     if (userID != null) {
                         if (selectedOption != null) {
                             database.child("$question").setValue(Question).addOnSuccessListener {
                                 saveTopics("$selectedOption", "$topic")
                                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                                question.clear()
+                                binding.questionEditText.text.clear()
                                 option1.clear()
                                 option2.clear()
                                 option3.clear()
