@@ -7,7 +7,6 @@
     android:background="@drawable/football_field2"
     tools:context=".manageLMS.AddQuestionsActivity">
 
-
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -78,12 +77,12 @@
             android:hint="Option 4"
             android:inputType="text" />
 
-        <EditText
-            android:id="@+id/answerEditText"
+        <!-- Updated Answer Dropdown -->
+        <Spinner
+            android:id="@+id/answerSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Answer"
-            android:inputType="text" />
+            android:entries="@array/answer_options" />
 
         <Button
             android:id="@+id/button"
@@ -91,12 +90,12 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#4C00FF"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="10dp"
             android:text="Update"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            app:cornerRadius="20dp"
-             />
+            app:cornerRadius="20dp" />
+
         <!-- Add any additional views or buttons as needed -->
 
     </LinearLayout>

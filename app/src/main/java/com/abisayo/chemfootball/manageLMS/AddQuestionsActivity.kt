@@ -29,19 +29,22 @@ class AddQuestionsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val question = "${binding.questionEditText.text.toString().trim()}"
+
+
+        val question = binding.questionEditText.text
         val option1 = binding.option1EditText.text
         val option2 = binding.option2EditText.text
         val option3 = binding.option3EditText.text
         val option4 = binding.option4EditText.text
-        val answer = binding.answerEditText.text
-
 
 
 
 
         // Set a click listener for the update button
         binding.button.setOnClickListener {
+            val answerSpinner = binding.answerSpinner
+
+            val selectedAnswer = answerSpinner.selectedItem as String
             val selectedOption = intent.getStringExtra("selectedOption")
             val selectedOption2 = intent.getStringExtra("selectedOption2")
             val topic = intent.getStringExtra("tt")
@@ -50,24 +53,42 @@ class AddQuestionsActivity : AppCompatActivity() {
             val option2 = option2
             val option3 = option3
             val option4 = option4
-            val answer = answer
+            var answer = ""
+            when (selectedAnswer) {
+                "Option 1" -> {
+                    answer = "$option1"
+                }
+                "Option 2" -> {
+                    answer = "$option2"
+                }
+                "Option 3" -> {
+                    answer = "$option3"
+
+                }
+                "Option 4" -> {
+                    answer = "$option4"
+
+                }
+
+            }
             val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
             database = FirebaseDatabase.getInstance().getReference("$selectedOption, $topic")
-            val Question = Questions(selectedOption, selectedOption2, "$question", "$option1", "$option2", "$option3", "$option4", "$answer")
+            val Question = Questions(selectedOption, selectedOption2, "$question", "$option1", "$option2", "$option3", "$option4",
+                answer
+            )
             if (binding.questionEditText.text.isNotEmpty()) {
-                if (option2.isNotEmpty()) {
+                if (binding.option2EditText.text.isNotEmpty()) {
                     if (userID != null) {
                         if (selectedOption != null) {
                             database.child("$question").setValue(Question).addOnSuccessListener {
                                 saveTopics("$selectedOption", "$topic")
                                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
                                 binding.questionEditText.text.clear()
-                                option1.clear()
-                                option2.clear()
-                                option3.clear()
-                                option4.clear()
-                                answer.clear()
+                                binding.option1EditText.text.clear()
+                                binding.option2EditText.text.clear()
+                                binding.option3EditText.text.clear()
+                                binding.option4EditText.text.clear()
                             }.addOnFailureListener {
                                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                             }
