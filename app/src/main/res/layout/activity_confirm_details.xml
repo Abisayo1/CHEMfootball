@@ -94,13 +94,12 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <EditText
+        <Spinner
             android:id="@+id/edit_text_who_playing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/who_playing_txt"
-            android:enabled="false"
-            android:hint="Enter name of first player" />
+            android:entries="@array/answer_option" />
 
 
         <LinearLayout

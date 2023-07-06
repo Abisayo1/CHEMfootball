@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityEnterNameBinding
+import com.abisayo.chemfootball.displayAvailablePlayers.DisplayAvailablePlayersActivity
 import com.abisayo.chemfootball.models.Player
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -57,7 +58,7 @@ class EnterNameActivity : AppCompatActivity() {
         binding.mulyiPlayer.setOnClickListener {
             if (name.isNotEmpty()) {
                 saveName("$name")
-                val intent = Intent(this, UploadPlayerDetailsActivity::class.java)
+                val intent = Intent(this, DisplayAvailablePlayersActivity::class.java)
                 intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.KEEPER, keeper)
                 intent.putExtra(Constants.PLAYER, player)

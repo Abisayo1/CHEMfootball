@@ -8,6 +8,7 @@
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_add_questions.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_confirm_details.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_create_account.xml" value="0.26666666666666666" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_available_players.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_courses.xml" value="0.26871794871794874" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_ss2_courses.xml" value="0.26871794871794874" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_ss3_courses.xml" value="0.27291666666666664" />
@@ -26,7 +27,7 @@
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_select_question_class.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_select_topic.xml" value="0.16574074074074074" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_splash_screen.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_upload_player_details.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_upload_player_details.xml" value="0.25" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/dialog_layout.xml" value="0.33" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/display_data_item.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/display_score_item.xml" value="0.27291666666666664" />
@@ -39,6 +40,7 @@
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_7.xml" value="0.23796296296296296" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_8.xml" value="0.23796296296296296" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_home.xml" value="0.26871794871794874" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_homei.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_i.xml" value="0.2074074074074074" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_i_i.xml" value="0.2074074074074074" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_i_i_i.xml" value="0.2074074074074074" />
@@ -48,6 +50,7 @@
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_v.xml" value="0.2074074074074074" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_v_i.xml" value="0.2074074074074074" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_v_i_i.xml" value="0.2074074074074074" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/item_player_view.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/layout.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/topic_item_view.xml" value="0.26871794871794874" />
       </map>
