@@ -18,6 +18,7 @@ class ConfirmDetailsActivity : AppCompatActivity() {
     private var clas = "SS1"
     private var player = ""
     var playFirst = ""
+    var combineCode = "1233"
     private lateinit var binding: ActivityConfirmDetailsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +40,7 @@ class ConfirmDetailsActivity : AppCompatActivity() {
         val jointCode = intent.getStringExtra("123").toString()
         val oppName = intent.getStringExtra("oppName").toString()
         val topic = intent.getStringExtra("re").toString()
+        val codes = intent.getStringExtra("1a").toString()
 
 
         binding.editTextName.setText("$name")
@@ -52,15 +54,17 @@ class ConfirmDetailsActivity : AppCompatActivity() {
             when (selectedAnswer) {
                 "You" -> {
                     playFirst = "$name"
+                    combineCode = jointCode
                 }
                 "Opponent" -> {
                     playFirst = "$oppName"
+                    combineCode = codes
                 }
-                
+
             }
 
             if (selectedAnswer != "Select First Player" ) {
-            saveName("$name", "$oppName", "$jointCode", "$playFirst", player)
+            saveName("$name", "$oppName", "$combineCode", "$playFirst", player)
             saveNames("$name", "$oppName", "$gameCode", "$playFirst", player)
             val jointCode = intent.getStringExtra("123").toString()
             val intent = Intent(this, GameIntroActivity::class.java)

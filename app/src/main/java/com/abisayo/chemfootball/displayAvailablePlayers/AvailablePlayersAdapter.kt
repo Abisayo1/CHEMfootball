@@ -22,6 +22,7 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
     private lateinit var mListener: onItemClickListener
     private lateinit var currentitem : Credentials
     var code = ""
+    var codes = "l"
 
     interface onItemClickListener{
         fun onItemClicked(position: Int)
@@ -60,6 +61,7 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
         val playerName = currentitem.name
 
         code = "$userID + $specialCode"
+        codes = "$specialCode + $userID"
 
         val itemView = holder.itemView
 
@@ -74,6 +76,7 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
                 intent.putExtra("oppName", playerName)
 
                 intent.putExtra(Constants.NAME, name)
+                intent.putExtra("1a", "$codes")
                 intent.putExtra("123", "$code")
                 intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.PLAYER, player)
