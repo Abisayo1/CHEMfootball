@@ -162,12 +162,13 @@ class GamePlayActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun openDialog() {
+        val questions = questionCount * 2
         saveScore()
         val topic = intent.getStringExtra("re").toString()
 
-        if (trial >= questionCount && trial != 0) {
+        if (trial >= questions && trial != 0) {
             Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
-        } else if (trial <= questionCount) {
+        } else if (trial <= questions) {
             getQuestionsSS2(classs = clas, topic)
         }
     }
