@@ -102,6 +102,14 @@ class GamePlayActivity : AppCompatActivity() {
 
 
         } else if (game_mode != "multi_player") {
+            val rootView = findViewById<View>(android.R.id.content)
+            rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    // Show the dialog here
+                    openSingleDialog()
+                }
+            })
             binding.computerPlayer.text = "Computer"
             oppName = "Computer"
 
@@ -109,8 +117,8 @@ class GamePlayActivity : AppCompatActivity() {
 
         binding.background.setOnClickListener {
             saveScore()
-            getOppScore(gameCode)
             if (game_mode == "multi_player") {
+                getOppScore(gameCode)
                 openDialog()
             } else if (game_mode != "multi_player") {
                 openSingleDialog()
@@ -178,9 +186,9 @@ class GamePlayActivity : AppCompatActivity() {
         saveScore()
         val topic = intent.getStringExtra("re").toString()
 
-        if (trial == questionCount) {
+        if (trial >= questionCount && trial != 0) {
             Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
-        } else if (trial < questionCount) {
+        } else if (trial <= questionCount) {
             getQuestionsSS2(classs = clas, topic)
         }
     }
@@ -811,6 +819,8 @@ class GamePlayActivity : AppCompatActivity() {
                     }
 
                     //    presentQuestionsToUser(questions, questionCount)
+                } else if (game_mode != "multi_player") {
+                    mydialog?.show()
                 }
             }
         }
@@ -826,6 +836,7 @@ class GamePlayActivity : AppCompatActivity() {
         val optionButtons = listOf(firstBtn, secondBtn, thirdBtn, fourthBtn)
         for (button in optionButtons) {
             button.setOnClickListener {
+                dismissDialog()
                 if (game_mode == "multi_player") {
                     when ("$playFirst") {
                         "$oppName" -> {
@@ -1030,7 +1041,7 @@ class GamePlayActivity : AppCompatActivity() {
                 val scores = Scores(studentName, courseTitle, studentScore, userID)
                 if (userID != null) {
                     database.child("$userID, $topic").setValue(scores).addOnSuccessListener {
-                        Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+
                     }.addOnFailureListener {
                         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                     }

@@ -108,7 +108,6 @@ class ConfirmDetailsActivity : AppCompatActivity() {
         val multi_player = Multiplayer(name,opp_name, code, scoreStatus, my_score, opponent_score, trialNum, whoPlayFirst, players)
         if (userID != null) {
             database.child(code).setValue(multi_player).addOnSuccessListener {
-                Toast.makeText(this, "$code", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
             }
@@ -127,7 +126,6 @@ class ConfirmDetailsActivity : AppCompatActivity() {
         val multi_player = Multiplayer(name,opp_name, code, scoreStatus, my_score, opponent_score, trialNum, whoPlayFirst, Player)
         if (userID != null) {
             database.child(userID).setValue(multi_player).addOnSuccessListener {
-                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
             }
