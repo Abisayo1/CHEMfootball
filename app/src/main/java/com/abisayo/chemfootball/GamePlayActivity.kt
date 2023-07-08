@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
@@ -176,6 +177,11 @@ class GamePlayActivity : AppCompatActivity() {
 
         if (trial >= questions && trial != 0) {
             Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, DisplayAnswersActivity::class.java)
+            intent.putExtra(Constants.CLASS, clas)
+            intent.putExtra("re", "$topic")
+            startActivity(intent)
+
         } else if (trial <= questions) {
             getQuestionsSS2(classs = clas, topic)
         }
@@ -188,6 +194,10 @@ class GamePlayActivity : AppCompatActivity() {
 
         if (trial >= questionCount && trial != 0) {
             Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, DisplayAnswersActivity::class.java)
+            intent.putExtra(Constants.CLASS, clas)
+            intent.putExtra("re", "$topic")
+            startActivity(intent)
         } else if (trial <= questionCount) {
             getQuestionsSS2(classs = clas, topic)
         }
