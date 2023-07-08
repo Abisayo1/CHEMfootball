@@ -15,6 +15,7 @@ import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
@@ -48,6 +49,7 @@ class GamePlayActivity : AppCompatActivity() {
     var currentQuestionIndex = 0
     var questionCount = 0
     var oppName = "Computer"
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,11 +82,18 @@ class GamePlayActivity : AppCompatActivity() {
 
         binding.namePlayer.text = name
 
-        getQuestionsSS2(classs = clas, topic)
 
         if (game_mode == "multi_player") {
             oppName = intent.getStringExtra("oppName").toString()
             getTrialNum("$jointCode")
+            val rootView = findViewById<View>(android.R.id.content)
+            rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    // Show the dialog here
+                    openDialog()
+                }
+            })
             getOppPlayer(gameCode)
             getOppScore(gameCode)
             main()
@@ -98,14 +107,13 @@ class GamePlayActivity : AppCompatActivity() {
         }
 
         binding.background.setOnClickListener {
-                saveScore()
-                getOppScore(gameCode)
-                    if (game_mode == "multi_player") {
-                        openDialog()
-                    } else if (game_mode != "multi_player") {
-                        openSingleDialog()
-                    }
-
+            saveScore()
+            getOppScore(gameCode)
+            if (game_mode == "multi_player") {
+                openDialog()
+            } else if (game_mode != "multi_player") {
+                openSingleDialog()
+            }
 
 
         }
@@ -156,9 +164,9 @@ class GamePlayActivity : AppCompatActivity() {
         saveScore()
         val topic = intent.getStringExtra("re").toString()
 
-        if (trial >= questionCount) {
+        if (trial >= questionCount && trial != 0) {
             Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
-        } else if (trial < questionCount) {
+        } else if (trial <= questionCount) {
             getQuestionsSS2(classs = clas, topic)
         }
     }
@@ -191,10 +199,7 @@ class GamePlayActivity : AppCompatActivity() {
 
         mydialog.setCancelable(true)
 
-        mydialog.cancel()
-        mydialog.dismiss()
-
-
+       dismissDialog()
 
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
@@ -243,13 +248,9 @@ class GamePlayActivity : AppCompatActivity() {
 
         }
 
-        if(option == "win") {
-            currentQuestionIndex++
-            mydialog.dismiss()
+        if (option == "win") {
             playOppVideo(play)
         } else if (option == "lose") {
-            currentQuestionIndex++
-            mydialog.dismiss()
             VideoOppMisssPlay(play_misses)
         }
 
@@ -265,12 +266,11 @@ class GamePlayActivity : AppCompatActivity() {
     private fun playVideos(option: String, playerd: Boolean) {
         val name = intent.getStringExtra(Constants.NAME).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
-        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
-        val gameCode = intent.getStringExtra("1111").toString()
-        val oppName = intent.getStringExtra("oppName").toString()
-        val playFirst = intent.getStringExtra("samyy")
         val jointCode = intent.getStringExtra("123")
         getTrialNum("$jointCode")
+
+
+
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
         val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
@@ -278,12 +278,18 @@ class GamePlayActivity : AppCompatActivity() {
         val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
         val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
         val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-        val mydialog = Dialog(this)
         mydialog.setContentView(dialogLayoutBinding)
         mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
 
+
+
         mydialog.setCancelable(true)
+
+        dismissDialog()
+
+
+
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
 
@@ -544,7 +550,7 @@ class GamePlayActivity : AppCompatActivity() {
                 trial = trialsNum
 
             } else {
-                Toast.makeText(this, "User Does not Exist", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Could not find user", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener {
 
@@ -694,7 +700,8 @@ class GamePlayActivity : AppCompatActivity() {
 
     private fun getQuestionsSS2(classs: String, topic: String) {
         // Retrieve the "questions" node from the database
-        val questionsRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs, $topic")
+        val questionsRef: DatabaseReference =
+            FirebaseDatabase.getInstance().getReference("$classs, $topic")
 
 // Initialize an empty array to store the questions
         val questions: ArrayList<SS2> = ArrayList()
@@ -731,7 +738,6 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
 
-
     private fun presentQuestionsToUser(questions: ArrayList<SS2>, questionCount: Int) {
         val name = intent.getStringExtra(Constants.NAME).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
@@ -748,6 +754,7 @@ class GamePlayActivity : AppCompatActivity() {
         // Get the current question
         val currentQuestion = questions[currentQuestionIndex]
 
+
         // Inflate the dialog box with the question and options
         // You can use a custom dialog or an AlertDialog for this
 
@@ -761,6 +768,8 @@ class GamePlayActivity : AppCompatActivity() {
         mydialog = Dialog(this)
         mydialog.setContentView(dialogLayoutBinding)
         mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mydialog.setCancelable(true)
+
 
 // Set the question and options in the dialog
 
@@ -774,21 +783,40 @@ class GamePlayActivity : AppCompatActivity() {
 // Store the correct answer
         val correctAnswer = currentQuestion.answer
 
-        if (currentQuestionIndex+1 > questionCount) {
+        if (currentQuestionIndex + 1 > questionCount) {
             Toast.makeText(this, "You have reached the end of the game", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            mydialog.setCancelable(true)
-            mydialog.show()
+        } else {
             if (currentQuestionIndex < questionCount) {
-                //    presentQuestionsToUser(questions, questionCount)
+                if (game_mode == "multi_player") {
+                    when ("$playFirst") {
+                        "$oppName" -> {
+                            if (trial % 2 == 0 || trial == 0) {
+                                openDialogUpdate()
+                            } else if (trial % 2 != 0 || trial != 0) {
+                                mydialog.show()
+                            }
+                        }
+
+                        "$name" -> {
+                            if (trial % 2 == 0 || trial == 0) {
+                                mydialog.setCancelable(true)
+                                mydialog.show()
+
+                            } else if (trial % 2 != 0 || trial != 0) {
+                                openDialogUpdate()
+
+                            }
+                        }
+                    }
+
+                    //    presentQuestionsToUser(questions, questionCount)
+                }
             }
         }
 
 
-
-            // All questions have been answered
-            // Handle end of quiz or any other desired action
+        // All questions have been answered
+        // Handle end of quiz or any other desired action
 
         // Dismiss the dialog
 
@@ -801,18 +829,11 @@ class GamePlayActivity : AppCompatActivity() {
                     when ("$playFirst") {
                         "$oppName" -> {
                             if (trial % 2 == 0 || trial == 0) {
-                                Toast.makeText(
-                                    this,
-                                    "It is not your turn to play",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
+                                openDialogUpdate()
                             } else if (trial % 2 != 0 || trial != 0) {
                                 currentQuestionIndex++
-                                hasVideoPlay = 1
-                                mydialog.cancel()
-                                mydialog.dismiss()
-                                hasVideoPlay = 1
+                                dismissDialog()
+
 
                                 // Handle option selection here
                                 // You can check if the selected option is correct and perform any necessary actions
@@ -863,10 +884,7 @@ class GamePlayActivity : AppCompatActivity() {
                         "$name" -> {
                             if (trial % 2 == 0 || trial == 0) {
                                 currentQuestionIndex++
-                                hasVideoPlay = 1
-                                mydialog.cancel()
-                                mydialog.dismiss()
-                                hasVideoPlay = 1
+
 
                                 // Handle option selection here
                                 // You can check if the selected option is correct and perform any necessary actions
@@ -911,20 +929,13 @@ class GamePlayActivity : AppCompatActivity() {
                                 }
 
                             } else if (trial % 2 != 0 || trial != 0) {
-                                Toast.makeText(
-                                    this,
-                                    "It is not your turn to play",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
+                                openDialogUpdate()
 
                             }
                         }
 
                     }
                 } else if (game_mode != "multi_player") {
-                    mydialog.cancel()
-                    mydialog.dismiss()
                     currentQuestionIndex++
 
                     // Handle option selection here
@@ -960,28 +971,72 @@ class GamePlayActivity : AppCompatActivity() {
 
     }
 
-    fun saveScore() {
-        val name = intent.getStringExtra(Constants.NAME).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
-        val topic = intent.getStringExtra("re").toString()
 
-        player = intent.getStringExtra(Constants.PLAYER).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
+            fun openDialogUpdate() {
+                val name = intent.getStringExtra(Constants.NAME).toString()
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+                val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+                val gameCode = intent.getStringExtra("1111").toString()
+                val oppName = intent.getStringExtra("oppName").toString()
+                val playFirst = intent.getStringExtra("samyy")
+                val jointCode = intent.getStringExtra("123")
+                val topic = intent.getStringExtra("re").toString()
+
+                player = intent.getStringExtra(Constants.PLAYER).toString()
+                clas = intent.getStringExtra(Constants.CLASS).toString()
 
 
-        val studentName = name
-        val courseTitle = topic
-        val studentScore = "$name: $score - $oppName: $scoreC"
-        val  userID = FirebaseAuth.getInstance().currentUser?.uid
+                // Inflate the dialog box with the question and options
+                // You can use a custom dialog or an AlertDialog for this
 
-        database = FirebaseDatabase.getInstance().getReference("Scores")
-        val scores = Scores(studentName, courseTitle, studentScore, userID)
-        if (userID != null) {
-            database.child("$userID, $topic").setValue(scores).addOnSuccessListener {
-                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener {
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
+                val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
+                val secondBtn = dialogLayoutBinding.findViewById<TextView>(R.id.secondbtn)
+                val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
+                val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
+                val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
+                mydialog.setContentView(dialogLayoutBinding)
+
+
+                secondBtn.visibility = View.GONE
+                firstBtn.visibility = View.GONE
+                thirdBtn.visibility = View.GONE
+                fourthBtn.visibility = View.GONE
+
+
+                question.text = "It is $oppName turn to play"
+
+                mydialog.show()
+
+
             }
-        }
+
+            fun saveScore() {
+                val name = intent.getStringExtra(Constants.NAME).toString()
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+                val topic = intent.getStringExtra("re").toString()
+
+                player = intent.getStringExtra(Constants.PLAYER).toString()
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+
+
+                val studentName = name
+                val courseTitle = topic
+                val studentScore = "$name: $score - $oppName: $scoreC"
+                val userID = FirebaseAuth.getInstance().currentUser?.uid
+
+                database = FirebaseDatabase.getInstance().getReference("Scores")
+                val scores = Scores(studentName, courseTitle, studentScore, userID)
+                if (userID != null) {
+                    database.child("$userID, $topic").setValue(scores).addOnSuccessListener {
+                        Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+    fun dismissDialog() {
+        mydialog.dismiss()
     }
-}
+        }

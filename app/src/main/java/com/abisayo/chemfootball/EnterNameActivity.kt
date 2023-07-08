@@ -18,6 +18,7 @@ class EnterNameActivity : AppCompatActivity() {
     private lateinit var database : DatabaseReference
     private var clas = "SS1"
     private var player = ""
+    var named = "Computer"
     private lateinit var binding: ActivityEnterNameBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,45 +31,42 @@ class EnterNameActivity : AppCompatActivity() {
         binding = ActivityEnterNameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         val topic = intent.getStringExtra("re").toString()
 
-        val name = binding.editText.text
+        val  userID = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userID != null) {
+            getName(userID)
+
+
+        }
+
 
 
         binding.button.setOnClickListener {
-            if (name.isNotEmpty()) {
                 val intent = Intent(this, GameIntroActivity::class.java)
                 intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.KEEPER, keeper)
                 intent.putExtra(Constants.PLAYER, player)
-                intent.putExtra(Constants.NAME, "$name")
+                intent.putExtra(Constants.NAME, named)
                 intent.putExtra("re", "$topic")
                 startActivity(intent)
-            } else {
-                Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show()
-            }
 
         }
 
         binding.mulyiPlayer.setOnClickListener {
-            if (name.isNotEmpty()) {
-                saveName("$name")
+                saveName(named)
                 val intent = Intent(this, DisplayAvailablePlayersActivity::class.java)
                 intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.KEEPER, keeper)
                 intent.putExtra(Constants.PLAYER, player)
-                intent.putExtra(Constants.NAME, "$name")
+                intent.putExtra(Constants.NAME, named)
                 intent.putExtra(Constants.GAME_MODE, "multi_player")
                 intent.putExtra("re", "$topic")
                 startActivity(intent)
-            } else {
-                Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show()
-            }
         }
     }
 
@@ -87,5 +85,25 @@ class EnterNameActivity : AppCompatActivity() {
                     Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun getName(code: String) {
+        database = FirebaseDatabase.getInstance().getReference("PlayersCred")
+        database.child(code).get().addOnSuccessListener {
+
+            if (it.exists()) {
+
+                val name = it.child("name").getValue(String::class.java)!!
+                named = name
+                binding.editText.setText(name)
+
+            } else {
+                Toast.makeText(this, "Could not find user", Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener {
+
+            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+        }
+
     }
 }

@@ -18,7 +18,7 @@ class ConfirmDetailsActivity : AppCompatActivity() {
     private var clas = "SS1"
     private var player = ""
     var playFirst = ""
-    var combineCode = "1233"
+    var combineCode = ""
     private lateinit var binding: ActivityConfirmDetailsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,8 @@ class ConfirmDetailsActivity : AppCompatActivity() {
         val jointCode = intent.getStringExtra("123").toString()
         val oppName = intent.getStringExtra("oppName").toString()
         val topic = intent.getStringExtra("re").toString()
-        val codes = intent.getStringExtra("1a").toString()
+        val codes = intent.getStringExtra("aaaaa").toString()
+        val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
 
         binding.editTextName.setText("$name")
@@ -54,14 +55,15 @@ class ConfirmDetailsActivity : AppCompatActivity() {
             when (selectedAnswer) {
                 "You" -> {
                     playFirst = "$name"
-                    combineCode = jointCode
+                    combineCode = "$userID + $gameCode"
                 }
                 "Opponent" -> {
                     playFirst = "$oppName"
-                    combineCode = codes
+                    combineCode = "$gameCode + $userID"
                 }
 
             }
+
 
             if (selectedAnswer != "Select First Player" ) {
             saveName("$name", "$oppName", "$combineCode", "$playFirst", player)
@@ -76,7 +78,7 @@ class ConfirmDetailsActivity : AppCompatActivity() {
             intent.putExtra(Constants.GAME_MODE, "multi_player")
             intent.putExtra("1111", "$gameCode")
             intent.putExtra("samyy", "$playFirst")
-            intent.putExtra("123", "$jointCode")
+            intent.putExtra("123", "$combineCode")
             intent.putExtra("re", "$topic")
             startActivity(intent)
 
@@ -131,6 +133,8 @@ class ConfirmDetailsActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
 
 

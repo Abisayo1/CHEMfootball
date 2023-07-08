@@ -1,0 +1,11 @@
+package com.abisayo.chemfootball
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+
+class DisplayAnswersActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_display_answers)
+    }
+}

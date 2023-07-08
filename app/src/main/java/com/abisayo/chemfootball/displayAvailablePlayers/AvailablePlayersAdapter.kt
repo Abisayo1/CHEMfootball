@@ -65,18 +65,17 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
 
         val itemView = holder.itemView
 
+
         itemView.setOnClickListener {
             if (userID == specialCode) {
-
                 Toast.makeText(itemView.context, "You cannot play against yourself", Toast.LENGTH_SHORT).show()
 
             } else {
                 val intent = Intent(itemView.context, ConfirmDetailsActivity::class.java)
                 intent.putExtra("1111", specialCode)
                 intent.putExtra("oppName", playerName)
-
                 intent.putExtra(Constants.NAME, name)
-                intent.putExtra("1a", "$codes")
+                intent.putExtra("aaaaa", "$codes")
                 intent.putExtra("123", "$code")
                 intent.putExtra(Constants.CLASS, clas)
                 intent.putExtra(Constants.PLAYER, player)
