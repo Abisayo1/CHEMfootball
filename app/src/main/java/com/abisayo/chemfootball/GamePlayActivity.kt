@@ -14,6 +14,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.Window
@@ -42,7 +43,7 @@ class GamePlayActivity : AppCompatActivity() {
     private var clas = "SS1"
     private var scoreC = 0
     private var player = ""
-    lateinit var mydialog: Dialog
+    var mydialog: Dialog? = null
     var oppPlayer = "Fragment6"
     var oppScoreStatus = "nil"
     var hasVideoPlay = 0
@@ -191,13 +192,12 @@ class GamePlayActivity : AppCompatActivity() {
         val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
         val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
         val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-        mydialog.setContentView(dialogLayoutBinding)
-        mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mydialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
 
 
 
-        mydialog.setCancelable(true)
+        mydialog?.setCancelable(true)
 
        dismissDialog()
 
@@ -278,13 +278,13 @@ class GamePlayActivity : AppCompatActivity() {
         val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
         val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
         val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-        mydialog.setContentView(dialogLayoutBinding)
-        mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mydialog?.setContentView(dialogLayoutBinding)
+        mydialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
 
 
 
-        mydialog.setCancelable(true)
+        mydialog?.setCancelable(true)
 
         dismissDialog()
 
@@ -766,9 +766,9 @@ class GamePlayActivity : AppCompatActivity() {
         val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
         val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
         mydialog = Dialog(this)
-        mydialog.setContentView(dialogLayoutBinding)
-        mydialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        mydialog.setCancelable(true)
+        mydialog?.setContentView(dialogLayoutBinding)
+        mydialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mydialog?.setCancelable(true)
 
 
 // Set the question and options in the dialog
@@ -793,14 +793,14 @@ class GamePlayActivity : AppCompatActivity() {
                             if (trial % 2 == 0 || trial == 0) {
                                 openDialogUpdate()
                             } else if (trial % 2 != 0 || trial != 0) {
-                                mydialog.show()
+                                mydialog?.show()
                             }
                         }
 
                         "$name" -> {
                             if (trial % 2 == 0 || trial == 0) {
-                                mydialog.setCancelable(true)
-                                mydialog.show()
+                                mydialog?.setCancelable(true)
+                                mydialog?.show()
 
                             } else if (trial % 2 != 0 || trial != 0) {
                                 openDialogUpdate()
@@ -995,7 +995,7 @@ class GamePlayActivity : AppCompatActivity() {
                 val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
                 val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
                 val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-                mydialog.setContentView(dialogLayoutBinding)
+                mydialog?.setContentView(dialogLayoutBinding)
 
 
                 secondBtn.visibility = View.GONE
@@ -1004,9 +1004,9 @@ class GamePlayActivity : AppCompatActivity() {
                 fourthBtn.visibility = View.GONE
 
 
-                question.text = "It is $oppName turn to play"
+                question.text = "It is $oppName's turn to play"
 
-                mydialog.show()
+                mydialog?.show()
 
 
             }
@@ -1037,6 +1037,6 @@ class GamePlayActivity : AppCompatActivity() {
             }
 
     fun dismissDialog() {
-        mydialog.dismiss()
+        mydialog?.dismiss()
     }
         }
