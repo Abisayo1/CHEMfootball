@@ -47,6 +47,7 @@ class AddQuestionsActivity : AppCompatActivity() {
             val selectedAnswer = answerSpinner.selectedItem as String
             val selectedOption = intent.getStringExtra("selectedOption")
             val selectedOption2 = intent.getStringExtra("selectedOption2")
+            val selectedoption3 = intent.getStringExtra("selectedOption3")
             val topic = intent.getStringExtra("tt")
             val question = question
             val option1 = option1
@@ -79,14 +80,16 @@ class AddQuestionsActivity : AppCompatActivity() {
 
             database = FirebaseDatabase.getInstance().getReference("$selectedOption, $topic")
             val Question = Questions(selectedOption, selectedOption2, "$question", "$option1", "$option2", "$option3", "$option4",
-                answer
+                answer, selectedoption3
             )
             if (binding.questionEditText.text.isNotEmpty()) {
                 if (binding.option2EditText.text.isNotEmpty() && answer != "null") {
                     if (userID != null) {
                         if (selectedOption != null) {
                             database.child("$question").setValue(Question).addOnSuccessListener {
-                                saveTopics("$selectedOption", "$topic")
+                                if (selectedOption2 != null) {
+                                    saveTopics("$selectedOption", "$topic", selectedOption2)
+                                }
                                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
                                 binding.questionEditText.text.clear()
                                 binding.option1EditText.text.clear()
@@ -109,11 +112,11 @@ class AddQuestionsActivity : AppCompatActivity() {
     }
 
 
-    fun saveTopics(clas: String, topic: String) {
+    fun saveTopics(clas: String, topic: String, repeated: String) {
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
         database = FirebaseDatabase.getInstance().getReference("$clas")
-        val courses = Courses(topic, "")
+        val courses = Courses(topic, repeated)
         if (userID != null) {
             database.child(topic).setValue(courses).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()

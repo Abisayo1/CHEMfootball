@@ -16,11 +16,13 @@ import com.google.firebase.database.FirebaseDatabase
 class SelectQuestionClassActivity : AppCompatActivity() {
     private lateinit var radioGroup: RadioGroup
     private lateinit var radioGroup2: RadioGroup
+    private lateinit var radioGroup3: RadioGroup
     private lateinit var nextButton: Button
     private lateinit var editText: EditText
 
     var selectedOption = ""
     var selectedOption2 = ""
+    var selectedOption3 = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,7 @@ class SelectQuestionClassActivity : AppCompatActivity() {
         radioGroup = findViewById(R.id.radio_group)
         nextButton = findViewById(R.id.button)
         radioGroup2 = findViewById(R.id.radio_group2)
+        radioGroup3 = findViewById(R.id.radio_group3)
 
         editText = findViewById(R.id.questionEditText)
 
@@ -58,6 +61,15 @@ class SelectQuestionClassActivity : AppCompatActivity() {
 
         }
 
+        radioGroup3.setOnCheckedChangeListener { _, checkedId ->
+            val selectedRadioButton = findViewById<RadioButton>(checkedId)
+            selectedOption3 = selectedRadioButton.text.toString()
+
+            nextButton.isEnabled = true
+
+
+        }
+
 
 
 
@@ -66,6 +78,7 @@ class SelectQuestionClassActivity : AppCompatActivity() {
                val intent = Intent(this, AddQuestionsActivity::class.java)
                intent.putExtra("selectedOption", selectedOption)
                intent.putExtra("selectedOption2", selectedOption2)
+               intent.putExtra("selectedOption3", selectedOption3)
                intent.putExtra("tt", "$topic")
                startActivity(intent)
            } else {

@@ -5,16 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.abisayo.chemfootball.R
 import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.models.Courses
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class SS3CoursesAdapter: RecyclerView.Adapter<SS3CoursesAdapter.MyViewHolder>() {
 
     private lateinit var mListener: onItemClickListener
     private lateinit var currentitem : Courses
+    private lateinit var database: DatabaseReference
 
     interface onItemClickListener{
         fun onItemClicked(position: Int)
@@ -44,19 +49,48 @@ class SS3CoursesAdapter: RecyclerView.Adapter<SS3CoursesAdapter.MyViewHolder>() 
 
         holder.courseTitle.text = currentitem.courseTitle
         val courseTitle = currentitem.courseTitle
+        val repeated = currentitem.note
 
         val itemView = holder.itemView
 
         itemView.setOnClickListener {
-            val intent = Intent(itemView.context, SelectPlayersActivity::class.java)
-            intent.putExtra(Constants.CLASS, "SS3")
-            intent.putExtra("re", courseTitle)
-            itemView.context.startActivity(intent)
+            val userID = FirebaseAuth.getInstance().currentUser?.uid
+            database = FirebaseDatabase.getInstance().getReference("Scores")
+            if (userID != null) {
+                database.child("$userID, $courseTitle").get().addOnSuccessListener {
+                    if (it.exists()) {
+                        val courseTitles = it.child("courseTitle").getValue(String::class.java)!!
+                        if (repeated == "Once") {
+                            Toast.makeText(itemView.context, "Access Denied", Toast.LENGTH_SHORT).show()
+                        } else {
+                            val intent = Intent(itemView.context, SelectPlayersActivity::class.java)
+                            intent.putExtra(Constants.CLASS, "SS3")
+                            intent.putExtra("re", courseTitle)
+                            itemView.context.startActivity(intent)
+                        }
+
+
+                    } else {
+                        val intent = Intent(itemView.context, SelectPlayersActivity::class.java)
+                        intent.putExtra(Constants.CLASS, "SS3")
+                        intent.putExtra("re", courseTitle)
+                        itemView.context.startActivity(intent)
+                    }
+                }.addOnFailureListener {
+
+                    Toast.makeText(itemView.context, "Failed", Toast.LENGTH_SHORT).show()
+
+
+                }
+            }
 
 
         }
-    }
 
+
+
+
+    }
 
 
 
