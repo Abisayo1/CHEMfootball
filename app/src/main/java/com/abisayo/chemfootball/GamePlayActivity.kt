@@ -385,7 +385,6 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     fun playVideo(option: String, playerd: Boolean) {
-        trial++
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
@@ -475,7 +474,7 @@ class GamePlayActivity : AppCompatActivity() {
         binding.scoreV.text = "$score"
     }
 
-    private fun VideoMisssPlay(play_misses: Int) {
+    private fun  VideoMisssPlay(play_misses: Int) {
         scoreC++
         val videoUri =
             Uri.parse("android.resource://" + packageName + "/" + play_misses) // Replace with your video file or URL
@@ -962,6 +961,7 @@ class GamePlayActivity : AppCompatActivity() {
 
                     }
                 } else if (game_mode != "multi_player") {
+                    trial++
                     currentQuestionIndex++
 
                     // Handle option selection here
@@ -981,7 +981,7 @@ class GamePlayActivity : AppCompatActivity() {
                     } else if (!isCorrect) {
                         if (trial % 2 == 0 || trial == 0) {
                             playVideo("lose", true)
-                        } else if (trial % 2 != 1 || trial == 1) {
+                        } else if (trial % 2 != 0 || trial == 1) {
                             playVideo("lose", false)
                         }
 
