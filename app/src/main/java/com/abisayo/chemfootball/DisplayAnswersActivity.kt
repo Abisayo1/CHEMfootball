@@ -37,18 +37,13 @@ class DisplayAnswersActivity : AppCompatActivity() {
     var mMediaPlayer: MediaPlayer? = null
     private lateinit var database: DatabaseReference
     private lateinit var binding: ActivityDisplayAnswersBinding
-    var score = 0
     var trial = 0
     private var clas = "SS1"
-    private var scoreC = 0
     private var player = ""
     var mydialog: Dialog? = null
-    var oppPlayer = "Fragment6"
-    var oppScoreStatus = "nil"
-    var hasVideoPlay = 0
     var currentQuestionIndex = 0
     var questionCount = 0
-    var oppName = "Computer"
+
 
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -65,9 +60,8 @@ class DisplayAnswersActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val name = intent.getStringExtra(Constants.NAME).toString()
+
         clas = intent.getStringExtra(Constants.CLASS).toString()
-        val jointCode = intent.getStringExtra("123")
         val topic = intent.getStringExtra("re").toString()
 
         player = intent.getStringExtra(Constants.PLAYER).toString()

@@ -47,7 +47,7 @@ class GamePlayActivity : AppCompatActivity() {
     var mydialog: Dialog? = null
     var oppPlayer = "Fragment6"
     var oppScoreStatus = "nil"
-    var hasVideoPlay = 0
+    var studentScore = "JESUS IS LORD"
     var currentQuestionIndex = 0
     var questionCount = 0
     var oppName = "Computer"
@@ -177,9 +177,11 @@ class GamePlayActivity : AppCompatActivity() {
 
         if (trial >= questions && trial != 0) {
             Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, DisplayAnswersActivity::class.java)
+            val intent = Intent(this, GameFinishedActivity::class.java)
             intent.putExtra(Constants.CLASS, clas)
             intent.putExtra("re", "$topic")
+            intent.putExtra("scr", "$score")
+            intent.putExtra("comp", "$scoreC")
             startActivity(intent)
 
         } else if (trial <= questions) {
@@ -194,9 +196,11 @@ class GamePlayActivity : AppCompatActivity() {
 
         if (trial >= questionCount && trial != 0) {
             Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, DisplayAnswersActivity::class.java)
+            val intent = Intent(this, GameFinishedActivity::class.java)
             intent.putExtra(Constants.CLASS, clas)
             intent.putExtra("re", "$topic")
+            intent.putExtra("scr", "$score")
+            intent.putExtra("comp", "$scoreC")
             startActivity(intent)
         } else if (trial <= questionCount) {
             getQuestionsSS2(classs = clas, topic)
@@ -1044,7 +1048,7 @@ class GamePlayActivity : AppCompatActivity() {
 
                 val studentName = name
                 val courseTitle = topic
-                val studentScore = "$name: $score - $oppName: $scoreC"
+                studentScore = "$name: $score - $oppName: $scoreC"
                 val userID = FirebaseAuth.getInstance().currentUser?.uid
 
                 database = FirebaseDatabase.getInstance().getReference("Scores")
