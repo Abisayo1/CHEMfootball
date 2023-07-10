@@ -8,7 +8,6 @@ import android.widget.Toast
 import com.abisayo.chemfootball.databinding.ActivityAddQuestionsBinding
 import com.abisayo.chemfootball.models.Courses
 import com.abisayo.chemfootball.models.Questions
-import com.abisayo.chemfootball.models.Scores
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -88,7 +87,9 @@ class AddQuestionsActivity : AppCompatActivity() {
                         if (selectedOption != null) {
                             database.child("$question").setValue(Question).addOnSuccessListener {
                                 if (selectedOption2 != null) {
-                                    saveTopics("$selectedOption", "$topic", selectedOption2)
+                                    if (selectedoption3 != null) {
+                                        saveTopics("$selectedOption", "$topic", selectedOption2, selectedoption3)
+                                    }
                                 }
                                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
                                 binding.questionEditText.text.clear()
@@ -112,11 +113,11 @@ class AddQuestionsActivity : AppCompatActivity() {
     }
 
 
-    fun saveTopics(clas: String, topic: String, repeated: String) {
+    fun saveTopics(clas: String, topic: String, repeated: String, timer: String) {
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
         database = FirebaseDatabase.getInstance().getReference("$clas")
-        val courses = Courses(topic, repeated)
+        val courses = Courses(topic, repeated, timer)
         if (userID != null) {
             database.child(topic).setValue(courses).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()

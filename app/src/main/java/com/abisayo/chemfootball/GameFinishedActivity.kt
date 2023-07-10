@@ -32,9 +32,16 @@ class GameFinishedActivity : AppCompatActivity() {
         val topic = intent.getStringExtra("re").toString()
         val userScore = intent.getStringExtra("scr").toString()
         val compScore = intent.getStringExtra("comp").toString()
+        val name = intent.getStringExtra("name").toString()
+        val oppName = intent.getStringExtra("opp").toString()
 
         binding.scoreV.text = userScore
         binding.scoreC.text = compScore
+
+        binding.computerPlayer.text = oppName
+        binding.namePlayer.text = name
+
+
 
         clas = intent.getStringExtra(Constants.CLASS).toString()
 
