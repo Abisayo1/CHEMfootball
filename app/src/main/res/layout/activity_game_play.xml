@@ -7,6 +7,57 @@
     android:layout_height="match_parent"
     android:background="@drawable/football_field">
 
+    <!-- activity_main.xml -->
+
+
+    <RelativeLayout
+        android:id="@+id/chooseLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/select_goal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".MainActivity"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="-96dp">
+
+        <RelativeLayout
+            android:id="@+id/leftLayout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="231dp"
+            android:layout_marginLeft="16dp"
+            android:visibility="gone"
+            android:layout_marginTop="96dp"
+            android:background="#00FFFFFF" />
+
+        <RelativeLayout
+            android:id="@+id/rightLayout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="157dp"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="87dp"
+            android:layout_marginRight="16dp"
+            android:visibility="gone"
+            android:layout_toEndOf="@id/leftLayout"
+            android:background="#00FFFFFF" />
+
+        <ImageView
+            android:id="@+id/footballImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/leftLayout"
+            android:layout_marginLeft="400dp"
+            android:layout_marginBottom="100dp"
+            android:visibility="gone"
+            android:src="@drawable/ball"
+            android:translationX="0dp"
+            android:translationY="200dp" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/scoreV"
