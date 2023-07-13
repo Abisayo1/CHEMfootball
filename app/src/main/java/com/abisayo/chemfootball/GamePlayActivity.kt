@@ -299,7 +299,7 @@ class GamePlayActivity : AppCompatActivity() {
 
     }
 
-    private fun playVideos(option: String, playerd: Boolean) {
+    private fun playVideos(option: String, playerd: Boolean, direction: String) {
         val name = intent.getStringExtra(Constants.NAME).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val jointCode = intent.getStringExtra("123")
@@ -337,24 +337,53 @@ class GamePlayActivity : AppCompatActivity() {
 
         when (player) {
             "Fragment1" -> {
-                play = R.raw.ronaldo
-                play_misses = R.raw.ronaldo_misses
+                if (direction == "left") {
+                    play = R.raw.ronaldo_left
+                    play_misses = R.raw.ronaldo_misses
+                } else if (direction == "right") {
+                    play = R.raw.ronaldo
+                    play_misses = R.raw.ronaldo_misses
+                }
+
             }
             "Fragment2" -> {
-                play = R.raw.messi
-                play_misses = R.raw.messi_misses
+                if (direction == "right") {
+                    play = R.raw.messi_right
+                    play_misses = R.raw.messi_misses
+                } else if (direction == "left") {
+                    play = R.raw.messi
+                    play_misses = R.raw.messi_misses
+                }
             }
             "Fragment3" -> {
-                play = R.raw.mbappe
-                play_misses = R.raw.mbappe_misses
+                if (direction == "left") {
+                    play = R.raw.mbappe_left
+                    play_misses = R.raw.mbappe_misses
+                } else if (direction == "right") {
+                    play = R.raw.mbappe
+                    play_misses = R.raw.mbappe_misses
+                }
+
             }
             "Fragment4" -> {
-                play = R.raw.neymar
-                play_misses = R.raw.neymar_misses
+                if (direction == "left") {
+                    play = R.raw.neymar_left
+                    play_misses = R.raw.neymar_misses
+                } else if (direction == "right") {
+                    play = R.raw.neymer_right
+                    play_misses = R.raw.neymar_misses
+                }
+
             }
             "Fragment5" -> {
-                play = R.raw.rashford
-                play_misses = R.raw.rashford_misses
+                if (direction == "left") {
+                    play = R.raw.rashford_left
+                    play_misses = R.raw.rashford_misses
+                } else if (direction == "right") {
+                    play = R.raw.rashford
+                    play_misses = R.raw.rashford_misses
+                }
+
             }
             "Fragment6" -> {
                 play_misses = R.raw.de_bruyen_misses
@@ -370,8 +399,8 @@ class GamePlayActivity : AppCompatActivity() {
                 play_misses = R.raw.messi_misses
             }
 
-
         }
+
 
         if (option == "win" && playerd) {
             saveScoreStatus("win")
@@ -392,12 +421,14 @@ class GamePlayActivity : AppCompatActivity() {
         videoView.setOnCompletionListener {
             NextQuestion()
             saveScoreStatus("nil")
+            binding.background.isClickable = true
         }
 
 
     }
 
     fun playVideo(option: String, playerd: Boolean, direction: String) {
+        binding.background.isClickable = true
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
@@ -503,6 +534,7 @@ class GamePlayActivity : AppCompatActivity() {
         }
 
         videoView.setOnCompletionListener {
+            binding.background.isClickable = true
             NextQuestion()
         }
     }
@@ -957,9 +989,17 @@ class GamePlayActivity : AppCompatActivity() {
                                         trial
                                     )
                                     if (trial % 2 == 0 || trial == 0) {
-                                        playVideos("win", true)
+                                        binding.footballImageView.visibility = View.VISIBLE
+                                        binding.leftLayout.visibility = View.VISIBLE
+                                        binding.rightLayout.visibility = View.VISIBLE
+                                        binding.chooseLayout.visibility = View.VISIBLE
+                                        selectGoalScore2("win")
                                     } else if (trial % 2 == 1 || trial == 1) {
-                                        playVideos("win", true)
+                                        binding.footballImageView.visibility = View.VISIBLE
+                                        binding.leftLayout.visibility = View.VISIBLE
+                                        binding.rightLayout.visibility = View.VISIBLE
+                                        binding.chooseLayout.visibility = View.VISIBLE
+                                        selectGoalScore2("win")
                                     }
 
                                 } else if (!isCorrect) {
@@ -973,9 +1013,17 @@ class GamePlayActivity : AppCompatActivity() {
                                         trial
                                     )
                                     if (trial % 2 == 0 || trial == 0) {
-                                        playVideos("lose", true)
+                                        binding.footballImageView.visibility = View.VISIBLE
+                                        binding.leftLayout.visibility = View.VISIBLE
+                                        binding.rightLayout.visibility = View.VISIBLE
+                                        binding.chooseLayout.visibility = View.VISIBLE
+                                        selectGoalScore2("lose")
                                     } else if (trial % 2 == 1 || trial == 1) {
-                                        playVideos("lose", true)
+                                        binding.footballImageView.visibility = View.VISIBLE
+                                        binding.leftLayout.visibility = View.VISIBLE
+                                        binding.rightLayout.visibility = View.VISIBLE
+                                        binding.chooseLayout.visibility = View.VISIBLE
+                                        selectGoalScore2("lose")
                                     }
 
 
@@ -1008,9 +1056,17 @@ class GamePlayActivity : AppCompatActivity() {
                                         trial
                                     )
                                     if (trial % 2 == 0 || trial == 0) {
-                                        playVideos("win", true)
+                                        binding.footballImageView.visibility = View.VISIBLE
+                                        binding.leftLayout.visibility = View.VISIBLE
+                                        binding.rightLayout.visibility = View.VISIBLE
+                                        binding.chooseLayout.visibility = View.VISIBLE
+                                        selectGoalScore2("win")
                                     } else if (trial % 2 == 1 || trial == 1) {
-                                        playVideos("win", true)
+                                        binding.footballImageView.visibility = View.VISIBLE
+                                        binding.leftLayout.visibility = View.VISIBLE
+                                        binding.rightLayout.visibility = View.VISIBLE
+                                        binding.chooseLayout.visibility = View.VISIBLE
+                                        selectGoalScore2("win")
                                     }
 
                                 } else if (!isCorrect) {
@@ -1024,9 +1080,17 @@ class GamePlayActivity : AppCompatActivity() {
                                         trial
                                     )
                                     if (trial % 2 == 0 || trial == 0) {
-                                        playVideos("lose", true)
+                                        binding.footballImageView.visibility = View.VISIBLE
+                                        binding.leftLayout.visibility = View.VISIBLE
+                                        binding.rightLayout.visibility = View.VISIBLE
+                                        binding.chooseLayout.visibility = View.VISIBLE
+                                        selectGoalScore2("lose")
                                     } else if (trial % 2 == 1 || trial == 1) {
-                                        playVideos("lose", true)
+                                        binding.footballImageView.visibility = View.VISIBLE
+                                        binding.leftLayout.visibility = View.VISIBLE
+                                        binding.rightLayout.visibility = View.VISIBLE
+                                        binding.chooseLayout.visibility = View.VISIBLE
+                                        selectGoalScore2("lose")
                                     }
 
 
@@ -1057,7 +1121,7 @@ class GamePlayActivity : AppCompatActivity() {
                             binding.chooseLayout.visibility = View.VISIBLE
                             selectGoalScore("win")
                         } else if (trial % 2 != 0 || trial == 1) {
-                            playVideo("win", false, "nil")
+                            playVideo("win", false, "left")
                             trial++
                         }
 
@@ -1069,7 +1133,7 @@ class GamePlayActivity : AppCompatActivity() {
                             binding.chooseLayout.visibility = View.VISIBLE
                             selectGoalScore("lose")
                         } else if (trial % 2 != 0 || trial == 1) {
-                            playVideo("lose", false, "nil")
+                            playVideo("lose", false, "left")
                             trial++
                         }
 
@@ -1198,7 +1262,7 @@ class GamePlayActivity : AppCompatActivity() {
                                         "$player",
                                         trial
                                     )
-            playVideos("lose", true)
+            playVideos("lose", true, "left")
             // Perform the desired action here
         }, 30000)
     }
@@ -1226,7 +1290,7 @@ class GamePlayActivity : AppCompatActivity() {
                                         "$player",
                                         trial
                                     )
-            playVideos("lose", true)
+            playVideos("lose", true, "left")
             // Perform the desired action here
         }, 60000)
     }
@@ -1254,7 +1318,7 @@ class GamePlayActivity : AppCompatActivity() {
                                         "$player",
                                         trial
                                     )
-            playVideos("lose", true)
+            playVideos("lose", true, "left")
             // Perform the desired action here
         }, 120000)
     }
@@ -1284,18 +1348,20 @@ class GamePlayActivity : AppCompatActivity() {
                                         "$player",
                                         trial
                                     )
-            playVideos("lose", true)
+            playVideos("lose", true, "left")
             // Perform the desired action here
         }, 180000)
     }
 
     fun selectGoalScore(status: String) {
+        binding.background.isClickable = false
+        Toast.makeText(this, "Drag ball to post", Toast.LENGTH_LONG).show()
         val footballView: ImageView = findViewById(R.id.footballImageView)
         val leftLayout: View = findViewById(R.id.leftLayout)
         val rightLayout: View = findViewById(R.id.rightLayout)
+        val originalLayout: View = findViewById(R.id.originalLayout)
+        moveBallToOrigin(footballView, originalLayout)
 
-        val originalX = footballView.x
-        val originalY = footballView.y
 
         footballView.setOnTouchListener { _, event ->
             when (event.action) {
@@ -1347,9 +1413,76 @@ class GamePlayActivity : AppCompatActivity() {
                         // Check if the selected option is the correct answer
                     }
                     // If the football is dropped outside the layouts, reset its position
-                    else {
-                        footballView.x = originalX
-                        footballView.y = originalY
+                    else if (isViewIntersecting(footballView, originalLayout)) {
+                        moveBallToOrigin(footballView, originalLayout)
+                    }
+
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    fun selectGoalScore2(status: String) {
+        binding.background.isClickable = false
+        val footballView: ImageView = findViewById(R.id.footballImageView)
+        val leftLayout: View = findViewById(R.id.leftLayout)
+        val rightLayout: View = findViewById(R.id.rightLayout)
+        val originalLayout: View = findViewById(R.id.originalLayout)
+        moveBallToOrigin(footballView, originalLayout)
+
+        footballView.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // Capture the initial touch position
+                    true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    // Update the position of the football
+                    footballView.x = event.rawX - footballView.width / 2
+                    footballView.y = event.rawY - footballView.height / 2
+
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    // Check if the football is dropped on the left layout
+                    if (isViewIntersecting(footballView, leftLayout)) {
+                        // Move the football to the center of the left layout
+                        footballView.x = leftLayout.x + (leftLayout.width - footballView.width) / 2
+                        footballView.y = leftLayout.y + (leftLayout.height - footballView.height) / 2
+                        val direction = "left"
+                        binding.footballImageView.visibility = View.GONE
+                        binding.leftLayout.visibility = View.GONE
+                        binding.rightLayout.visibility = View.GONE
+                        binding.chooseLayout.visibility = View.GONE
+                        binding.background.visibility = View.VISIBLE
+                        playVideos(status, true, direction)
+
+                    }
+                    // Check if the football is dropped on the right layout
+                    else if (isViewIntersecting(footballView, rightLayout)) {
+                        // Move the football to the center of the right layout
+                        footballView.x = rightLayout.x + (rightLayout.width - footballView.width) / 2
+                        footballView.y = rightLayout.y + (rightLayout.height - footballView.height) / 2
+                        val direction = "right"
+                        binding.footballImageView.visibility = View.GONE
+                        binding.leftLayout.visibility = View.GONE
+                        binding.rightLayout.visibility = View.GONE
+                        binding.chooseLayout.visibility = View.GONE
+                        binding.background.visibility = View.VISIBLE
+                        playVideos(status, true, direction)
+
+
+
+                        // Handle option selection here
+                        // You can check if the selected option is correct and perform any necessary actions
+
+                        // Check if the selected option is the correct answer
+                    }
+                    // If the football is dropped outside the layouts, reset its position
+                    else if (isViewIntersecting(footballView, originalLayout)) {
+                        moveBallToOrigin(footballView, originalLayout)
                     }
 
                     true
@@ -1367,5 +1500,10 @@ class GamePlayActivity : AppCompatActivity() {
         val rect2 = Rect()
         view2.getHitRect(rect2)
         return Rect.intersects(rect1, rect2)
+    }
+
+    private fun moveBallToOrigin(foot: ImageView, right: View) {
+        foot.x = right.x + (right.width - foot.width) / 2
+        foot.y = right.y + (right.height - foot.height) / 2
     }
     }

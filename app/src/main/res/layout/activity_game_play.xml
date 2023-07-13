@@ -45,6 +45,17 @@
             android:layout_toEndOf="@id/leftLayout"
             android:background="#00FFFFFF" />
 
+        <RelativeLayout
+            android:id="@+id/originalLayout"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/leftLayout"
+            android:layout_marginLeft="400dp"
+            android:layout_marginBottom="100dp"
+            android:background="#00FFFFFF"
+            android:translationX="0dp"
+            android:translationY="250dp" />
+
         <ImageView
             android:id="@+id/footballImageView"
             android:layout_width="50dp"
@@ -52,10 +63,9 @@
             android:layout_alignBottom="@+id/leftLayout"
             android:layout_marginLeft="400dp"
             android:layout_marginBottom="100dp"
-            android:visibility="gone"
             android:src="@drawable/ball"
             android:translationX="0dp"
-            android:translationY="200dp" />
+            android:translationY="250dp" />
 
     </RelativeLayout>
 
