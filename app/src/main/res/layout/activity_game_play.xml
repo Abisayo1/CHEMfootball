@@ -45,6 +45,7 @@
             android:layout_toEndOf="@id/leftLayout"
             android:background="#00FFFFFF" />
 
+
         <RelativeLayout
             android:id="@+id/originalLayout"
             android:layout_width="50dp"
@@ -55,6 +56,20 @@
             android:background="#00FFFFFF"
             android:translationX="0dp"
             android:translationY="250dp" />
+
+
+        <RelativeLayout
+            android:id="@+id/middleLayout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="357dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="147dp"
+            android:background="#00FFFFFF"
+            android:translationX="0dp"
+            android:translationY="-13dp" />
 
         <ImageView
             android:id="@+id/footballImageView"

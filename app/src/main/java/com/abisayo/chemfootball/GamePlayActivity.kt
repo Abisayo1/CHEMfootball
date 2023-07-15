@@ -221,6 +221,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun oppTurn(option: String) {
+        binding.background.isClickable = false
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
         val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
@@ -300,6 +301,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun playVideos(option: String, playerd: Boolean, direction: String) {
+        binding.background.isClickable = false
         val name = intent.getStringExtra(Constants.NAME).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val jointCode = intent.getStringExtra("123")
@@ -344,6 +346,10 @@ class GamePlayActivity : AppCompatActivity() {
                     play = R.raw.ronaldo
                     play_misses = R.raw.ronaldo_misses
                 }
+                else if (direction == "middle") {
+                    play = R.raw.middle
+                    play_misses = R.raw.ronaldo_misses
+                }
 
             }
             "Fragment2" -> {
@@ -354,6 +360,10 @@ class GamePlayActivity : AppCompatActivity() {
                     play = R.raw.messi
                     play_misses = R.raw.messi_misses
                 }
+                else if (direction == "middle") {
+                    play = R.raw.middle
+                    play_misses = R.raw.ronaldo_misses
+                }
             }
             "Fragment3" -> {
                 if (direction == "left") {
@@ -362,6 +372,10 @@ class GamePlayActivity : AppCompatActivity() {
                 } else if (direction == "right") {
                     play = R.raw.mbappe
                     play_misses = R.raw.mbappe_misses
+                }
+                else if (direction == "middle") {
+                    play = R.raw.middle
+                    play_misses = R.raw.ronaldo_misses
                 }
 
             }
@@ -373,6 +387,10 @@ class GamePlayActivity : AppCompatActivity() {
                     play = R.raw.neymer_right
                     play_misses = R.raw.neymar_misses
                 }
+                else if (direction == "middle") {
+                    play = R.raw.middle
+                    play_misses = R.raw.ronaldo_misses
+                }
 
             }
             "Fragment5" -> {
@@ -383,6 +401,10 @@ class GamePlayActivity : AppCompatActivity() {
                     play = R.raw.rashford
                     play_misses = R.raw.rashford_misses
                 }
+                else if (direction == "middle") {
+                    play = R.raw.middle
+                    play_misses = R.raw.ronaldo_misses
+                }
 
             }
             "Fragment6" -> {
@@ -390,6 +412,7 @@ class GamePlayActivity : AppCompatActivity() {
                 play = R.raw.de_bruyen
 
             }
+
             "Fragment7" -> {
                 play = R.raw.messi
                 play_misses = R.raw.messi_misses
@@ -428,7 +451,6 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     fun playVideo(option: String, playerd: Boolean, direction: String) {
-        binding.background.isClickable = true
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
@@ -447,6 +469,9 @@ class GamePlayActivity : AppCompatActivity() {
                 } else if (direction == "right") {
                     play = R.raw.ronaldo
                     play_misses = R.raw.ronaldo_misses
+                } else if (direction == "middle") {
+                    play = R.raw.middle
+                    play_misses = R.raw.ronaldo_misses
                 }
 
             }
@@ -458,6 +483,10 @@ class GamePlayActivity : AppCompatActivity() {
                     play = R.raw.messi
                     play_misses = R.raw.messi_misses
                 }
+                else if (direction == "middle") {
+                    play = R.raw.middle
+                    play_misses = R.raw.ronaldo_misses
+                }
             }
             "Fragment3" -> {
                 if (direction == "left") {
@@ -466,6 +495,10 @@ class GamePlayActivity : AppCompatActivity() {
                 } else if (direction == "right") {
                     play = R.raw.mbappe
                     play_misses = R.raw.mbappe_misses
+                }
+                else if (direction == "middle") {
+                    play = R.raw.middle
+                    play_misses = R.raw.ronaldo_misses
                 }
 
             }
@@ -477,6 +510,10 @@ class GamePlayActivity : AppCompatActivity() {
                     play = R.raw.neymer_right
                     play_misses = R.raw.neymar_misses
                 }
+                else if (direction == "middle") {
+                    play = R.raw.middle
+                    play_misses = R.raw.ronaldo_misses
+                }
 
             }
             "Fragment5" -> {
@@ -486,6 +523,10 @@ class GamePlayActivity : AppCompatActivity() {
                 } else if (direction == "right") {
                     play = R.raw.rashford
                     play_misses = R.raw.rashford_misses
+                }
+                else if (direction == "middle") {
+                    play = R.raw.middle
+                    play_misses = R.raw.ronaldo_misses
                 }
 
             }
@@ -960,6 +1001,7 @@ class GamePlayActivity : AppCompatActivity() {
         val optionButtons = listOf(firstBtn, secondBtn, thirdBtn, fourthBtn)
         for (button in optionButtons) {
             button.setOnClickListener {
+                binding.background.isClickable = false
                 dismissDialog()
                 if (game_mode == "multi_player") {
                     when ("$playFirst") {
@@ -1359,6 +1401,7 @@ class GamePlayActivity : AppCompatActivity() {
         val footballView: ImageView = findViewById(R.id.footballImageView)
         val leftLayout: View = findViewById(R.id.leftLayout)
         val rightLayout: View = findViewById(R.id.rightLayout)
+        val middleLayout: View = findViewById(R.id.middleLayout)
         val originalLayout: View = findViewById(R.id.originalLayout)
         moveBallToOrigin(footballView, originalLayout)
 
@@ -1411,6 +1454,25 @@ class GamePlayActivity : AppCompatActivity() {
                         // You can check if the selected option is correct and perform any necessary actions
 
                         // Check if the selected option is the correct answer
+                    } else if (isViewIntersecting(footballView, middleLayout)) {
+                        // Move the football to the center of the right layout
+                        footballView.x = middleLayout.x + (middleLayout.width - footballView.width) / 2
+                        footballView.y = middleLayout.y + (middleLayout.height - footballView.height) / 2
+                        val direction = "middle"
+                        binding.footballImageView.visibility = View.GONE
+                        binding.leftLayout.visibility = View.GONE
+                        binding.rightLayout.visibility = View.GONE
+                        binding.chooseLayout.visibility = View.GONE
+                        binding.background.visibility = View.VISIBLE
+                        playVideo(status, true, direction)
+                        trial++
+
+
+
+                        // Handle option selection here
+                        // You can check if the selected option is correct and perform any necessary actions
+
+                        // Check if the selected option is the correct answer
                     }
                     // If the football is dropped outside the layouts, reset its position
                     else if (isViewIntersecting(footballView, originalLayout)) {
@@ -1430,6 +1492,7 @@ class GamePlayActivity : AppCompatActivity() {
         val leftLayout: View = findViewById(R.id.leftLayout)
         val rightLayout: View = findViewById(R.id.rightLayout)
         val originalLayout: View = findViewById(R.id.originalLayout)
+        val middleLayout: View = findViewById(R.id.middleLayout)
         moveBallToOrigin(footballView, originalLayout)
 
         footballView.setOnTouchListener { _, event ->
@@ -1472,6 +1535,26 @@ class GamePlayActivity : AppCompatActivity() {
                         binding.chooseLayout.visibility = View.GONE
                         binding.background.visibility = View.VISIBLE
                         playVideos(status, true, direction)
+
+
+
+                        // Handle option selection here
+                        // You can check if the selected option is correct and perform any necessary actions
+
+                        // Check if the selected option is the correct answer
+                    }
+                    else if (isViewIntersecting(footballView, middleLayout)) {
+                        // Move the football to the center of the right layout
+                        footballView.x = middleLayout.x + (middleLayout.width - footballView.width) / 2
+                        footballView.y = middleLayout.y + (middleLayout.height - footballView.height) / 2
+                        val direction = "middle"
+                        binding.footballImageView.visibility = View.GONE
+                        binding.leftLayout.visibility = View.GONE
+                        binding.rightLayout.visibility = View.GONE
+                        binding.chooseLayout.visibility = View.GONE
+                        binding.background.visibility = View.VISIBLE
+                        playVideos(status, true, direction)
+                        trial++
 
 
 
