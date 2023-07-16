@@ -296,6 +296,7 @@ class GamePlayActivity : AppCompatActivity() {
             // Video playback completed
             oppScoreStatus = "nil"
             NextQuestion()
+            binding.background.isClickable = true
         }
 
     }
@@ -711,6 +712,7 @@ class GamePlayActivity : AppCompatActivity() {
 
             runOnUiThread {
                 oppTurn(oppScoreStatus)
+                // Update or interact with your views here
                 // Update or interact with your views here
             }
 
