@@ -16,6 +16,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
+import android.os.CountDownTimer
 import android.os.Handler
 import android.view.*
 import android.widget.*
@@ -30,6 +31,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.*
+import kotlin.concurrent.timer
 
 
 class GamePlayActivity : AppCompatActivity() {
@@ -52,8 +54,8 @@ class GamePlayActivity : AppCompatActivity() {
     var time = "I min"
     val handler = Handler()
     var scoreCT = ""
-
-
+    var j = 1
+    private var timer: CountDownTimer? = null
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -160,9 +162,11 @@ class GamePlayActivity : AppCompatActivity() {
     // 4. Destroys the MediaPlayer instance when the app is closed
     override fun onStop() {
         super.onStop()
+        timer?.cancel()
         if (mMediaPlayer != null) {
             mMediaPlayer!!.release()
             mMediaPlayer = null
+
         }
     }
 
@@ -889,9 +893,10 @@ class GamePlayActivity : AppCompatActivity() {
         val playFirst = intent.getStringExtra("samyy")
         val jointCode = intent.getStringExtra("123")
         val topic = intent.getStringExtra("re").toString()
-
         player = intent.getStringExtra(Constants.PLAYER).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
+
+
 
         // Get the current question
         val currentQuestion = questions[currentQuestionIndex]
@@ -935,22 +940,31 @@ class GamePlayActivity : AppCompatActivity() {
                             if (trial % 2 == 0 || trial == 0) {
                                 openDialogUpdate()
                             } else if (trial % 2 != 0 || trial != 0) {
+                                j = 1
                                 mydialog?.show()
                                 when(time) {
                                     "30 seconds" ->{
-                                        executeAfter30Seconds()
+                                        if (j== 1) {
+                                            executeAfter30Seconds()
+                                        }
                                     }
                                     "1 minute" -> {
-                                        executeAfter1Minute()
+                                        if (j== 1) {
+                                            executeAfter1Minute()
+                                        }
                                     }
 
                                     "2 minutes" -> {
-                                        executeAfter2Minutes()
+                                        if (j== 1) {
+                                            executeAfter2Minutes()
+                                        }
 
                                     }
 
                                     "3 minutes" -> {
-                                        executeAfter3Minutes()
+                                        if (j== 1) {
+                                            executeAfter3Minutes()
+                                        }
                                     }
                                 }
                             }
@@ -958,23 +972,32 @@ class GamePlayActivity : AppCompatActivity() {
 
                         "$name" -> {
                             if (trial % 2 == 0 || trial == 0) {
+                                j=1
                                 mydialog?.setCancelable(true)
                                 mydialog?.show()
                                 when(time) {
                                     "30 seconds" ->{
-                                        executeAfter30Seconds()
+                                        if (j== 1) {
+                                            executeAfter30Seconds()
                                         }
+                                    }
                                     "1 minute" -> {
-                                        executeAfter1Minute()
+                                        if (j== 1) {
+                                            executeAfter1Minute()
+                                        }
                                     }
 
                                     "2 minutes" -> {
-                                        executeAfter2Minutes()
+                                        if (j== 1) {
+                                            executeAfter2Minutes()
+                                        }
 
                                     }
 
                                     "3 minutes" -> {
-                                        executeAfter3Minutes()
+                                        if (j== 1) {
+                                            executeAfter3Minutes()
+                                        }
                                     }
                                 }
 
@@ -1003,6 +1026,7 @@ class GamePlayActivity : AppCompatActivity() {
         val optionButtons = listOf(firstBtn, secondBtn, thirdBtn, fourthBtn)
         for (button in optionButtons) {
             button.setOnClickListener {
+                timer?.cancel()
                 binding.background.isClickable = false
                 dismissDialog()
                 if (game_mode == "multi_player") {
@@ -1012,7 +1036,7 @@ class GamePlayActivity : AppCompatActivity() {
                                 openDialogUpdate()
                             } else if (trial % 2 != 0 || trial != 0) {
                                 currentQuestionIndex++
-                                dismissDialog()
+
 
 
                                 // Handle option selection here
@@ -1193,6 +1217,226 @@ class GamePlayActivity : AppCompatActivity() {
 
     }
 
+    private fun executeAfter30Seconds() {
+        timer = object : CountDownTimer(30_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                val gameCode = intent.getStringExtra("1111").toString()
+                val name = intent.getStringExtra(Constants.NAME).toString()
+                val questions = questionCount * 2
+                saveScore()
+                val topic = intent.getStringExtra("re").toString()
+                getOppScore(gameCode)
+
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+                val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+
+                val oppName = intent.getStringExtra("oppName").toString()
+                val playFirst = intent.getStringExtra("samyy")
+                val jointCode = intent.getStringExtra("123")
+
+                player = intent.getStringExtra(Constants.PLAYER).toString()
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+
+                if (trial >= questions && trial != 0) {
+                    Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(applicationContext, GameFinishedActivity::class.java)
+                    intent.putExtra(Constants.CLASS, clas)
+                    intent.putExtra("re", "$topic")
+                    intent.putExtra("scr", "$score")
+                    intent.putExtra("comp", "$scoreCT")
+                    intent.putExtra("opp", oppName)
+                    intent.putExtra("name", name)
+                    startActivity(intent)
+                    finish()
+                    // Perform the desired action here
+
+                } else if (trial <= questions) {
+                    trial++
+                    saveTrialNum(
+                        "$name",
+                        "$oppName",
+                        "$jointCode",
+                        "$playFirst",
+                        "$player",
+                        trial
+                    )
+                    playVideos("lose", true, "left")
+                }
+            }
+
+        }
+        timer?.start()
+    }
+
+    private fun executeAfter1Minute() {
+        timer = object : CountDownTimer(60_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                val gameCode = intent.getStringExtra("1111").toString()
+                val name = intent.getStringExtra(Constants.NAME).toString()
+                val questions = questionCount * 2
+                saveScore()
+                val topic = intent.getStringExtra("re").toString()
+                getOppScore(gameCode)
+
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+                val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+
+                val oppName = intent.getStringExtra("oppName").toString()
+                val playFirst = intent.getStringExtra("samyy")
+                val jointCode = intent.getStringExtra("123")
+
+                player = intent.getStringExtra(Constants.PLAYER).toString()
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+
+                if (trial >= questions && trial != 0) {
+                    Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(applicationContext, GameFinishedActivity::class.java)
+                    intent.putExtra(Constants.CLASS, clas)
+                    intent.putExtra("re", "$topic")
+                    intent.putExtra("scr", "$score")
+                    intent.putExtra("comp", "$scoreCT")
+                    intent.putExtra("opp", oppName)
+                    intent.putExtra("name", name)
+                    startActivity(intent)
+                    finish()
+                    // Perform the desired action here
+
+                } else if (trial <= questions) {
+                    trial++
+                    saveTrialNum(
+                        "$name",
+                        "$oppName",
+                        "$jointCode",
+                        "$playFirst",
+                        "$player",
+                        trial
+                    )
+                    playVideos("lose", true, "left")
+                }
+            }
+
+        }
+        timer?.start()
+    }
+
+    private fun executeAfter2Minutes() {
+        timer = object : CountDownTimer(120_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                val gameCode = intent.getStringExtra("1111").toString()
+                val name = intent.getStringExtra(Constants.NAME).toString()
+                val questions = questionCount * 2
+                saveScore()
+                val topic = intent.getStringExtra("re").toString()
+                getOppScore(gameCode)
+
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+                val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+
+                val oppName = intent.getStringExtra("oppName").toString()
+                val playFirst = intent.getStringExtra("samyy")
+                val jointCode = intent.getStringExtra("123")
+
+                player = intent.getStringExtra(Constants.PLAYER).toString()
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+
+                if (trial >= questions && trial != 0) {
+                    Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(applicationContext, GameFinishedActivity::class.java)
+                    intent.putExtra(Constants.CLASS, clas)
+                    intent.putExtra("re", "$topic")
+                    intent.putExtra("scr", "$score")
+                    intent.putExtra("comp", "$scoreCT")
+                    intent.putExtra("opp", oppName)
+                    intent.putExtra("name", name)
+                    startActivity(intent)
+                    finish()
+                    // Perform the desired action here
+
+                } else if (trial <= questions) {
+                    trial++
+                    saveTrialNum(
+                        "$name",
+                        "$oppName",
+                        "$jointCode",
+                        "$playFirst",
+                        "$player",
+                        trial
+                    )
+                    playVideos("lose", true, "left")
+                }
+            }
+
+        }
+        timer?.start()
+    }
+
+    private fun executeAfter3Minutes() {
+        timer = object : CountDownTimer(180_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                val gameCode = intent.getStringExtra("1111").toString()
+                val name = intent.getStringExtra(Constants.NAME).toString()
+                val questions = questionCount * 2
+                saveScore()
+                val topic = intent.getStringExtra("re").toString()
+                getOppScore(gameCode)
+
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+                val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+
+                val oppName = intent.getStringExtra("oppName").toString()
+                val playFirst = intent.getStringExtra("samyy")
+                val jointCode = intent.getStringExtra("123")
+
+                player = intent.getStringExtra(Constants.PLAYER).toString()
+                clas = intent.getStringExtra(Constants.CLASS).toString()
+
+                if (trial >= questions && trial != 0) {
+                    Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(applicationContext, GameFinishedActivity::class.java)
+                    intent.putExtra(Constants.CLASS, clas)
+                    intent.putExtra("re", "$topic")
+                    intent.putExtra("scr", "$score")
+                    intent.putExtra("comp", "$scoreCT")
+                    intent.putExtra("opp", oppName)
+                    intent.putExtra("name", name)
+                    startActivity(intent)
+                    finish()
+                    // Perform the desired action here
+
+                } else if (trial <= questions) {
+                    trial++
+                    saveTrialNum(
+                        "$name",
+                        "$oppName",
+                        "$jointCode",
+                        "$playFirst",
+                        "$player",
+                        trial
+                    )
+                    playVideos("lose", true, "left")
+                }
+            }
+
+        }
+        timer?.start()
+    }
+
 
     fun openDialogUpdate() {
                 val name = intent.getStringExtra(Constants.NAME).toString()
@@ -1282,120 +1526,6 @@ class GamePlayActivity : AppCompatActivity() {
 
     }
 
-    fun executeAfter30Seconds()
-    {
-        val name = intent.getStringExtra(Constants.NAME).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
-        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
-        val gameCode = intent.getStringExtra("1111").toString()
-        val oppName = intent.getStringExtra("oppName").toString()
-        val playFirst = intent.getStringExtra("samyy")
-        val jointCode = intent.getStringExtra("123")
-        val topic = intent.getStringExtra("re").toString()
-
-        player = intent.getStringExtra(Constants.PLAYER).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
-        handler.postDelayed({
-            currentQuestionIndex++
-            trial++
-            saveTrialNum(
-                                        "$name",
-                                        "$oppName",
-                                        "$jointCode",
-                                        "$playFirst",
-                                        "$player",
-                                        trial
-                                    )
-            playVideos("lose", true, "left")
-            // Perform the desired action here
-        }, 30000)
-    }
-
-    fun executeAfter1Minute() {
-        val name = intent.getStringExtra(Constants.NAME).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
-        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
-        val gameCode = intent.getStringExtra("1111").toString()
-        val oppName = intent.getStringExtra("oppName").toString()
-        val playFirst = intent.getStringExtra("samyy")
-        val jointCode = intent.getStringExtra("123")
-        val topic = intent.getStringExtra("re").toString()
-
-        player = intent.getStringExtra(Constants.PLAYER).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
-        handler.postDelayed({
-            currentQuestionIndex++
-            trial++
-            saveTrialNum(
-                                        "$name",
-                                        "$oppName",
-                                        "$jointCode",
-                                        "$playFirst",
-                                        "$player",
-                                        trial
-                                    )
-            playVideos("lose", true, "left")
-            // Perform the desired action here
-        }, 60000)
-    }
-
-    fun executeAfter2Minutes() {
-        val name = intent.getStringExtra(Constants.NAME).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
-        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
-        val gameCode = intent.getStringExtra("1111").toString()
-        val oppName = intent.getStringExtra("oppName").toString()
-        val playFirst = intent.getStringExtra("samyy")
-        val jointCode = intent.getStringExtra("123")
-        val topic = intent.getStringExtra("re").toString()
-
-        player = intent.getStringExtra(Constants.PLAYER).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
-        handler.postDelayed({
-            currentQuestionIndex++
-            trial++
-            saveTrialNum(
-                                        "$name",
-                                        "$oppName",
-                                        "$jointCode",
-                                        "$playFirst",
-                                        "$player",
-                                        trial
-                                    )
-            playVideos("lose", true, "left")
-            // Perform the desired action here
-        }, 120000)
-    }
-
-    fun executeAfter3Minutes() {
-
-        val name = intent.getStringExtra(Constants.NAME).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
-        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
-        val gameCode = intent.getStringExtra("1111").toString()
-        val oppName = intent.getStringExtra("oppName").toString()
-        val playFirst = intent.getStringExtra("samyy")
-        val jointCode = intent.getStringExtra("123")
-        val topic = intent.getStringExtra("re").toString()
-
-        player = intent.getStringExtra(Constants.PLAYER).toString()
-        clas = intent.getStringExtra(Constants.CLASS).toString()
-
-        handler.postDelayed({
-            currentQuestionIndex++
-            trial++
-            saveTrialNum(
-                                        "$name",
-                                        "$oppName",
-                                        "$jointCode",
-                                        "$playFirst",
-                                        "$player",
-                                        trial
-                                    )
-            playVideos("lose", true, "left")
-            // Perform the desired action here
-        }, 180000)
-    }
 
     fun selectGoalScore(status: String) {
         binding.background.isClickable = false
@@ -1586,6 +1716,12 @@ class GamePlayActivity : AppCompatActivity() {
         view2.getHitRect(rect2)
         return Rect.intersects(rect1, rect2)
     }
+
+
+
+
+
+
 
     private fun moveBallToOrigin(foot: ImageView, right: View) {
         foot.x = right.x + (right.width - foot.width) / 2
