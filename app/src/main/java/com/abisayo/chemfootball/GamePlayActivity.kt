@@ -300,7 +300,7 @@ class GamePlayActivity : AppCompatActivity() {
             // Video playback completed
             oppScoreStatus = "nil"
             NextQuestion()
-            binding.background.isClickable = true
+            executeAfter4Seconds()
         }
 
     }
@@ -726,7 +726,7 @@ class GamePlayActivity : AppCompatActivity() {
 
     fun main() {
         // Define the interval in milliseconds
-        val interval = 3000L // 5 seconds
+        val interval = 1000L // 5 seconds
 
         val timer = Timer()
         val timerTask = object : TimerTask() {
@@ -1431,6 +1431,20 @@ class GamePlayActivity : AppCompatActivity() {
                     )
                     playVideos("lose", true, "left")
                 }
+            }
+
+        }
+        timer?.start()
+    }
+
+    private fun executeAfter4Seconds() {
+        timer = object : CountDownTimer(4_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                binding.background.isClickable = true
             }
 
         }
