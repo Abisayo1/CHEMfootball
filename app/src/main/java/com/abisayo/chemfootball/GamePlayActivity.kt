@@ -291,14 +291,16 @@ class GamePlayActivity : AppCompatActivity() {
 
         if (option == "win") {
             playOppVideo(play)
+            executeAfter2Seconds()
         } else if (option == "lose") {
             VideoOppMisssPlay(play_misses)
+            executeAfter2Seconds()
         }
 
 
         videoView.setOnCompletionListener {
             // Video playback completed
-            oppScoreStatus = "nil"
+
             NextQuestion()
             executeAfter4Seconds()
         }
@@ -433,22 +435,25 @@ class GamePlayActivity : AppCompatActivity() {
         if (option == "win" && playerd) {
             saveScoreStatus("win")
             playVideo(play)
+            executeAfter2Secondss()
         } else if (option == "lose" && playerd) {
             saveScoreStatus("lose")
             VideoMissPlay(play_misses)
+            executeAfter2Secondss()
 
         } else if (option == "win" && !playerd) {
             saveScoreStatus("win")
             playVideo(play)
+            executeAfter2Secondss()
 
         } else if (option == "lose" && !playerd) {
             saveScoreStatus("lose")
             VideoMissPlay(play_misses)
+            executeAfter2Secondss()
         }
 
         videoView.setOnCompletionListener {
             NextQuestion()
-            saveScoreStatus("nil")
             binding.background.isClickable = true
         }
 
@@ -1450,6 +1455,35 @@ class GamePlayActivity : AppCompatActivity() {
         }
         timer?.start()
     }
+
+    private fun executeAfter2Seconds() {
+        timer = object : CountDownTimer(1_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                oppScoreStatus = "nil"
+            }
+
+        }
+        timer?.start()
+    }
+
+    private fun executeAfter2Secondss() {
+        timer = object : CountDownTimer(1_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                saveScoreStatus("nil")
+            }
+
+        }
+        timer?.start()
+    }
+
 
 
     fun openDialogUpdate() {
