@@ -125,8 +125,31 @@ class GamePlayActivity : AppCompatActivity() {
         binding.background.setOnClickListener {
             saveScore()
             if (game_mode == "multi_player") {
-                getOppScore(gameCode)
-                openDialog()
+                when ("$playFirst") {
+                    "$oppName" -> {
+                        if (trial % 2 == 0 || trial == 0) {
+                            openDialogUpdate()
+                        } else if (trial % 2 != 0 || trial != 0) {
+                            getOppScore(gameCode)
+                            openDialog()
+
+                        }
+
+
+                    }
+
+                    "$name" -> {
+                        if (trial % 2 == 0 || trial == 0) {
+                            getOppScore(gameCode)
+                            openDialog()
+                        } else if (trial % 2 != 0 || trial != 0) {
+                            openDialogUpdate()
+
+                        }
+                    }
+
+                }
+
             } else if (game_mode != "multi_player") {
                 openSingleDialog()
             }
@@ -1452,6 +1475,36 @@ class GamePlayActivity : AppCompatActivity() {
         timer?.start()
     }
 
+    private fun executeAfter2Secondssw() {
+        timer = object : CountDownTimer(1_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                val name = intent.getStringExtra(Constants.NAME).toString()
+                val topic = intent.getStringExtra("re").toString()
+                if (trialNumm >= questionCount && trial != 0) {
+                    Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(applicationContext, GameFinishedActivity::class.java)
+                    intent.putExtra(Constants.CLASS, clas)
+                    intent.putExtra("re", "$topic")
+                    intent.putExtra("scr", "$score")
+                    intent.putExtra("comp", "$scoreCT")
+                    intent.putExtra("opp", oppName)
+                    intent.putExtra("name", name)
+                    startActivity(intent)
+                    finish()
+                    // Perform the desired action here
+
+                }
+            }
+
+        }
+        timer?.start()
+    }
+
+
     private fun executeAfter2Secondss() {
         timer = object : CountDownTimer(1_000, 1_000) {
             override fun onTick(p0: Long) {
@@ -1503,6 +1556,7 @@ class GamePlayActivity : AppCompatActivity() {
                 question.text = "It is $oppName's turn to play"
 
                 mydialog?.show()
+                executeAfter2Secondssw()
 
 
             }
