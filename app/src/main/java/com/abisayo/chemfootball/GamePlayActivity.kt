@@ -55,6 +55,7 @@ class GamePlayActivity : AppCompatActivity() {
     val handler = Handler()
     var scoreCT = ""
     var j = 1
+    var trialNumm = 0
     private var timer: CountDownTimer? = null
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -185,7 +186,7 @@ class GamePlayActivity : AppCompatActivity() {
         val topic = intent.getStringExtra("re").toString()
         getOppScore(gameCode)
 
-        if (trial >= questions && trial != 0) {
+        if (trialNumm >= questionCount && trial != 0) {
                 Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, GameFinishedActivity::class.java)
                 intent.putExtra(Constants.CLASS, clas)
@@ -198,7 +199,7 @@ class GamePlayActivity : AppCompatActivity() {
                 finish()
                 // Perform the desired action here
 
-        } else if (trial <= questions) {
+        } else if (trialNumm <= questionCount) {
             getQuestionsSS2(classs = clas, topic)
         }
     }
@@ -1052,15 +1053,6 @@ class GamePlayActivity : AppCompatActivity() {
                                 val isCorrect = selectedAnswer == correctAnswer
 
                                 if (isCorrect) {
-                                    trial++
-                                    saveTrialNum(
-                                        "$name",
-                                        "$oppName",
-                                        "$jointCode",
-                                        "$playFirst",
-                                        "$player",
-                                        trial
-                                    )
                                     if (trial % 2 == 0 || trial == 0) {
                                         binding.footballImageView.visibility = View.VISIBLE
                                         binding.leftLayout.visibility = View.VISIBLE
@@ -1076,15 +1068,6 @@ class GamePlayActivity : AppCompatActivity() {
                                     }
 
                                 } else if (!isCorrect) {
-                                    trial++
-                                    saveTrialNum(
-                                        "$name",
-                                        "$oppName",
-                                        "$jointCode",
-                                        "$playFirst",
-                                        "$player",
-                                        trial
-                                    )
                                     if (trial % 2 == 0 || trial == 0) {
                                         binding.footballImageView.visibility = View.VISIBLE
                                         binding.leftLayout.visibility = View.VISIBLE
@@ -1119,15 +1102,6 @@ class GamePlayActivity : AppCompatActivity() {
                                 val isCorrect = selectedAnswer == correctAnswer
 
                                 if (isCorrect) {
-                                    trial++
-                                    saveTrialNum(
-                                        "$name",
-                                        "$oppName",
-                                        "$jointCode",
-                                        "$playFirst",
-                                        "$player",
-                                        trial
-                                    )
                                     if (trial % 2 == 0 || trial == 0) {
                                         binding.footballImageView.visibility = View.VISIBLE
                                         binding.leftLayout.visibility = View.VISIBLE
@@ -1143,15 +1117,6 @@ class GamePlayActivity : AppCompatActivity() {
                                     }
 
                                 } else if (!isCorrect) {
-                                    trial++
-                                    saveTrialNum(
-                                        "$name",
-                                        "$oppName",
-                                        "$jointCode",
-                                        "$playFirst",
-                                        "$player",
-                                        trial
-                                    )
                                     if (trial % 2 == 0 || trial == 0) {
                                         binding.footballImageView.visibility = View.VISIBLE
                                         binding.leftLayout.visibility = View.VISIBLE
@@ -1442,8 +1407,25 @@ class GamePlayActivity : AppCompatActivity() {
         timer?.start()
     }
 
+    private fun SaveTrialNum(
+        name: String,
+        oppName: String,
+        jointCode: String?,
+        playFirst: String?
+    ) {
+        trial++
+        saveTrialNum(
+            "$name",
+            "$oppName",
+            "$jointCode",
+            "$playFirst",
+            "$player",
+            trial
+        )
+    }
+
     private fun executeAfter4Seconds() {
-        timer = object : CountDownTimer(4_000, 1_000) {
+        timer = object : CountDownTimer(1_000, 1_000) {
             override fun onTick(p0: Long) {
 
             }
@@ -1674,6 +1656,16 @@ class GamePlayActivity : AppCompatActivity() {
         val originalLayout: View = findViewById(R.id.originalLayout)
         val middleLayout: View = findViewById(R.id.middleLayout)
         moveBallToOrigin(footballView, originalLayout)
+        val name = intent.getStringExtra(Constants.NAME).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+        val gameCode = intent.getStringExtra("1111").toString()
+        val oppName = intent.getStringExtra("oppName").toString()
+        val playFirst = intent.getStringExtra("samyy")
+        val jointCode = intent.getStringExtra("123")
+        val topic = intent.getStringExtra("re").toString()
+        player = intent.getStringExtra(Constants.PLAYER).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
 
         footballView.setOnTouchListener { _, event ->
             when (event.action) {
@@ -1701,6 +1693,8 @@ class GamePlayActivity : AppCompatActivity() {
                         binding.chooseLayout.visibility = View.GONE
                         binding.background.visibility = View.VISIBLE
                         playVideos(status, true, direction)
+                        SaveTrialNum(name, oppName, jointCode, playFirst)
+                        trialNumm++
 
                     }
                     // Check if the football is dropped on the right layout
@@ -1715,6 +1709,8 @@ class GamePlayActivity : AppCompatActivity() {
                         binding.chooseLayout.visibility = View.GONE
                         binding.background.visibility = View.VISIBLE
                         playVideos(status, true, direction)
+                        SaveTrialNum(name, oppName, jointCode, playFirst)
+                        trialNumm++
 
 
 
@@ -1734,7 +1730,8 @@ class GamePlayActivity : AppCompatActivity() {
                         binding.chooseLayout.visibility = View.GONE
                         binding.background.visibility = View.VISIBLE
                         playVideos(status, true, direction)
-                        trial++
+                        SaveTrialNum(name, oppName, jointCode, playFirst)
+                        trialNumm++
 
 
 
