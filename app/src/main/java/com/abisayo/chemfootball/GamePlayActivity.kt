@@ -56,10 +56,13 @@ class GamePlayActivity : AppCompatActivity() {
     var scoreCT = ""
     var j = 1
     var trialNumm = 0
+    var trialNumb = 0
     private var timer: CountDownTimer? = null
     private var timers: Timer? = null
     var d = 0
     var isDialogOpen = false
+    var shouldCheck = true
+    var hasVideoPlayed = false
 
     // Create a handler and a delay duration for debouncing
     val debounceDelay = 5000L
@@ -98,6 +101,7 @@ class GamePlayActivity : AppCompatActivity() {
 
 
         if (game_mode == "multi_player") {
+            binding.background.isClickable = false
             oppName = intent.getStringExtra("oppName").toString()
             getTrialNum("$jointCode")
             val rootView = findViewById<View>(android.R.id.content)
@@ -105,12 +109,14 @@ class GamePlayActivity : AppCompatActivity() {
                 override fun onGlobalLayout() {
                     rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     // Show the dialog here
-                    openDialog()
+                    executeInitial()
                 }
             })
             getOppPlayer(gameCode)
             getOppScore(gameCode)
+
             main()
+
             binding.computerPlayer.text = oppName
 
 
@@ -129,36 +135,7 @@ class GamePlayActivity : AppCompatActivity() {
         }
 
         binding.background.setOnClickListener {
-            saveScore()
-            if (game_mode == "multi_player") {
-                when ("$playFirst") {
-                    "$oppName" -> {
-                        if (trial % 2 == 0 || trial == 0) {
-                            openDialogUpdate()
-                            getOppScore(gameCode)
-                        } else if (trial % 2 != 0 || trial != 0) {
-                            getOppScore(gameCode)
-                            openDialog()
-
-                        }
-
-
-                    }
-
-                    "$name" -> {
-                        if (trial % 2 == 0 || trial == 0) {
-                            getOppScore(gameCode)
-                            openDialog()
-                        } else if (trial % 2 != 0 || trial != 0) {
-                            openDialogUpdate()
-                            getOppScore(gameCode)
-
-                        }
-                    }
-
-                }
-
-            } else if (game_mode != "multi_player") {
+             if (game_mode != "multi_player") {
                 openSingleDialog()
             }
 
@@ -217,7 +194,7 @@ class GamePlayActivity : AppCompatActivity() {
         val topic = intent.getStringExtra("re").toString()
         getOppScore(gameCode)
 
-        if (trialNumm >= questionCount && trial != 0) {
+        if (trialNumm >= questionCount && trial == 123) {
                 Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, GameFinishedActivity::class.java)
                 intent.putExtra(Constants.CLASS, clas)
@@ -227,6 +204,7 @@ class GamePlayActivity : AppCompatActivity() {
                 intent.putExtra("opp", oppName)
                 intent.putExtra("name", name)
                 startActivity(intent)
+            onDestroy()
                 finish()
                 // Perform the desired action here
 
@@ -251,6 +229,7 @@ class GamePlayActivity : AppCompatActivity() {
             intent.putExtra("opp", oppName)
             intent.putExtra("name", name)
             startActivity(intent)
+            onDestroy()
         } else if (trial <= questionCount) {
             getQuestionsSS2(classs = clas, topic)
         }
@@ -269,10 +248,8 @@ class GamePlayActivity : AppCompatActivity() {
 
 
 
-
-        mydialog?.setCancelable(true)
-
        dismissDialog()
+        d = 0
 
         var play = R.raw.messi
         var play_misses = R.raw.messi_misses
@@ -332,9 +309,8 @@ class GamePlayActivity : AppCompatActivity() {
 
         videoView.setOnCompletionListener {
             // Video playback completed
-
             NextQuestion()
-            executeAfter4Seconds()
+
         }
 
     }
@@ -357,6 +333,7 @@ class GamePlayActivity : AppCompatActivity() {
         val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
         mydialog?.setContentView(dialogLayoutBinding)
         mydialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
 
 
 
@@ -486,7 +463,7 @@ class GamePlayActivity : AppCompatActivity() {
 
         videoView.setOnCompletionListener {
             NextQuestion()
-            binding.background.isClickable = true
+            trialNumb = 1
         }
 
 
@@ -682,8 +659,21 @@ class GamePlayActivity : AppCompatActivity() {
     private fun PlayVideoM() = videoView
 
     private fun NextQuestion() {
+
+        val gameCode = intent.getStringExtra("1111").toString()
+
+        trialNumb = 1
+        shouldCheck = true
         binding.background.visibility = View.VISIBLE
         binding.videoView.visibility = View.GONE
+        hasVideoPlayed = true
+            getOppScore(gameCode)
+        val ses = questionCount * 2
+        if (trial == ses) {
+            getOppScore(gameCode)
+        }
+
+
     }
 
     fun saveName(name: String, trialNum: String, score: String) {
@@ -701,15 +691,46 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun getOppScore(code: String) {
+        val name = intent.getStringExtra(Constants.NAME).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+        val gameCode = intent.getStringExtra("1111").toString()
+        val playFirst = intent.getStringExtra("samyy")
+        val jointCode = intent.getStringExtra("123")
+        val topic = intent.getStringExtra("re").toString()
+
+        player = intent.getStringExtra(Constants.PLAYER).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
         database = FirebaseDatabase.getInstance().getReference("Multiplayer")
         database.child(code).get().addOnSuccessListener {
 
             if (it.exists()) {
-
                 val trialNum = it.child("trialNum").getValue(Int::class.java)!!
                 val code = it.child("my_score").getValue(String::class.java)!!
                 binding.scoreC.text = "$code"
                 scoreCT = code
+//                val ques = questionCount * 2
+//                val west = ques - 1
+//
+//                if (trialNum == west) {
+//                    dismissDialog()
+//                    shouldCheck = false
+//                    executeAfter2Secondssw()
+//                }
+                    if ("$playFirst" == "$name" && trialNum == trialNumm && isDialogOpen == false && shouldCheck == true && trialNumb != 0) {
+                        automaticGamePlay()
+                    } else if ("$playFirst" == "$oppName" && trialNum == trialNumm && isDialogOpen == false && shouldCheck == true && trialNumb != 0) {
+                        automaticGamePlay()
+                    }
+                    if (trialNum > trialNumm && shouldCheck == true && trialNumb != 0) {
+                        if (!isDialogOpen) {
+                            automaticGamePlay()
+                        }
+                    } else if (trialNumm > trialNum && isDialogOpen == false && shouldCheck == true && trialNumb != 0) {
+                        automaticGamePlay()
+                    }
+
             } else {
                 Toast.makeText(this, "Your Opponent is offline", Toast.LENGTH_SHORT).show()
             }
@@ -734,7 +755,8 @@ class GamePlayActivity : AppCompatActivity() {
                 val west = ques - 1
 
                 if (trialNum == west) {
-                    mydialog?.dismiss()
+                    dismissDialog()
+                    shouldCheck = false
                     executeAfter2Secondssw()
                 }
 
@@ -771,11 +793,14 @@ class GamePlayActivity : AppCompatActivity() {
     fun performFunction() {
         val jointCode = intent.getStringExtra("123")
         val gameCode = intent.getStringExtra("1111").toString()
+
+        val name = intent.getStringExtra(Constants.NAME).toString()
+        val playFirst = intent.getStringExtra("samyy")
         // Code for the function you want to perform
         getTrialNum("$jointCode")
         getOppPlayerStatus(gameCode)
         getOppPlayer(gameCode)
-        getOppScore(gameCode)
+        saveScore()
         if (oppScoreStatus == "win" || oppScoreStatus == "lose") {
 
             runOnUiThread {
@@ -788,6 +813,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
 
+
     fun main() {
         // Define the interval in milliseconds
         val interval = 1000L // 5 seconds
@@ -796,6 +822,22 @@ class GamePlayActivity : AppCompatActivity() {
         val timerTask = object : TimerTask() {
             override fun run() {
                 performFunction()
+            }
+        }
+
+        // Schedule the timer task to run at regular intervals
+        timers?.scheduleAtFixedRate(timerTask, 0, interval)
+    }
+
+    fun mains() {
+        val gameCode = intent.getStringExtra("1111").toString()
+        // Define the interval in milliseconds
+        val interval = 5000L // 5 seconds
+
+        timers = Timer()
+        val timerTask = object : TimerTask() {
+            override fun run() {
+                getOppScore(gameCode)
             }
         }
 
@@ -979,7 +1021,7 @@ class GamePlayActivity : AppCompatActivity() {
         mydialog = Dialog(this)
         mydialog?.setContentView(dialogLayoutBinding)
         mydialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        mydialog?.setCancelable(true)
+
 
 
 // Set the question and options in the dialog
@@ -999,6 +1041,7 @@ class GamePlayActivity : AppCompatActivity() {
         } else {
             if (currentQuestionIndex < questionCount) {
                 if (game_mode == "multi_player") {
+                    mydialog?.setCancelable(false)
                     when ("$playFirst") {
                         "$oppName" -> {
                             if (trial % 2 == 0 || trial == 0) {
@@ -1037,7 +1080,6 @@ class GamePlayActivity : AppCompatActivity() {
                         "$name" -> {
                             if (trial % 2 == 0 || trial == 0) {
                                 j=1
-                                mydialog?.setCancelable(true)
                                 mydialogShow()
                                 when(time) {
                                     "30 seconds" ->{
@@ -1074,6 +1116,7 @@ class GamePlayActivity : AppCompatActivity() {
 
                     //    presentQuestionsToUser(questions, questionCount)
                 } else if (game_mode != "multi_player") {
+                    mydialog?.setCancelable(true)
                     mydialogShow()
                 }
             }
@@ -1094,6 +1137,8 @@ class GamePlayActivity : AppCompatActivity() {
                 binding.background.isClickable = false
                 dismissDialog()
                 if (game_mode == "multi_player") {
+                    shouldCheck = false
+                    hasVideoPlayed = false
                     when ("$playFirst") {
                         "$oppName" -> {
                             if (trial % 2 == 0 || trial == 0) {
@@ -1270,6 +1315,7 @@ class GamePlayActivity : AppCompatActivity() {
                 clas = intent.getStringExtra(Constants.CLASS).toString()
 
                 if (trial >= questions && trial != 0) {
+                    shouldCheck = false
                     Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext, GameFinishedActivity::class.java)
                     intent.putExtra(Constants.CLASS, clas)
@@ -1279,6 +1325,7 @@ class GamePlayActivity : AppCompatActivity() {
                     intent.putExtra("opp", oppName)
                     intent.putExtra("name", name)
                     startActivity(intent)
+                    onDestroy()
                     finish()
                     // Perform the desired action here
 
@@ -1325,6 +1372,7 @@ class GamePlayActivity : AppCompatActivity() {
                 clas = intent.getStringExtra(Constants.CLASS).toString()
 
                 if (trial >= questions && trial != 0) {
+                    shouldCheck = false
                     Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext, GameFinishedActivity::class.java)
                     intent.putExtra(Constants.CLASS, clas)
@@ -1334,6 +1382,7 @@ class GamePlayActivity : AppCompatActivity() {
                     intent.putExtra("opp", oppName)
                     intent.putExtra("name", name)
                     startActivity(intent)
+                    onDestroy()
                     finish()
                     // Perform the desired action here
 
@@ -1380,6 +1429,7 @@ class GamePlayActivity : AppCompatActivity() {
                 clas = intent.getStringExtra(Constants.CLASS).toString()
 
                 if (trial >= questions && trial != 0) {
+                    shouldCheck = false
                     Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext, GameFinishedActivity::class.java)
                     intent.putExtra(Constants.CLASS, clas)
@@ -1389,6 +1439,7 @@ class GamePlayActivity : AppCompatActivity() {
                     intent.putExtra("opp", oppName)
                     intent.putExtra("name", name)
                     startActivity(intent)
+                    onDestroy()
                     finish()
                     // Perform the desired action here
 
@@ -1435,6 +1486,7 @@ class GamePlayActivity : AppCompatActivity() {
                 clas = intent.getStringExtra(Constants.CLASS).toString()
 
                 if (trial >= questions && trial != 0) {
+                    shouldCheck = false
                     Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext, GameFinishedActivity::class.java)
                     intent.putExtra(Constants.CLASS, clas)
@@ -1444,6 +1496,7 @@ class GamePlayActivity : AppCompatActivity() {
                     intent.putExtra("opp", oppName)
                     intent.putExtra("name", name)
                     startActivity(intent)
+                    onDestroy()
                     finish()
                     // Perform the desired action here
 
@@ -1510,6 +1563,70 @@ class GamePlayActivity : AppCompatActivity() {
         timer?.start()
     }
 
+
+    private fun executecheckPlay() {
+        timer = object : CountDownTimer(5_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                if (d == 1)
+                {
+                    val gameCode = intent.getStringExtra("1111").toString()
+                    dismissDialog()
+                    getOppScore(gameCode)
+                }
+            }
+
+        }
+        timer?.start()
+    }
+
+    private fun executeNextQuestion() {
+        timer = object : CountDownTimer(1_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+               if (hasVideoPlayed) {
+                   NextQuestion()
+               }
+            }
+
+        }
+        timer?.start()
+    }
+
+    private fun executevidePLay() {
+        timer = object : CountDownTimer(4_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+
+            }
+
+        }
+        timer?.start()
+    }
+
+    private fun executeInitial() {
+        timer = object : CountDownTimer(4_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                openDialog()
+            }
+
+        }
+        timer?.start()
+    }
+
     private fun executeAfter2Secondssw() {
                 if (trial != 0) {
                     val name = intent.getStringExtra(Constants.NAME).toString()
@@ -1528,6 +1645,7 @@ class GamePlayActivity : AppCompatActivity() {
                     intent.putExtra("opp", oppName)
                     intent.putExtra("name", name)
                     startActivity(intent)
+                    onDestroy()
                     finish()
                     // Perform the desired action here
 
@@ -1552,6 +1670,20 @@ class GamePlayActivity : AppCompatActivity() {
         timer?.start()
     }
 
+    private fun executeNotTurnPlay() {
+        timer = object : CountDownTimer(5_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                goToNextActivity()
+            }
+
+        }
+        timer?.start()
+    }
+
 
 
     fun openDialogUpdate() {
@@ -1568,6 +1700,7 @@ class GamePlayActivity : AppCompatActivity() {
                 clas = intent.getStringExtra(Constants.CLASS).toString()
 
 
+
                 // Inflate the dialog box with the question and options
                 // You can use a custom dialog or an AlertDialog for this
 
@@ -1578,6 +1711,7 @@ class GamePlayActivity : AppCompatActivity() {
                 val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
                 val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
                 mydialog?.setContentView(dialogLayoutBinding)
+                mydialog?.setCancelable(false)
 
 
                 secondBtn.visibility = View.GONE
@@ -1588,6 +1722,7 @@ class GamePlayActivity : AppCompatActivity() {
                 getOppScoress(gameCode)
 
 
+
                 question.text = "It is $oppName's turn to play"
 
                 mydialogShow()
@@ -1596,21 +1731,8 @@ class GamePlayActivity : AppCompatActivity() {
             }
 
     private fun mydialogShow() {
-        // Check if the dialog box is already open
-        if (!isDialogOpen) {
-            // Set the dialog box state to open
-            isDialogOpen = true
-
             mydialog?.show()
-
-            // Show your dialog box here
-            // ...
-
-            // Set a delayed task to reset the dialog box state
-            handler.postDelayed({
-                isDialogOpen = false
-            }, debounceDelay)
-        }
+            isDialogOpen = true
         }
 
 
@@ -1641,6 +1763,7 @@ class GamePlayActivity : AppCompatActivity() {
 
     fun dismissDialog() {
         mydialog?.dismiss()
+        isDialogOpen = false
     }
 
     private fun getTimerNum(cls: String, topc: String) {
@@ -1875,6 +1998,91 @@ class GamePlayActivity : AppCompatActivity() {
         // Cancel the timer and its associated tasks
         timers?.cancel()
         timers?.purge()
+        shouldCheck = false
+    }
+
+    fun automaticGamePlay() {
+        if (trialNumm == questionCount) {
+            val name = intent.getStringExtra(Constants.NAME).toString()
+            saveScore()
+                Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+
+                // Perform the desired action here
+            } else {;
+        val name = intent.getStringExtra(Constants.NAME).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
+        val gameCode = intent.getStringExtra("1111").toString()
+        val playFirst = intent.getStringExtra("samyy")
+        val jointCode = intent.getStringExtra("123")
+        val topic = intent.getStringExtra("re").toString()
+
+        player = intent.getStringExtra(Constants.PLAYER).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+
+        if (game_mode == "multi_player") {
+            when ("$playFirst") {
+                "$oppName" -> {
+                    if (trial % 2 == 0 || trial == 0) {
+                        openDialogUpdate()
+                        getOppScore(gameCode)
+                    } else if (trial % 2 != 0 || trial != 0) {
+                        getOppScore(gameCode)
+                        openDialog()
+
+                    }
+
+
+                }
+
+                "$name" -> {
+                    if (trial % 2 == 0 || trial == 0) {
+                        getOppScore(gameCode)
+                        openDialog()
+                    } else if (trial % 2 != 0 || trial != 0) {
+                        openDialogUpdate()
+                        getOppScore(gameCode)
+
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    }
+
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        shouldCheck = false
+        dismissDialog()
+        mydialog?.setCancelable(true)
+
+        // Perform any necessary operations or cleanup before leaving
+
+        // Call finish() to close the current activity and navigate to the previous activity
+        finish()
+
+
+    }
+
+    fun goToNextActivity(){
+        Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+        val name = intent.getStringExtra(Constants.NAME).toString()
+        val topic = intent.getStringExtra("re").toString()
+        val intent = Intent(this, GameFinishedActivity::class.java)
+        intent.putExtra(Constants.CLASS, clas)
+        intent.putExtra("re", "$topic")
+        intent.putExtra("scr", "$score")
+        intent.putExtra("comp", "$scoreCT")
+        intent.putExtra("opp", oppName)
+        intent.putExtra("name", name)
+        startActivity(intent)
+        onDestroy()
+        finish()
     }
 
 
