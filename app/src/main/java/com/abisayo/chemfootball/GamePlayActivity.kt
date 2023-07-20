@@ -49,7 +49,7 @@ class GamePlayActivity : AppCompatActivity() {
     var oppScoreStatus = "nil"
     var studentScore = "JESUS IS LORD"
     var currentQuestionIndex = 0
-    var questionCount = 0
+    var questionCount = 200000
     var oppName = "Computer"
     var time = "I min"
     val handler = Handler()
@@ -63,6 +63,7 @@ class GamePlayActivity : AppCompatActivity() {
     var isDialogOpen = false
     var shouldCheck = true
     var hasVideoPlayed = false
+    var trialOpp = 0
 
     // Create a handler and a delay duration for debouncing
     val debounceDelay = 5000L
@@ -101,7 +102,6 @@ class GamePlayActivity : AppCompatActivity() {
 
 
         if (game_mode == "multi_player") {
-            binding.background.isClickable = false
             oppName = intent.getStringExtra("oppName").toString()
             getTrialNum("$jointCode")
             val rootView = findViewById<View>(android.R.id.content)
@@ -109,10 +109,9 @@ class GamePlayActivity : AppCompatActivity() {
                 override fun onGlobalLayout() {
                     rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     // Show the dialog here
-                    executeInitial()
+                    automaticGamePlay()
                 }
             })
-            getOppPlayer(gameCode)
             getOppScore(gameCode)
 
             main()
@@ -135,6 +134,9 @@ class GamePlayActivity : AppCompatActivity() {
         }
 
         binding.background.setOnClickListener {
+            if (game_mode == "multi_player") {
+                automaticGamePlay()
+            }
              if (game_mode != "multi_player") {
                 openSingleDialog()
             }
@@ -236,82 +238,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     private fun oppTurn(option: String) {
-        binding.background.isClickable = false
-        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
-        val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
-        val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
-        val secondBtn = dialogLayoutBinding.findViewById<TextView>(R.id.secondbtn)
-        val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
-        val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
-        val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-        mydialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-
-
-       dismissDialog()
-        d = 0
-
-        var play = R.raw.messi
-        var play_misses = R.raw.messi_misses
-
-        var keep = R.raw.allison_keeper_wins
-        var keep_misses = R.raw.alisson_keeper_misses
-        binding.videoView.visibility = View.VISIBLE
-
-        videoView = binding.videoView
-
-        when (oppPlayer) {
-            "Fragment1" -> {
-                play = R.raw.ronaldo
-                play_misses = R.raw.ronaldo_misses
-            }
-            "Fragment2" -> {
-                play = R.raw.messi
-                play_misses = R.raw.messi_misses
-            }
-            "Fragment3" -> {
-                play = R.raw.mbappe
-                play_misses = R.raw.mbappe_misses
-            }
-            "Fragment4" -> {
-                play = R.raw.neymar
-                play_misses = R.raw.neymar_misses
-            }
-            "Fragment5" -> {
-                play = R.raw.rashford
-                play_misses = R.raw.rashford_misses
-            }
-            "Fragment6" -> {
-                play_misses = R.raw.de_bruyen_misses
-                play = R.raw.de_bruyen
-
-            }
-            "Fragment7" -> {
-                play = R.raw.messi
-                play_misses = R.raw.messi_misses
-            }
-            "Fragment8" -> {
-                play = R.raw.haaland
-                play_misses = R.raw.messi_misses
-            }
-
-
-        }
-
-        if (option == "win") {
-            playOppVideo(play)
-            executeAfter2Seconds()
-        } else if (option == "lose") {
-            VideoOppMisssPlay(play_misses)
-            executeAfter2Seconds()
-        }
-
-
-        videoView.setOnCompletionListener {
-            // Video playback completed
-            NextQuestion()
-
-        }
+        getOppScore(option)
 
     }
 
@@ -464,6 +391,7 @@ class GamePlayActivity : AppCompatActivity() {
         videoView.setOnCompletionListener {
             NextQuestion()
             trialNumb = 1
+            binding.background.isClickable = true
         }
 
 
@@ -710,27 +638,7 @@ class GamePlayActivity : AppCompatActivity() {
                 val code = it.child("my_score").getValue(String::class.java)!!
                 binding.scoreC.text = "$code"
                 scoreCT = code
-//                val ques = questionCount * 2
-//                val west = ques - 1
-//
-//                if (trialNum == west) {
-//                    dismissDialog()
-//                    shouldCheck = false
-//                    executeAfter2Secondssw()
-//                }
-                    if ("$playFirst" == "$name" && trialNum == trialNumm && isDialogOpen == false && shouldCheck == true && trialNumb != 0) {
-                        automaticGamePlay()
-                    } else if ("$playFirst" == "$oppName" && trialNum == trialNumm && isDialogOpen == false && shouldCheck == true && trialNumb != 0) {
-                        automaticGamePlay()
-                    }
-                    if (trialNum > trialNumm && shouldCheck == true && trialNumb != 0) {
-                        if (!isDialogOpen) {
-                            automaticGamePlay()
-                        }
-                    } else if (trialNumm > trialNum && isDialogOpen == false && shouldCheck == true && trialNumb != 0) {
-                        automaticGamePlay()
-                    }
-
+                trialOpp = trialNum
             } else {
                 Toast.makeText(this, "Your Opponent is offline", Toast.LENGTH_SHORT).show()
             }
@@ -798,13 +706,21 @@ class GamePlayActivity : AppCompatActivity() {
         val playFirst = intent.getStringExtra("samyy")
         // Code for the function you want to perform
         getTrialNum("$jointCode")
-        getOppPlayerStatus(gameCode)
-        getOppPlayer(gameCode)
         saveScore()
-        if (oppScoreStatus == "win" || oppScoreStatus == "lose") {
+        getOppScore(gameCode)
+        if (trialNumm != 0) {
 
             runOnUiThread {
-                oppTurn(oppScoreStatus)
+
+                saveTrialNum(
+                    "$name",
+                    "$oppName",
+                    "$jointCode",
+                    "$playFirst",
+                    "$player",
+                    trialNumm
+                )
+
                 // Update or interact with your views here
                 // Update or interact with your views here
             }
@@ -829,21 +745,6 @@ class GamePlayActivity : AppCompatActivity() {
         timers?.scheduleAtFixedRate(timerTask, 0, interval)
     }
 
-    fun mains() {
-        val gameCode = intent.getStringExtra("1111").toString()
-        // Define the interval in milliseconds
-        val interval = 5000L // 5 seconds
-
-        timers = Timer()
-        val timerTask = object : TimerTask() {
-            override fun run() {
-                getOppScore(gameCode)
-            }
-        }
-
-        // Schedule the timer task to run at regular intervals
-        timers?.scheduleAtFixedRate(timerTask, 0, interval)
-    }
 
     fun saveTrialNum(
         name: String,
@@ -895,7 +796,7 @@ class GamePlayActivity : AppCompatActivity() {
             scoreStatus,
             my_score,
             opponent_score,
-            trial,
+            trialNumm,
             whoPlayFirst,
             players
         )
@@ -919,7 +820,7 @@ class GamePlayActivity : AppCompatActivity() {
 
 
             } else {
-                Toast.makeText(this, "User Does not Exist", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "User is Offline", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener {
 
@@ -1041,78 +942,7 @@ class GamePlayActivity : AppCompatActivity() {
         } else {
             if (currentQuestionIndex < questionCount) {
                 if (game_mode == "multi_player") {
-                    mydialog?.setCancelable(false)
-                    when ("$playFirst") {
-                        "$oppName" -> {
-                            if (trial % 2 == 0 || trial == 0) {
-                                openDialogUpdate()
-                            } else if (trial % 2 != 0 || trial != 0) {
-                                j = 1
-                                mydialogShow()
-                                when(time) {
-                                    "30 seconds" ->{
-                                        if (j== 1) {
-                                            executeAfter30Seconds()
-                                        }
-                                    }
-                                    "1 minute" -> {
-                                        if (j== 1) {
-                                            executeAfter1Minute()
-                                        }
-                                    }
-
-                                    "2 minutes" -> {
-                                        if (j== 1) {
-                                            executeAfter2Minutes()
-                                        }
-
-                                    }
-
-                                    "3 minutes" -> {
-                                        if (j== 1) {
-                                            executeAfter3Minutes()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        "$name" -> {
-                            if (trial % 2 == 0 || trial == 0) {
-                                j=1
-                                mydialogShow()
-                                when(time) {
-                                    "30 seconds" ->{
-                                        if (j== 1) {
-                                            executeAfter30Seconds()
-                                        }
-                                    }
-                                    "1 minute" -> {
-                                        if (j== 1) {
-                                            executeAfter1Minute()
-                                        }
-                                    }
-
-                                    "2 minutes" -> {
-                                        if (j== 1) {
-                                            executeAfter2Minutes()
-                                        }
-
-                                    }
-
-                                    "3 minutes" -> {
-                                        if (j== 1) {
-                                            executeAfter3Minutes()
-                                        }
-                                    }
-                                }
-
-                            } else if (trial % 2 != 0 || trial != 0) {
-                                openDialogUpdate()
-
-                            }
-                        }
-                    }
+                    mydialogShow()
 
                     //    presentQuestionsToUser(questions, questionCount)
                 } else if (game_mode != "multi_player") {
@@ -1137,13 +967,6 @@ class GamePlayActivity : AppCompatActivity() {
                 binding.background.isClickable = false
                 dismissDialog()
                 if (game_mode == "multi_player") {
-                    shouldCheck = false
-                    hasVideoPlayed = false
-                    when ("$playFirst") {
-                        "$oppName" -> {
-                            if (trial % 2 == 0 || trial == 0) {
-                                openDialogUpdate()
-                            } else if (trial % 2 != 0 || trial != 0) {
                                 currentQuestionIndex++
 
 
@@ -1187,64 +1010,11 @@ class GamePlayActivity : AppCompatActivity() {
 
 
                                 }
-                            }
 
 
                         }
 
-                        "$name" -> {
-                            if (trial % 2 == 0 || trial == 0) {
-                                currentQuestionIndex++
-
-
-                                // Handle option selection here
-                                // You can check if the selected option is correct and perform any necessary actions
-
-                                // Check if the selected option is the correct answer
-                                val selectedAnswer = button.text.toString()
-                                val isCorrect = selectedAnswer == correctAnswer
-
-                                if (isCorrect) {
-                                    if (trial % 2 == 0 || trial == 0) {
-                                        binding.footballImageView.visibility = View.VISIBLE
-                                        binding.leftLayout.visibility = View.VISIBLE
-                                        binding.rightLayout.visibility = View.VISIBLE
-                                        binding.chooseLayout.visibility = View.VISIBLE
-                                        selectGoalScore2("win")
-                                    } else if (trial % 2 == 1 || trial == 1) {
-                                        binding.footballImageView.visibility = View.VISIBLE
-                                        binding.leftLayout.visibility = View.VISIBLE
-                                        binding.rightLayout.visibility = View.VISIBLE
-                                        binding.chooseLayout.visibility = View.VISIBLE
-                                        selectGoalScore2("win")
-                                    }
-
-                                } else if (!isCorrect) {
-                                    if (trial % 2 == 0 || trial == 0) {
-                                        binding.footballImageView.visibility = View.VISIBLE
-                                        binding.leftLayout.visibility = View.VISIBLE
-                                        binding.rightLayout.visibility = View.VISIBLE
-                                        binding.chooseLayout.visibility = View.VISIBLE
-                                        selectGoalScore2("lose")
-                                    } else if (trial % 2 == 1 || trial == 1) {
-                                        binding.footballImageView.visibility = View.VISIBLE
-                                        binding.leftLayout.visibility = View.VISIBLE
-                                        binding.rightLayout.visibility = View.VISIBLE
-                                        binding.chooseLayout.visibility = View.VISIBLE
-                                        selectGoalScore2("lose")
-                                    }
-
-
-                                }
-
-                            } else if (trial % 2 != 0 || trial != 0) {
-                                openDialogUpdate()
-
-                            }
-                        }
-
-                    }
-                } else if (game_mode != "multi_player") {
+                 else if (game_mode != "multi_player") {
                     currentQuestionIndex++
 
                     // Handle option selection here
@@ -1331,14 +1101,6 @@ class GamePlayActivity : AppCompatActivity() {
 
                 } else if (trial <= questions) {
                     trial++
-                    saveTrialNum(
-                        "$name",
-                        "$oppName",
-                        "$jointCode",
-                        "$playFirst",
-                        "$player",
-                        trial
-                    )
                     playVideos("lose", true, "left")
                 }
             }
@@ -1388,14 +1150,6 @@ class GamePlayActivity : AppCompatActivity() {
 
                 } else if (trial <= questions) {
                     trial++
-                    saveTrialNum(
-                        "$name",
-                        "$oppName",
-                        "$jointCode",
-                        "$playFirst",
-                        "$player",
-                        trial
-                    )
                     playVideos("lose", true, "left")
                 }
             }
@@ -1445,14 +1199,6 @@ class GamePlayActivity : AppCompatActivity() {
 
                 } else if (trial <= questions) {
                     trial++
-                    saveTrialNum(
-                        "$name",
-                        "$oppName",
-                        "$jointCode",
-                        "$playFirst",
-                        "$player",
-                        trial
-                    )
                     playVideos("lose", true, "left")
                 }
             }
@@ -1502,14 +1248,6 @@ class GamePlayActivity : AppCompatActivity() {
 
                 } else if (trial <= questions) {
                     trial++
-                    saveTrialNum(
-                        "$name",
-                        "$oppName",
-                        "$jointCode",
-                        "$playFirst",
-                        "$player",
-                        trial
-                    )
                     playVideos("lose", true, "left")
                 }
             }
@@ -1670,65 +1408,8 @@ class GamePlayActivity : AppCompatActivity() {
         timer?.start()
     }
 
-    private fun executeNotTurnPlay() {
-        timer = object : CountDownTimer(5_000, 1_000) {
-            override fun onTick(p0: Long) {
-
-            }
-
-            override fun onFinish() {
-                goToNextActivity()
-            }
-
-        }
-        timer?.start()
-    }
 
 
-
-    fun openDialogUpdate() {
-                val name = intent.getStringExtra(Constants.NAME).toString()
-                clas = intent.getStringExtra(Constants.CLASS).toString()
-                val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
-                val gameCode = intent.getStringExtra("1111").toString()
-                val oppName = intent.getStringExtra("oppName").toString()
-                val playFirst = intent.getStringExtra("samyy")
-                val jointCode = intent.getStringExtra("123")
-                val topic = intent.getStringExtra("re").toString()
-
-                player = intent.getStringExtra(Constants.PLAYER).toString()
-                clas = intent.getStringExtra(Constants.CLASS).toString()
-
-
-
-                // Inflate the dialog box with the question and options
-                // You can use a custom dialog or an AlertDialog for this
-
-                val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
-                val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
-                val secondBtn = dialogLayoutBinding.findViewById<TextView>(R.id.secondbtn)
-                val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
-                val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
-                val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
-                mydialog?.setContentView(dialogLayoutBinding)
-                mydialog?.setCancelable(false)
-
-
-                secondBtn.visibility = View.GONE
-                firstBtn.visibility = View.GONE
-                thirdBtn.visibility = View.GONE
-                fourthBtn.visibility = View.GONE
-
-                getOppScoress(gameCode)
-
-
-
-                question.text = "It is $oppName's turn to play"
-
-                mydialogShow()
-
-
-            }
 
     private fun mydialogShow() {
             mydialog?.show()
@@ -2005,11 +1686,14 @@ class GamePlayActivity : AppCompatActivity() {
         if (trialNumm == questionCount) {
             val name = intent.getStringExtra(Constants.NAME).toString()
             saveScore()
-                Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "You have reached the end, $oppName is still playing...", Toast.LENGTH_SHORT).show()
+                if (trialOpp == questionCount) {
+                    goToNextActivity()
+                }
 
                 // Perform the desired action here
-            } else {;
-        val name = intent.getStringExtra(Constants.NAME).toString()
+            } else {
+            val name = intent.getStringExtra(Constants.NAME).toString()
         clas = intent.getStringExtra(Constants.CLASS).toString()
         val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
         val gameCode = intent.getStringExtra("1111").toString()
@@ -2022,32 +1706,7 @@ class GamePlayActivity : AppCompatActivity() {
         val keeper = intent.getStringExtra(Constants.KEEPER).toString()
 
         if (game_mode == "multi_player") {
-            when ("$playFirst") {
-                "$oppName" -> {
-                    if (trial % 2 == 0 || trial == 0) {
-                        openDialogUpdate()
-                        getOppScore(gameCode)
-                    } else if (trial % 2 != 0 || trial != 0) {
-                        getOppScore(gameCode)
-                        openDialog()
-
-                    }
-
-
-                }
-
-                "$name" -> {
-                    if (trial % 2 == 0 || trial == 0) {
-                        getOppScore(gameCode)
-                        openDialog()
-                    } else if (trial % 2 != 0 || trial != 0) {
-                        openDialogUpdate()
-                        getOppScore(gameCode)
-
-                    }
-                }
-
-            }
+            openDialog()
 
         }
     }
@@ -2070,7 +1729,7 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
     fun goToNextActivity(){
-        Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "$oppName is done playing" , Toast.LENGTH_SHORT).show()
         val name = intent.getStringExtra(Constants.NAME).toString()
         val topic = intent.getStringExtra("re").toString()
         val intent = Intent(this, GameFinishedActivity::class.java)
@@ -2081,7 +1740,6 @@ class GamePlayActivity : AppCompatActivity() {
         intent.putExtra("opp", oppName)
         intent.putExtra("name", name)
         startActivity(intent)
-        onDestroy()
         finish()
     }
 
