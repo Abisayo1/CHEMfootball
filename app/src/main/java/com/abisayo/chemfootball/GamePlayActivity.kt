@@ -231,7 +231,7 @@ class GamePlayActivity : AppCompatActivity() {
             intent.putExtra("opp", oppName)
             intent.putExtra("name", name)
             startActivity(intent)
-            onDestroy()
+            finish()
         } else if (trial <= questionCount) {
             getQuestionsSS2(classs = clas, topic)
         }
@@ -587,19 +587,10 @@ class GamePlayActivity : AppCompatActivity() {
     private fun PlayVideoM() = videoView
 
     private fun NextQuestion() {
-
-        val gameCode = intent.getStringExtra("1111").toString()
-
-        trialNumb = 1
-        shouldCheck = true
         binding.background.visibility = View.VISIBLE
         binding.videoView.visibility = View.GONE
-        hasVideoPlayed = true
-            getOppScore(gameCode)
-        val ses = questionCount * 2
-        if (trial == ses) {
-            getOppScore(gameCode)
-        }
+
+
 
 
     }
@@ -1687,6 +1678,7 @@ class GamePlayActivity : AppCompatActivity() {
             val name = intent.getStringExtra(Constants.NAME).toString()
             saveScore()
                 Toast.makeText(this, "You have reached the end, $oppName is still playing...", Toast.LENGTH_SHORT).show()
+            saveScore()
                 if (trialOpp == questionCount) {
                     goToNextActivity()
                 }
@@ -1730,6 +1722,7 @@ class GamePlayActivity : AppCompatActivity() {
 
     fun goToNextActivity(){
         Toast.makeText(this, "$oppName is done playing" , Toast.LENGTH_SHORT).show()
+        saveScore()
         val name = intent.getStringExtra(Constants.NAME).toString()
         val topic = intent.getStringExtra("re").toString()
         val intent = Intent(this, GameFinishedActivity::class.java)
