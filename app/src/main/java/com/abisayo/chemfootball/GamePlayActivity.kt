@@ -789,7 +789,8 @@ class GamePlayActivity : AppCompatActivity() {
             opponent_score,
             trialNumm,
             whoPlayFirst,
-            players
+            players,
+            topic = "nil"
         )
         if (userID != null) {
             database.child(userID).setValue(multi_player).addOnSuccessListener {
@@ -1746,4 +1747,8 @@ class GamePlayActivity : AppCompatActivity() {
         foot.x = right.x + (right.width - foot.width) / 2
         foot.y = right.y + (right.height - foot.height) / 2
     }
+
+
     }
+
+

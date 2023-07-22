@@ -17,5 +17,6 @@ data class Multiplayer(
     var opponent_score : String?=null,
     var trialNum: Int? = null,
     var whoPlayFirst: String? = null,
-    var player: String? = null
+    var player: String? = null,
+    var topic: String? = null
 )
