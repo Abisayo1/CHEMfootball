@@ -3,9 +3,9 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
 import com.abisayo.chemfootball.data.Constants
@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 
-class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(val admin: String) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     private lateinit var mListener: onItemClickListener
     private lateinit var currentitem : Courses
@@ -48,11 +48,39 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
         currentitem = courseList[position]
 
+        val itemView = holder.itemView
+
         holder.courseTitle.text = currentitem.courseTitle
         val courseTitle = currentitem.courseTitle
         val repeated = currentitem.note
+        val classs = currentitem.clas
+        val question = currentitem.question
 
-        val itemView = holder.itemView
+
+
+
+
+        if (admin == "Admin") {
+            holder.deleteImg.visibility = View.VISIBLE
+        }
+
+        holder.deleteImg.setOnClickListener {
+            classs?.let {
+                if (courseTitle != null) {
+                    if (question != null) {
+                        deleteData(it, courseTitle, question, itemView)
+                    }
+                }
+            }
+
+            if (classs != null) {
+                if (courseTitle != null) {
+                    deleteData2(classs, courseTitle, itemView)
+                }
+            }
+        }
+
+
 
         itemView.setOnClickListener {
             val userID = FirebaseAuth.getInstance().currentUser?.uid
@@ -115,6 +143,9 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
 
         val courseTitle: TextView = itemView.findViewById(R.id.question)
+        val deleteImg : ImageView = itemView.findViewById(R.id.img_del)
+
+
 
         init {
 
@@ -123,6 +154,34 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
             }
         }
 
+
+    }
+
+    private fun deleteData(classs : String, topic: String, question : String, g: View ) {
+
+        var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs, $topic")
+        database.child("$question").removeValue().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(g.context, "Successfuly Deleted", Toast.LENGTH_SHORT).show()
+
+            } else {
+                Toast.makeText(g.context, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
+    private fun deleteData2(classs : String, topic: String, g: View ) {
+
+        var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
+        database.child("$topic").removeValue().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(g.context, "Successfuly Deleted", Toast.LENGTH_SHORT).show()
+
+            } else {
+                Toast.makeText(g.context, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
 
     }
 

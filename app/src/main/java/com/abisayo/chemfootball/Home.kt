@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.abisayo.chemfootball.displayAvailablePlayers.DisplayAvailablePlayersActivity
 import com.abisayo.chemfootball.models.CoursesViewModel
 
 
@@ -27,10 +28,12 @@ private const val ARG_PARAM2 = "param2"
  private lateinit var adapters : MyAdapter
 
 
+
 class Home : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    var admin: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +45,14 @@ class Home : Fragment() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val activity = activity as? DisplayCoursesActivity
+        admin = activity?.getAdmin()
+
+
+        return view
     }
 
     companion object {
@@ -79,7 +84,7 @@ class Home : Fragment() {
         courseRecyclerView = view.findViewById(R.id.recyclerView)
         courseRecyclerView.layoutManager = LinearLayoutManager(context)
         courseRecyclerView.setHasFixedSize(true)
-        adapters = MyAdapter()
+        adapters = admin?.let { MyAdapter(it) }!!
         courseRecyclerView.adapter = adapters
 
         adapters.setonItemClickListener(object : MyAdapter.onItemClickListener{

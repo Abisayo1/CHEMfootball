@@ -1,4 +1,4 @@
-package com.abisayo.chemfootball
+package com.abisayo.chemfootball.displayAvailablePlayers
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,11 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
-import com.abisayo.chemfootball.displayAvailablePlayers.AvailablePlayersAdapter
-import com.abisayo.chemfootball.displayAvailablePlayers.AvailablePlayersViewModel
-import com.abisayo.chemfootball.displayAvailablePlayers.DisplayAvailablePlayersActivity
-import com.abisayo.chemfootball.models.CoursesViewModel
+import com.abisayo.chemfootball.R
 
 
 // TODO: Rename parameter arguments, choose names that match

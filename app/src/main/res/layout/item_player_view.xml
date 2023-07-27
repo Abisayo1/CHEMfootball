@@ -42,9 +42,9 @@
                 android:layout_marginTop="19dp"
                 android:gravity="center_horizontal"
                 android:text="Abisayo"
-                android:textSize="19sp"
                 android:textAlignment="center"
                 android:textColor="#ffff"
+                android:textSize="19sp"
                 app:layout_constraintEnd_toEndOf="@+id/textView22"
                 app:layout_constraintStart_toStartOf="@+id/textView22"
                 app:layout_constraintTop_toBottomOf="@+id/textView22" />
@@ -75,9 +75,9 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
                 android:text="Name:"
+                android:textColor="#ffff"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="#ffff"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.525"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +96,20 @@
                 app:layout_constraintHorizontal_bias="0.491"
                 app:layout_constraintStart_toStartOf="@+id/student_name"
                 app:layout_constraintTop_toBottomOf="@+id/student_name" />
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:maxHeight="100dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView23"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

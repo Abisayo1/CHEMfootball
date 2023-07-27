@@ -115,9 +115,10 @@ class AddQuestionsActivity : AppCompatActivity() {
 
     fun saveTopics(clas: String, topic: String, repeated: String, timer: String) {
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
+        val question = binding.questionEditText.text.toString()
 
         database = FirebaseDatabase.getInstance().getReference("$clas")
-        val courses = Courses(topic, repeated, timer)
+        val courses = Courses(topic, repeated, timer, clas, "$question")
         if (userID != null) {
             database.child(topic).setValue(courses).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()

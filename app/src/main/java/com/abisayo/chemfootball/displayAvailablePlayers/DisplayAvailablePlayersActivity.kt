@@ -3,8 +3,6 @@ package com.abisayo.chemfootball.displayAvailablePlayers
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.abisayo.chemfootball.Home2
-import com.abisayo.chemfootball.Homei
 import com.abisayo.chemfootball.R
 import com.abisayo.chemfootball.data.Constants
 

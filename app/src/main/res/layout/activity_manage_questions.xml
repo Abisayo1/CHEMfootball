@@ -12,7 +12,7 @@
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="56dp"
         android:gravity="center"
         android:text="Welcome Mr Tochukwu"
         android:textColor="#FFFFFF"
@@ -25,67 +25,51 @@
 
 
     <Button
-        android:id="@+id/add_users"
+        android:id="@+id/editQuestion"
         android:layout_width="311dp"
         android:layout_height="70dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="192dp"
         android:backgroundTint="#5200FF"
         android:gravity="center"
-        android:text="Add Users"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        app:cornerRadius="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/manageQuestions"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/manageQuestions"
-        app:layout_constraintTop_toBottomOf="@+id/manageQuestions" />
-
-    <Button
-        android:id="@+id/check_student_scores"
-        android:layout_width="311dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#5200FF"
-        android:gravity="center"
-        android:text="Student Scores"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        app:cornerRadius="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/add_users"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/add_users"
-        app:layout_constraintTop_toBottomOf="@+id/add_users" />
-
-    <Button
-        android:id="@+id/preventReg"
-        android:layout_width="311dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="#F44336"
-        android:gravity="center"
-        android:text="Prevent Registration"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        app:cornerRadius="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/check_student_scores"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/check_student_scores"
-        app:layout_constraintTop_toBottomOf="@+id/check_student_scores" />
-
-    <Button
-        android:id="@+id/manageQuestions"
-        android:layout_width="311dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="128dp"
-        android:backgroundTint="#5200FF"
-        android:gravity="center"
-        android:text="Manage Questions"
+        android:text="Edit Question"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome" />
+
+
+    <Button
+        android:id="@+id/save_questions"
+        android:layout_width="311dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#5200FF"
+        android:gravity="center"
+        android:text="Save Questions for Later"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_questions" />
+
+    <Button
+        android:id="@+id/add_questions"
+        android:layout_width="311dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#5200FF"
+        android:gravity="center"
+        android:text="Add Questions Now"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/editQuestion"
+        app:layout_constraintTop_toBottomOf="@+id/editQuestion" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".manageLMS.ManageQuestionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".manageLMS.EditTopicsActivity"
+            android:exported="false" />
+        <activity
             android:name=".DisplaySpecialCodeActivity"
             android:exported="false" />
         <activity

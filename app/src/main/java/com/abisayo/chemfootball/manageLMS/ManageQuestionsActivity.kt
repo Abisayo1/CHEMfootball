@@ -5,13 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import com.abisayo.chemfootball.R
+import com.abisayo.chemfootball.SelectClassActivity
 import com.abisayo.chemfootball.data.Constants
-import com.abisayo.chemfootball.databinding.ActivityManageLmsBinding
+import com.abisayo.chemfootball.databinding.ActivityManageQuestionsBinding
 import com.abisayo.chemfootball.notes_affairs.NoteActivity
 
-
-class ManageLMSActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityManageLmsBinding
+class ManageQuestionsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityManageQuestionsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
@@ -20,24 +21,22 @@ class ManageLMSActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        binding = ActivityManageLmsBinding.inflate(layoutInflater)
+        binding = ActivityManageQuestionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        binding.checkStudentScores.setOnClickListener {
-            val intent = Intent(this, DisplayStudentScoresActivity::class.java)
+        binding.editQuestion.setOnClickListener {
+            val intent = Intent(this, SelectClassActivity::class.java)
+            intent.putExtra("Admin", "Admin")
             startActivity(intent)
         }
 
-        binding.manageQuestions.setOnClickListener {
-            val intent = Intent(this, ManageQuestionsActivity::class.java)
+        binding.addQuestions.setOnClickListener {
+            val intent = Intent(this, SelectQuestionClassActivity::class.java)
             startActivity(intent)
         }
 
-
-
-        binding.addUsers.setOnClickListener {
-            val intent = Intent(this, AddUserActivity::class.java)
+        binding.saveQuestions.setOnClickListener {
+            val intent = Intent(this, NoteActivity::class.java)
             startActivity(intent)
         }
     }

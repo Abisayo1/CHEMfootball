@@ -12,9 +12,6 @@ import com.abisayo.chemfootball.R
 import com.abisayo.chemfootball.databinding.ActivityAddEditNoteBinding
 import com.abisayo.chemfootball.models.Courses
 import com.abisayo.chemfootball.models.Questions
-import com.abisayo.chemfootball.notes_affairs.Note
-import com.abisayo.chemfootball.notes_affairs.NoteActivity
-import com.abisayo.chemfootball.notes_affairs.NoteViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -247,10 +244,11 @@ class AddEditNoteActivity : AppCompatActivity() {
     }
 
     fun saveTopics(clas: String, topic: String, repeated: String, timer: String) {
+        val question = binding.topic.text.toString()
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
         database = FirebaseDatabase.getInstance().getReference("$clas")
-        val courses = Courses(topic, repeated, timer)
+        val courses = Courses(topic, repeated, timer, clas, "$question")
         if (userID != null) {
             database.child(topic).setValue(courses).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
