@@ -35,6 +35,12 @@ class SelectClassActivity : AppCompatActivity() {
             intent.putExtra(Constants.CLASS, "SS3")
             startActivity(intent)
         }
+
+        binding.addMe.setOnClickListener {
+            val intent = Intent(this, DisplaySpecialCodeActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.manage.setOnClickListener {
             val intent = Intent(this, EnterAdminPassword::class.java)
             startActivity(intent)

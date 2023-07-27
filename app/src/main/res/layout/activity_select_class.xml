@@ -23,7 +23,7 @@
         android:id="@+id/SS1"
         android:layout_width="311dp"
         android:layout_height="83dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="88dp"
         android:backgroundTint="#5D9BA4"
         android:gravity="center"
         android:text="SS1"
@@ -31,7 +31,6 @@
         android:textColor="#FFFFFF"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome" />
 
@@ -84,10 +83,28 @@
         app:layout_constraintVertical_bias="0.048" />
 
     <Button
+        android:id="@+id/addMe"
+        android:layout_width="311dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#5D9BA4"
+        android:gravity="center"
+        android:text="Register Me for Multiplayer"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SS3"
+        app:layout_constraintVertical_bias="0.048" />
+
+    <Button
         android:id="@+id/manage"
         android:layout_width="311dp"
         android:layout_height="83dp"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="44dp"
         android:backgroundTint="#335155"
         android:gravity="center"
         android:text="Manage LMS"
@@ -98,7 +115,7 @@
         app:layout_constraintEnd_toEndOf="@+id/SS3"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/SS3"
-        app:layout_constraintTop_toBottomOf="@+id/SS3"
+        app:layout_constraintTop_toBottomOf="@+id/addMe"
         app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,16 +27,46 @@
         android:id="@+id/add_questions"
         android:layout_width="311dp"
         android:layout_height="83dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="56dp"
         android:backgroundTint="#5200FF"
         android:gravity="center"
-        android:text="Add Questions"
+        android:text="Add Questions Now"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome" />
+
+    <Button
+        android:id="@+id/add_users"
+        android:layout_width="311dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#5200FF"
+        android:gravity="center"
+        android:text="Add Users"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/save_questions" />
+
+    <Button
+        android:id="@+id/save_questions"
+        android:layout_width="311dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#5200FF"
+        android:gravity="center"
+        android:text="Save Questions for Later"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_questions" />
 
     <Button
         android:id="@+id/check_student_scores"
@@ -51,7 +81,7 @@
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_questions" />
+        app:layout_constraintTop_toBottomOf="@+id/add_users" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

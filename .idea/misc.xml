@@ -4,14 +4,19 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/drawable-v24/ic_add.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/drawable/copyable_text_background.xml" value="0.2890625" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/drawable/custom_drawable.xml" value="0.2846153846153846" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/drawable/default_option_border_bg.xml" value="0.25" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/drawable/default_option_correct.xml" value="0.2890625" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_add_edit_note.xml" value="0.25" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_add_questions.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_add_user.xml" value="0.20925925925925926" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_confirm_details.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_create_account.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_answers.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_available_players.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_courses.xml" value="0.26871794871794874" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_special_code.xml" value="0.20925925925925926" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_ss2_courses.xml" value="0.26871794871794874" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_ss3_courses.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_display_student_scores.xml" value="0.1037037037037037" />
@@ -22,7 +27,8 @@
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_game_play.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_login.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_main.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_manage_lms.xml" value="0.14074074074074075" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_manage_lms.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_note.xml" value="0.20925925925925926" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_select_class.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_select_keeper.xml" value="0.2074074074074074" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_select_opponent.xml" value="0.14074074074074075" />
@@ -32,6 +38,7 @@
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_splash_screen.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_upload_player_details.xml" value="0.25" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/dialog_layout.xml" value="0.33" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/dialog_leave_gameplay.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/display_data_item.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/display_score_item.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_1.xml" value="0.25277777777777777" />
@@ -55,7 +62,10 @@
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/fragment_v_i_i.xml" value="0.2074074074074074" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/item_player_view.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/layout.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/note_rv_item.xml" value="0.25" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/topic_item_view.xml" value="0.26871794871794874" />
+        <entry key="..\:/Users/dell/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/dell/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.27291666666666664" />
       </map>
     </option>
   </component>

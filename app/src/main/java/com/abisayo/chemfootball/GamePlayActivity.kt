@@ -206,7 +206,7 @@ class GamePlayActivity : AppCompatActivity() {
                 intent.putExtra("opp", oppName)
                 intent.putExtra("name", name)
                 startActivity(intent)
-            onDestroy()
+                onDestroy()
                 finish()
                 // Perform the desired action here
 
@@ -1707,20 +1707,6 @@ class GamePlayActivity : AppCompatActivity() {
     }
 
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        shouldCheck = false
-        dismissDialog()
-        mydialog?.setCancelable(true)
-
-        // Perform any necessary operations or cleanup before leaving
-
-        // Call finish() to close the current activity and navigate to the previous activity
-        finish()
-
-
-    }
-
     fun goToNextActivity(){
         Toast.makeText(this, "$oppName is done playing" , Toast.LENGTH_SHORT).show()
         saveScore()
@@ -1746,6 +1732,41 @@ class GamePlayActivity : AppCompatActivity() {
     private fun moveBallToOrigin(foot: ImageView, right: View) {
         foot.x = right.x + (right.width - foot.width) / 2
         foot.y = right.y + (right.height - foot.height) / 2
+    }
+
+    override fun onBackPressed() {
+
+        shouldCheck = false
+        dismissDialog()
+        mydialog?.setCancelable(true)
+
+        // Perform any necessary operations or cleanup before leaving
+
+        // Call finish() to close the current activity and navigate to the previous activity
+        showLeaveGameplayDialog()
+
+
+
+
+    }
+
+    private fun showLeaveGameplayDialog() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_leave_gameplay, null)
+        dialogBuilder.setView(dialogView)
+
+        dialogBuilder.setPositiveButton("Leave") { _, _ ->
+            // Handle leave gameplay action here
+            finish() // Finish the activity if the user chooses to leave
+        }
+
+        dialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss() // Dismiss the dialog if the user chooses to cancel
+        }
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
     }
 
 

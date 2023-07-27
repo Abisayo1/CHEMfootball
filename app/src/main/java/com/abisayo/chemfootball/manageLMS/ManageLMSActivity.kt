@@ -7,6 +7,8 @@ import android.view.Window
 import android.view.WindowManager
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityManageLmsBinding
+import com.abisayo.chemfootball.notes_affairs.NoteActivity
+
 
 class ManageLMSActivity : AppCompatActivity() {
     private lateinit var binding: ActivityManageLmsBinding
@@ -28,6 +30,16 @@ class ManageLMSActivity : AppCompatActivity() {
 
         binding.checkStudentScores.setOnClickListener {
             val intent = Intent(this, DisplayStudentScoresActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.saveQuestions.setOnClickListener {
+            val intent = Intent(this, NoteActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.addUsers.setOnClickListener {
+            val intent = Intent(this, AddUserActivity::class.java)
             startActivity(intent)
         }
     }
