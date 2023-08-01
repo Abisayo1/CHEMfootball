@@ -1,4 +1,4 @@
-package com.abisayo.chemfootball
+package com.abisayo.chemfootball.displaySS3courses
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.abisayo.chemfootball.displaySS2Courses.SS3CoursesAdapter
-import com.abisayo.chemfootball.displaySS3courses.SS3CoursesViewModel
-import com.abisayo.chemfootball.models.CoursesViewModel
+import com.abisayo.chemfootball.R
+import com.abisayo.chemfootball.SS3CoursesAdapter
+
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -33,6 +33,7 @@ class Home3 : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    var admin: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +45,14 @@ class Home3 : Fragment() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val activity = activity as? DisplaySS3CoursesActivity
+        admin = activity?.getAdmin()
+
+
+        return view
     }
 
     companion object {
@@ -64,7 +67,7 @@ class Home3 : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            Home2().apply {
+            Home3().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -81,7 +84,7 @@ class Home3 : Fragment() {
         courseRecyclerView = view.findViewById(R.id.recyclerView)
         courseRecyclerView.layoutManager = LinearLayoutManager(context)
         courseRecyclerView.setHasFixedSize(true)
-        adapters = SS3CoursesAdapter()
+        adapters = admin?.let { SS3CoursesAdapter(it) }!!
         courseRecyclerView.adapter = adapters
 
         adapters.setonItemClickListener(object : SS3CoursesAdapter.onItemClickListener{

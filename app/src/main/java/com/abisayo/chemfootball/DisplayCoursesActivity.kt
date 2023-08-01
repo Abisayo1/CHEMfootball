@@ -2,6 +2,7 @@ package com.abisayo.chemfootball
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 class DisplayCoursesActivity : AppCompatActivity() {
@@ -12,6 +13,8 @@ class DisplayCoursesActivity : AppCompatActivity() {
 
         replaceFragment(Home())
         admin = intent.getStringExtra("Admin").toString()
+
+        Toast.makeText(this, "Topics loading...", Toast.LENGTH_LONG).show()
     }
 
     private fun replaceFragment(fragment: Fragment) {

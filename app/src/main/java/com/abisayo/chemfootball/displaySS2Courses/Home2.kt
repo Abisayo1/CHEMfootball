@@ -9,8 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.abisayo.chemfootball.displaySS2Courses.DisplaySS2CoursesActivity
 import com.abisayo.chemfootball.displaySS2Courses.SS2CoursesAdapter
 import com.abisayo.chemfootball.displaySS2Courses.SS2CoursesViewModel
+import com.abisayo.chemfootball.displaySS3courses.DisplaySS3CoursesActivity
 import com.abisayo.chemfootball.models.CoursesViewModel
 
 
@@ -33,6 +35,7 @@ class Home2 : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    var admin: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +47,14 @@ class Home2 : Fragment() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val activity = activity as? DisplaySS2CoursesActivity
+        admin = activity?.getAdmin()
+
+
+        return view
     }
 
     companion object {
@@ -81,7 +86,7 @@ class Home2 : Fragment() {
         courseRecyclerView = view.findViewById(R.id.recyclerView)
         courseRecyclerView.layoutManager = LinearLayoutManager(context)
         courseRecyclerView.setHasFixedSize(true)
-        adapters = SS2CoursesAdapter()
+        adapters = admin?.let { SS2CoursesAdapter(it) }!!
         courseRecyclerView.adapter = adapters
 
         adapters.setonItemClickListener(object : SS2CoursesAdapter.onItemClickListener{

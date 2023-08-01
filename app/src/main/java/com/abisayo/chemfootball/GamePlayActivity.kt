@@ -22,6 +22,7 @@ import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityGamePlayBinding
 import com.abisayo.chemfootball.models.*
@@ -97,6 +98,10 @@ class GamePlayActivity : AppCompatActivity() {
         getTimerNum(clas, topic)
 
 
+        execute2Secondss()
+
+
+
 
         binding.namePlayer.text = name
 
@@ -109,7 +114,8 @@ class GamePlayActivity : AppCompatActivity() {
                 override fun onGlobalLayout() {
                     rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     // Show the dialog here
-                    automaticGamePlay()
+
+
                 }
             })
             getOppScore(gameCode)
@@ -125,7 +131,7 @@ class GamePlayActivity : AppCompatActivity() {
                 override fun onGlobalLayout() {
                     rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     // Show the dialog here
-                    openSingleDialog()
+
                 }
             })
             binding.computerPlayer.text = "Computer"
@@ -1329,33 +1335,7 @@ class GamePlayActivity : AppCompatActivity() {
         timer?.start()
     }
 
-    private fun executevidePLay() {
-        timer = object : CountDownTimer(4_000, 1_000) {
-            override fun onTick(p0: Long) {
 
-            }
-
-            override fun onFinish() {
-
-            }
-
-        }
-        timer?.start()
-    }
-
-    private fun executeInitial() {
-        timer = object : CountDownTimer(4_000, 1_000) {
-            override fun onTick(p0: Long) {
-
-            }
-
-            override fun onFinish() {
-                openDialog()
-            }
-
-        }
-        timer?.start()
-    }
 
     private fun executeAfter2Secondssw() {
                 if (trial != 0) {
@@ -1394,6 +1374,21 @@ class GamePlayActivity : AppCompatActivity() {
 
             override fun onFinish() {
                 saveScoreStatus("nil")
+            }
+
+        }
+        timer?.start()
+    }
+
+
+    private fun execute2Secondss() {
+        timer = object : CountDownTimer(2_000, 1_000) {
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                openInstructioneDialog()
             }
 
         }
@@ -1767,6 +1762,39 @@ class GamePlayActivity : AppCompatActivity() {
 
         val dialog = dialogBuilder.create()
         dialog.show()
+    }
+
+    fun openInstructioneDialog() {
+        binding.background.isClickable = false
+        val keeper = intent.getStringExtra(Constants.KEEPER).toString()
+        val dialogLayoutBinding = layoutInflater.inflate(R.layout.dialog_layout, null)
+        val question = dialogLayoutBinding.findViewById<TextView>(R.id.question)
+        val secondBtn = dialogLayoutBinding.findViewById<TextView>(R.id.secondbtn)
+        val firstBtn = dialogLayoutBinding.findViewById<TextView>(R.id.firstbtn)
+        val thirdBtn = dialogLayoutBinding.findViewById<TextView>(R.id.thridbtn)
+        val fourthBtn = dialogLayoutBinding.findViewById<TextView>(R.id.fourthbtn)
+        mydialog = Dialog(this)
+        mydialog?.setContentView(dialogLayoutBinding)
+        mydialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+
+        mydialog?.setCancelable(false)
+
+        question.text = "Tap the screen once to view question, answer questions correctly to score points!"
+        firstBtn.text = "Got it"
+        secondBtn.isVisible = false
+        thirdBtn.isVisible = false
+        fourthBtn.isVisible = false
+
+        mydialogShow()
+
+        firstBtn.setOnClickListener {
+            dismissDialog()
+            binding.background.isClickable = true
+        }
+
+
     }
 
 

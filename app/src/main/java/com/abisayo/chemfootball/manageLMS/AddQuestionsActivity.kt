@@ -88,7 +88,7 @@ class AddQuestionsActivity : AppCompatActivity() {
                             database.child("$question").setValue(Question).addOnSuccessListener {
                                 if (selectedOption2 != null) {
                                     if (selectedoption3 != null) {
-                                        saveTopics("$selectedOption", "$topic", selectedOption2, selectedoption3)
+                                        saveTopics("$selectedOption", "$topic", selectedOption2, selectedoption3, "$option1", "$option2", "$option3", "$option4", "$answer")
                                     }
                                 }
                                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
@@ -113,12 +113,12 @@ class AddQuestionsActivity : AppCompatActivity() {
     }
 
 
-    fun saveTopics(clas: String, topic: String, repeated: String, timer: String) {
+    fun saveTopics(clas: String, topic: String, repeated: String, timer: String, option1: String, option2: String, option3: String, option4: String, answer: String) {
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
         val question = binding.questionEditText.text.toString()
 
         database = FirebaseDatabase.getInstance().getReference("$clas")
-        val courses = Courses(topic, repeated, timer, clas, "$question")
+        val courses = Courses(topic, repeated, timer, clas, "$question", option1, option2, option3, option4, answer)
         if (userID != null) {
             database.child(topic).setValue(courses).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()

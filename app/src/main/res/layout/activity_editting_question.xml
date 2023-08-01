@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_shade_1"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dialog"
+        android:orientation="vertical">
+
+        <!-- Question Text -->
+        <TextView
+            android:id="@+id/topic12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:paddingBottom="8dp"
+            android:text="Topic:"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/topic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="Enter topic"
+            android:inputType="text" />
+
+        <!-- Question Text -->
+        <TextView
+            android:id="@+id/questionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="8dp"
+            android:text="Select class"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp">
+
+            <RadioButton
+                android:id="@+id/radio_option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SS1" />
+
+            <RadioButton
+                android:id="@+id/radio_option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SS2" />
+
+            <RadioButton
+                android:id="@+id/radio_option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SS3" />
+
+        </RadioGroup>
+
+        <!-- Question Text -->
+        <TextView
+            android:id="@+id/questionTextView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="8dp"
+            android:text="How many times for game-play?"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radio_group2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp">
+
+            <RadioButton
+                android:id="@+id/radio_option12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Once" />
+
+            <RadioButton
+                android:id="@+id/radio_option22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Repeated" />
+
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="8dp"
+            android:text="Timer"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radio_group3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp">
+
+            <RadioButton
+                android:id="@+id/radio_option13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30 seconds" />
+
+            <RadioButton
+                android:id="@+id/radio_option23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 minute" />
+
+            <RadioButton
+                android:id="@+id/radio_option33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 minutes" />
+
+            <RadioButton
+                android:id="@+id/radio_option43"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 minutes" />
+
+
+        </RadioGroup>
+
+
+        <EditText
+            android:id="@+id/questionn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Enter the Question"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+        <EditText
+            android:id="@+id/edit_note_optionA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/questionn"
+            android:layout_margin="10dp"
+            android:hint="Enter Option A"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+        <EditText
+            android:id="@+id/edit_note_optionB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_note_optionA"
+            android:layout_margin="10dp"
+            android:hint="Enter Option B"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+        <EditText
+            android:id="@+id/edit_note_optionC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_note_optionB"
+            android:layout_margin="10dp"
+            android:hint="Enter Option C"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+        <EditText
+            android:id="@+id/edit_note_optionD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_note_optionC"
+            android:layout_margin="10dp"
+            android:hint="Enter Option D"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+        <Spinner
+            android:id="@+id/answerSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:entries="@array/answer_options" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/add_updateBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/custom_drawable"
+                android:text="update"/>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</ScrollView>
+

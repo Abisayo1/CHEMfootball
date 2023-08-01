@@ -120,12 +120,16 @@ class AddEditNoteActivity : AppCompatActivity() {
 
 
             binding.topic.setText(topic)
-            if (classs == "SS1"){
-                binding.radioOption1.isChecked = true
-            } else if (classs == "SS2") {
-                binding.radioOption2.isChecked = true
-            } else if (classs == "SS3") {
-                binding.radioOption3.isChecked = true
+            when (classs) {
+                "SS1" -> {
+                    binding.radioOption1.isChecked = true
+                }
+                "SS2" -> {
+                    binding.radioOption2.isChecked = true
+                }
+                "SS3" -> {
+                    binding.radioOption3.isChecked = true
+                }
             }
 
             if (counter == "Once") {
@@ -134,14 +138,19 @@ class AddEditNoteActivity : AppCompatActivity() {
                 binding.radioOption22.isChecked = true
             }
 
-            if (timer == "30 seconds") {
-                binding.radioOption13.isChecked = true
-            } else if (timer == "1 minute") {
-                binding.radioOption23.isChecked = true
-            } else if (timer == "2 minutes") {
-                binding.radioOption33.isChecked = true
-            } else if (timer == "3 minutes") {
-                binding.radioOption43.isChecked = true
+            when (timer) {
+                "30 seconds" -> {
+                    binding.radioOption13.isChecked = true
+                }
+                "1 minute" -> {
+                    binding.radioOption23.isChecked = true
+                }
+                "2 minutes" -> {
+                    binding.radioOption33.isChecked = true
+                }
+                "3 minutes" -> {
+                    binding.radioOption43.isChecked = true
+                }
             }
 
         } else {
@@ -243,12 +252,12 @@ class AddEditNoteActivity : AppCompatActivity() {
         }
     }
 
-    fun saveTopics(clas: String, topic: String, repeated: String, timer: String) {
+    fun saveTopics(clas: String, topic: String, repeated: String, timer: String, option1: String, option2: String, option3: String, option4: String, answer: String) {
         val question = binding.topic.text.toString()
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
         database = FirebaseDatabase.getInstance().getReference("$clas")
-        val courses = Courses(topic, repeated, timer, clas, "$question")
+        val courses = Courses(topic, repeated, timer, clas, "$question", option1, option2, option3, option4, answer)
         if (userID != null) {
             database.child(topic).setValue(courses).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
@@ -263,7 +272,7 @@ class AddEditNoteActivity : AppCompatActivity() {
         val Question = Questions(classs, selectedOption2, question, "$optionA", "$optionB", "$optionC", "$optionD", answer, selectedOption3)
         database.child("$question").setValue(Question).addOnSuccessListener {
             Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-            saveTopics("$selectedOption", "$topic", selectedOption2, selectedOption3)
+            saveTopics("$selectedOption", "$topic", selectedOption2, selectedOption3, "$optionA", "$optionB", "$optionC", "$optionD", "$answer")
         }.addOnFailureListener {
             Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
         }

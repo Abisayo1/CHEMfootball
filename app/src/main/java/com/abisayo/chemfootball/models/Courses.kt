@@ -1,6 +1,6 @@
 package com.abisayo.chemfootball.models
 
-data class Courses(var courseTitle: String? = null, var note: String? = null, var timer: String? = null, var clas: String? = null, var question: String? = null)
+data class Courses(var courseTitle: String? = null, var note: String? = null, var timer: String? = null, var clas: String? = null, var question: String? = null, var option1: String ?= null, var option2: String? = null, var option3: String ?= null, var option4: String? = null, var answer: String?= null)
 data class Credentials(var name: String?= null, var specialCode: String ?= null)
 
 data class Scores(var studentName: String ?= null, var courseTitle: String ?= null, var studentScore : String ?= null, val userId: String?= null, var count: String? = null)
