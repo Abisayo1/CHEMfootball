@@ -7,12 +7,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.abisayo.chemfootball.data.Constants.EXTRA_CLOSE_APP
 import com.abisayo.chemfootball.databinding.ActivityLoginBinding
+import com.abisayo.chemfootball.models.Credentials
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlin.system.exitProcess
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var database : DatabaseReference
     private lateinit var binding: ActivityLoginBinding
     private lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -30,12 +35,13 @@ class LoginActivity : AppCompatActivity() {
         binding.button.setOnClickListener {
             val email = binding.email.text.toString().trim()
             val pass = binding.editTextTextPassword.text.toString().trim()
+            val name = binding.name.text.toString()
 
-            if (email.isNotEmpty() && pass.isNotEmpty()) {
-
+            if (email.isNotEmpty() && pass.isNotEmpty() and name.isNotEmpty()) {
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
                         val intent = Intent(this, SelectClassActivity::class.java)
+                        saveCredentials(name)
                         startActivity(intent)
                         finish()
                     }else {
@@ -48,6 +54,21 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+
+    fun saveCredentials(name: String) {
+        val  userID = FirebaseAuth.getInstance().currentUser?.uid
+
+        database = FirebaseDatabase.getInstance().getReference("PlayersCred")
+        val credential = Credentials(name, userID)
+        if (userID != null) {
+            database.child("$userID").setValue(credential).addOnSuccessListener {
+                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 //    override fun onStart() {

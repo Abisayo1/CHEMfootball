@@ -8,13 +8,18 @@ import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivitySelectClassBinding
 import com.abisayo.chemfootball.displaySS2Courses.DisplaySS2CoursesActivity
 import com.abisayo.chemfootball.displaySS3courses.DisplaySS3CoursesActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class SelectClassActivity : AppCompatActivity() {
+    private lateinit var firebaseAuth: FirebaseAuth
+
     private lateinit var binding: ActivitySelectClassBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectClassBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        firebaseAuth = FirebaseAuth.getInstance()
 
         val admin = intent.getStringExtra("Admin").toString()
 
@@ -48,8 +53,10 @@ class SelectClassActivity : AppCompatActivity() {
         }
 
         binding.addMe.setOnClickListener {
-            val intent = Intent(this, DisplaySpecialCodeActivity::class.java)
+            firebaseAuth.signOut()
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.manage.setOnClickListener {
