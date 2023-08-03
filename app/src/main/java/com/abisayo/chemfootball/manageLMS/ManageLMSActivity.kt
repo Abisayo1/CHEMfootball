@@ -40,5 +40,10 @@ class ManageLMSActivity : AppCompatActivity() {
             val intent = Intent(this, AddUserActivity::class.java)
             startActivity(intent)
         }
+
+        binding.preventReg.setOnClickListener {
+            val intent = Intent(this, DeleteUsersActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

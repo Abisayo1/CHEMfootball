@@ -32,6 +32,7 @@ class Homei : Fragment() {
     var player: String? = null
     var name : String? = null
     var topic: String? = null
+    var admin: String? = null
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -55,6 +56,7 @@ class Homei : Fragment() {
         player = activity?.getPLayer()
         name = activity?.getName()
         topic = activity?.getTopic()
+        admin = activity?.getAdmin()
 
         return view
     }
@@ -88,7 +90,7 @@ class Homei : Fragment() {
         availablePlayersRecyclerView = view.findViewById(R.id.recyclerView)
         availablePlayersRecyclerView.layoutManager = LinearLayoutManager(context)
         availablePlayersRecyclerView.setHasFixedSize(true)
-        adapters = AvailablePlayersAdapter(clas!!, player!!, name!!, topic!!)
+        adapters = AvailablePlayersAdapter(clas!!, player!!, name!!, topic!!, admin!!)
         availablePlayersRecyclerView.adapter = adapters
 
         adapters.setonItemClickListener(object : AvailablePlayersAdapter.onItemClickListener{

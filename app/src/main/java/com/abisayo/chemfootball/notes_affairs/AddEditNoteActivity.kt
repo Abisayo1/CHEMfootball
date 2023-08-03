@@ -162,7 +162,7 @@ class AddEditNoteActivity : AppCompatActivity() {
             val selectedAnswer = answerSpinner.selectedItem as String
             val topic = binding.topic.text.toString()
             val classs = selectedOption
-            val question = binding.topic.text.toString()
+            val question = binding.questionn.text.toString()
             val optionA = binding.editNoteOptionA.text.toString()
             val optionB = binding.editNoteOptionB.text.toString()
             val optionC = binding.editNoteOptionC.text.toString()
@@ -220,7 +220,7 @@ class AddEditNoteActivity : AppCompatActivity() {
             val selectedAnswer = answerSpinner.selectedItem as String
             val topic = binding.topic.text.toString()
             val classs = selectedOption
-            val question = binding.topic.text.toString()
+            val question = binding.questionn.text.toString()
             val optionA = binding.editNoteOptionA.text.toString()
             val optionB = binding.editNoteOptionB.text.toString()
             val optionC = binding.editNoteOptionC.text.toString()
@@ -253,7 +253,7 @@ class AddEditNoteActivity : AppCompatActivity() {
     }
 
     fun saveTopics(clas: String, topic: String, repeated: String, timer: String, option1: String, option2: String, option3: String, option4: String, answer: String) {
-        val question = binding.topic.text.toString()
+        val question = binding.questionn.text.toString()
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
         database = FirebaseDatabase.getInstance().getReference("$clas")

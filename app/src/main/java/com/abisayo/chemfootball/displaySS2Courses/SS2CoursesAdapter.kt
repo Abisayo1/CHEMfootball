@@ -64,6 +64,8 @@ class SS2CoursesAdapter(val admin: String): RecyclerView.Adapter<SS2CoursesAdapt
         val answer = currentitem.answer
         val timer = currentitem.timer
 
+        Toast.makeText(itemView.context, "$admin", Toast.LENGTH_SHORT).show()
+
 
 
 

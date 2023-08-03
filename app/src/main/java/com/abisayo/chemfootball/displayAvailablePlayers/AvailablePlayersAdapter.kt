@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -14,8 +15,9 @@ import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.models.Credentials
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
-class AvailablePlayersAdapter(val clas: String, val player: String, val name: String, val topic: String): RecyclerView.Adapter<AvailablePlayersAdapter.MyViewHolder>() {
+class AvailablePlayersAdapter(val clas: String, val player: String, val name: String, val topic: String, val admin: String): RecyclerView.Adapter<AvailablePlayersAdapter.MyViewHolder>() {
 
     private lateinit var database : DatabaseReference
 
@@ -57,6 +59,7 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
         holder.playerName.text = currentitem.name
         holder.specialCode.text = currentitem.specialCode
 
+
         val specialCode = currentitem.specialCode
         val playerName = currentitem.name
 
@@ -64,6 +67,15 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
         codes = "$specialCode + $userID"
 
         val itemView = holder.itemView
+
+        if (admin == "Admin") {
+            holder.img.visibility = View.VISIBLE
+        }
+
+        holder.img.setOnClickListener {
+            deleteData2("${currentitem.specialCode}", itemView)
+        }
+
 
 
         itemView.setOnClickListener {
@@ -109,6 +121,7 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
 
         val playerName: TextView = itemView.findViewById(R.id.student_name)
         val specialCode : TextView = itemView.findViewById(R.id.id)
+        val img : ImageView = itemView.findViewById(R.id.img)
 
         init {
 
@@ -119,6 +132,20 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
 
         }
 
+
+    }
+
+    private fun deleteData2(specialCode : String, g: View ) {
+
+        var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("PlayersCred")
+        database.child("$specialCode").removeValue().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(g.context, "Successfully Deleted", Toast.LENGTH_SHORT).show()
+
+            } else {
+                Toast.makeText(g.context, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
 
     }
 

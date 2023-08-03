@@ -7,6 +7,7 @@ import com.abisayo.chemfootball.R
 import com.abisayo.chemfootball.data.Constants
 
 class DisplayAvailablePlayersActivity : AppCompatActivity() {
+    private var admin = ""
     private var clas = "SS1"
     private var player = ""
     private var name = "abisayo"
@@ -20,6 +21,7 @@ class DisplayAvailablePlayersActivity : AppCompatActivity() {
 
         name = intent.getStringExtra(Constants.NAME).toString()
         topic = intent.getStringExtra("re").toString()
+        admin = intent.getStringExtra("Admin").toString()
 
 
         replaceFragment(Homei())
@@ -48,5 +50,9 @@ class DisplayAvailablePlayersActivity : AppCompatActivity() {
 
     fun getTopic(): String {
         return topic
+    }
+
+    fun getAdmin(): String {
+        return admin
     }
 }
