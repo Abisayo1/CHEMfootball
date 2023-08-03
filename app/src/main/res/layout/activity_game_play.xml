@@ -5,6 +5,9 @@
     android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
     android:background="@drawable/football_field">
 
     <!-- activity_main.xml -->

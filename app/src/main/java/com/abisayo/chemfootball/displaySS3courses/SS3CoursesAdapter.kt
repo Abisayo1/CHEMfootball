@@ -68,8 +68,8 @@ class SS3CoursesAdapter(val admin: String): RecyclerView.Adapter<SS3CoursesAdapt
 
 
 
-        if (admin == "Admin") {
-            holder.deleteImg.visibility = View.VISIBLE
+        if (admin != "Admin") {
+            holder.deleteImg.visibility = View.GONE
         }
 
         holder.deleteImg.setOnClickListener {

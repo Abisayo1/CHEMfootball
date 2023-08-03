@@ -73,7 +73,9 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
         }
 
         holder.img.setOnClickListener {
-            deleteData2("${currentitem.specialCode}", itemView)
+            if (userID != specialCode) {
+                deleteData2("${holder.specialCode.text}", itemView)
+            }
         }
 
 

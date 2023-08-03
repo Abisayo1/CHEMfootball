@@ -67,8 +67,8 @@ class MyAdapter(val admin: String) : RecyclerView.Adapter<MyAdapter.MyViewHolder
 
 
 
-        if (admin == "Admin") {
-            holder.deleteImg.visibility = View.VISIBLE
+        if (admin != "Admin") {
+            holder.deleteImg.visibility = View.GONE
         }
 
         holder.deleteImg.setOnClickListener {

@@ -65,6 +65,7 @@ class GamePlayActivity : AppCompatActivity() {
     var shouldCheck = true
     var hasVideoPlayed = false
     var trialOpp = 0
+    var we = 0
 
     // Create a handler and a delay duration for debouncing
     val debounceDelay = 5000L
@@ -140,11 +141,13 @@ class GamePlayActivity : AppCompatActivity() {
         }
 
         binding.background.setOnClickListener {
-            if (game_mode == "multi_player") {
-                automaticGamePlay()
-            }
-             if (game_mode != "multi_player") {
-                openSingleDialog()
+            if (we == 1) {
+                if (game_mode == "multi_player") {
+                    automaticGamePlay()
+                }
+                if (game_mode != "multi_player") {
+                    openSingleDialog()
+                }
             }
 
 
@@ -1432,6 +1435,7 @@ class GamePlayActivity : AppCompatActivity() {
     fun dismissDialog() {
         mydialog?.dismiss()
         isDialogOpen = false
+        we = 1
     }
 
     private fun getTimerNum(cls: String, topc: String) {
@@ -1792,6 +1796,7 @@ class GamePlayActivity : AppCompatActivity() {
         firstBtn.setOnClickListener {
             dismissDialog()
             binding.background.isClickable = true
+
         }
 
 
