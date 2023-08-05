@@ -19,20 +19,20 @@
         android:layout_height="match_parent"
         android:background="@drawable/select_goal"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".MainActivity"
         android:visibility="gone"
         tools:layout_editor_absoluteX="-96dp">
+
 
         <RelativeLayout
             android:id="@+id/leftLayout"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="231dp"
-            android:layout_marginLeft="16dp"
-            android:visibility="gone"
-            android:layout_marginTop="96dp"
+            android:layout_marginStart="234dp"
+            android:layout_marginLeft="234dp"
+            android:layout_marginTop="132dp"
             android:background="#00FFFFFF" />
 
         <RelativeLayout
@@ -40,14 +40,13 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="157dp"
+            android:layout_marginStart="150dp"
             android:layout_marginLeft="150dp"
-            android:layout_marginTop="87dp"
+            android:layout_marginTop="132dp"
             android:layout_marginRight="16dp"
-            android:visibility="gone"
             android:layout_toEndOf="@id/leftLayout"
+            android:layout_toRightOf="@id/leftLayout"
             android:background="#00FFFFFF" />
-
 
         <RelativeLayout
             android:id="@+id/originalLayout"
@@ -55,10 +54,10 @@
             android:layout_height="50dp"
             android:layout_alignBottom="@+id/leftLayout"
             android:layout_marginLeft="400dp"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="130dp"
             android:background="#00FFFFFF"
             android:translationX="0dp"
-            android:translationY="250dp" />
+            android:translationY="230dp" />
 
 
         <RelativeLayout
@@ -66,6 +65,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="357dp"
             android:layout_marginLeft="16dp"
@@ -80,10 +80,10 @@
             android:layout_height="50dp"
             android:layout_alignBottom="@+id/leftLayout"
             android:layout_marginLeft="400dp"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="130dp"
             android:src="@drawable/ball"
             android:translationX="0dp"
-            android:translationY="250dp" />
+            android:translationY="230dp" />
 
     </RelativeLayout>
 
@@ -99,7 +99,8 @@
         android:textStyle="bold"
         app:fontFamily="sans-serif"
         app:layout_constraintEnd_toStartOf="@+id/dash"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="16dp" />
 
     <TextView
         android:id="@+id/dash"
@@ -129,7 +130,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/dash"
         app:layout_constraintEnd_toStartOf="@+id/computerPlayer"
         app:layout_constraintTop_toTopOf="@+id/dash"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginRight="16dp" />
 
     <TextView
         android:id="@+id/namePlayer"
@@ -146,7 +148,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/computerPlayer"
         app:layout_constraintEnd_toStartOf="@id/scoreV"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginRight="16dp" />
 
     <TextView
         android:id="@+id/computerPlayer"
@@ -161,7 +164,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/scoreC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginRight="40dp" />
 
     <VideoView
         android:id="@+id/videoView"

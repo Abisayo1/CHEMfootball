@@ -21,15 +21,16 @@
         app:layout_constraintBottom_toBottomOf="@+id/scoreC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.942" />
+        app:layout_constraintVertical_bias="0.942"
+        android:layout_marginRight="204dp" />
 
     <TextView
         android:id="@+id/namePlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="204dp"
+        android:layout_marginStart="100dp"
         android:gravity="center"
-        android:text="John"
+        android:text="Jon"
         android:textAlignment="center"
         android:textColor="#51125C"
         android:textSize="20sp"
@@ -40,7 +41,8 @@
         app:layout_constraintHorizontal_bias="0.74"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginLeft="204dp" />
 
     <TextView
         android:id="@+id/dash"
@@ -100,7 +102,7 @@
         android:id="@+id/see_answers"
         android:layout_width="221dp"
         android:layout_height="40dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="88dp"
         android:background="@drawable/default_option_border_bg"
         android:gravity="center"
         android:text="See answers"
@@ -108,7 +110,7 @@
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/computerPlayer"
-        app:layout_constraintHorizontal_bias="0.312"
+        app:layout_constraintHorizontal_bias="0.734"
         app:layout_constraintStart_toStartOf="@+id/namePlayer"
         app:layout_constraintTop_toBottomOf="@+id/dash" />
 

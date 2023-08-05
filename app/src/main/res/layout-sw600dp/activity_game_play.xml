@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:background="@drawable/football_field">
+
+    <!-- activity_main.xml -->
+
+
+    <RelativeLayout
+        android:id="@+id/chooseLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/select_goal"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="-96dp">
+
+
+        <RelativeLayout
+            android:id="@+id/leftLayout"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="259dp"
+            android:layout_marginLeft="259dp"
+            android:layout_marginTop="145dp"
+            android:background="#00FFFFFF" />
+
+        <RelativeLayout
+            android:id="@+id/rightLayout"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="124dp"
+            android:layout_marginLeft="124dp"
+            android:layout_marginTop="147dp"
+            android:layout_marginEnd="179dp"
+            android:layout_marginRight="179dp"
+            android:layout_toEndOf="@+id/leftLayout"
+            android:layout_toRightOf="@+id/leftLayout"
+            android:background="#00FFFFFF" />
+
+        <RelativeLayout
+            android:id="@+id/originalLayout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignBottom="@+id/leftLayout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="502dp"
+            android:layout_marginLeft="502dp"
+            android:layout_marginBottom="-161dp"
+            android:translationX="0dp"
+            android:translationY="20dp" />
+
+
+        <RelativeLayout
+            android:id="@+id/middleLayout"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="473dp"
+            android:layout_marginLeft="473dp"
+            android:layout_marginTop="161dp"
+            android:background="#00FFFFFF"
+            android:translationX="0dp"
+            android:translationY="-13dp" />
+
+        <ImageView
+            android:id="@+id/footballImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignBottom="@+id/leftLayout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="502dp"
+            android:layout_marginLeft="502dp"
+            android:layout_marginBottom="-161dp"
+            android:src="@drawable/ball"
+            android:translationX="0dp"
+            android:translationY="20dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/scoreV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="0"
+        android:textColor="#51125C"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif"
+        app:layout_constraintEnd_toStartOf="@+id/dash"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="16dp" />
+
+    <TextView
+        android:id="@+id/dash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="-"
+        android:textColor="#51125C"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif"
+        app:layout_constraintBottom_toBottomOf="@+id/scoreV"
+        app:layout_constraintEnd_toStartOf="@+id/scoreC"
+        app:layout_constraintTop_toTopOf="@+id/scoreV"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginRight="16dp" />
+
+    <TextView
+        android:id="@+id/scoreC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="0"
+        android:textColor="#51125C"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif"
+        app:layout_constraintBottom_toBottomOf="@+id/dash"
+        app:layout_constraintEnd_toStartOf="@+id/computerPlayer"
+        app:layout_constraintTop_toTopOf="@+id/dash"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginRight="16dp" />
+
+    <TextView
+        android:id="@+id/namePlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:text="John"
+        android:textAlignment="center"
+        android:textColor="#51125C"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif"
+        app:layout_constraintBottom_toBottomOf="@+id/computerPlayer"
+        app:layout_constraintEnd_toStartOf="@id/scoreV"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginRight="16dp" />
+
+    <TextView
+        android:id="@+id/computerPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:text="Computer"
+        android:textColor="#51125C"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif"
+        app:layout_constraintBottom_toBottomOf="@+id/scoreC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginRight="40dp" />
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

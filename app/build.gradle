@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.abisayo.chemfootball"
         multiDexEnabled true
-        minSdk 19
+        minSdk 16
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -70,7 +70,6 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
 
-    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
 
 

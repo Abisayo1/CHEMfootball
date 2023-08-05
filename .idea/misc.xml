@@ -8,6 +8,8 @@
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/drawable/custom_drawable.xml" value="0.2846153846153846" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/drawable/default_option_border_bg.xml" value="0.25" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/drawable/default_option_correct.xml" value="0.2890625" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout-sw600dp/activity_game_finished.xml" value="0.42265625" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout-sw600dp/activity_game_play.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_add_edit_note.xml" value="0.25" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_add_questions.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_add_user.xml" value="0.20925925925925926" />
@@ -25,7 +27,7 @@
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_editting_question.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_enter_admin_password.xml" value="0.14074074074074075" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_enter_name.xml" value="0.25" />
-        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_game_finished.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_game_finished.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_game_intro.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_game_play.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/dell/AndroidStudioProjects/ChemFootball/app/src/main/res/layout/activity_login.xml" value="0.26666666666666666" />
