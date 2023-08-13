@@ -32,24 +32,45 @@ class SelectClassActivity : AppCompatActivity() {
 
 
         binding.SS1.setOnClickListener {
+            if (admin != "Select"){
             val intent = Intent(this, DisplayCoursesActivity::class.java)
             intent.putExtra(Constants.CLASS, "SS1")
             intent.putExtra("Admin", admin)
             startActivity(intent)
+            } else if (admin == "Select") {
+                val intent = Intent(this, DisplayCoursesActivity::class.java)
+                intent.putExtra(Constants.CLASS, "SS1")
+                intent.putExtra("Admin", "Select")
+                startActivity(intent)
+            }
         }
 
         binding.SS2.setOnClickListener {
-            val intent = Intent(this, DisplaySS2CoursesActivity::class.java)
-            intent.putExtra(Constants.CLASS, "SS2")
-            intent.putExtra("Admin", admin)
-            startActivity(intent)
+            if (admin != "Select") {
+                val intent = Intent(this, DisplaySS2CoursesActivity::class.java)
+                intent.putExtra(Constants.CLASS, "SS2")
+                intent.putExtra("Admin", admin)
+                startActivity(intent)
+            } else if (admin == "Select"){
+                val intent = Intent(this, DisplaySS2CoursesActivity::class.java)
+                intent.putExtra(Constants.CLASS, "SS2")
+                intent.putExtra("Admin", "Select")
+                startActivity(intent)
+            }
         }
 
         binding.SS3.setOnClickListener {
-            val intent = Intent(this, DisplaySS3CoursesActivity::class.java)
-            intent.putExtra(Constants.CLASS, "SS3")
-            intent.putExtra("Admin", admin)
-            startActivity(intent)
+            if (admin != "Select") {
+                val intent = Intent(this, DisplaySS3CoursesActivity::class.java)
+                intent.putExtra(Constants.CLASS, "SS3")
+                intent.putExtra("Admin", admin)
+                startActivity(intent)
+            } else if (admin == "Select"){
+                val intent = Intent(this, DisplaySS3CoursesActivity::class.java)
+                intent.putExtra(Constants.CLASS, "SS3")
+                intent.putExtra("Admin", "Select")
+                startActivity(intent)
+            }
         }
 
         binding.addMe.setOnClickListener {

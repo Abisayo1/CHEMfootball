@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
 import com.abisayo.chemfootball.data.Constants
+import com.abisayo.chemfootball.displayAvailablePlayers.DisplayAvailablePlayersActivity
 import com.abisayo.chemfootball.manageLMS.EdittingQuestionActivity
 import com.abisayo.chemfootball.models.Courses
 import com.google.firebase.auth.FirebaseAuth
@@ -19,14 +20,14 @@ import com.google.firebase.database.FirebaseDatabase
 class MyAdapter(val admin: String) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     private lateinit var mListener: onItemClickListener
-    private lateinit var currentitem : Courses
+    private lateinit var currentitem: Courses
     private lateinit var database: DatabaseReference
 
-    interface onItemClickListener{
+    interface onItemClickListener {
         fun onItemClicked(position: Int)
     }
 
-    fun setonItemClickListener(listener: onItemClickListener){
+    fun setonItemClickListener(listener: onItemClickListener) {
 
         mListener = listener
     }
@@ -87,56 +88,43 @@ class MyAdapter(val admin: String) : RecyclerView.Adapter<MyAdapter.MyViewHolder
             }
         }
 
-
-
-
-
         itemView.setOnClickListener {
-            if (admin == "Admin") {
-            val intent = Intent(itemView.context, EdittingQuestionActivity::class.java)
-            intent.putExtra(Constants.CLASS, "SS1")
-            intent.putExtra("re", courseTitle)
-            intent.putExtra("question", question)
-            intent.putExtra("option1", optionA)
-            intent.putExtra("option2", optionB)
-            intent.putExtra("option3", optionC)
-            intent.putExtra("option4", optionD)
-            intent.putExtra("answer", answer)
-            intent.putExtra("repeated", repeated)
-            intent.putExtra("timer", timer)
-            itemView.context.startActivity(intent)
+            if (admin == "Select") {
+                val intent = Intent(itemView.context, DisplayAvailablePlayersActivity::class.java)
+                intent.putExtra(Constants.CLASS, "SS1")
+                intent.putExtra("re", courseTitle)
+                intent.putExtra("Admin", "Select")
+                itemView.context.startActivity(intent)
+            } else if (admin == "Admin") {
+                val intent = Intent(itemView.context, EdittingQuestionActivity::class.java)
+                intent.putExtra(Constants.CLASS, "SS1")
+                intent.putExtra("re", courseTitle)
+                intent.putExtra("question", question)
+                intent.putExtra("option1", optionA)
+                intent.putExtra("option2", optionB)
+                intent.putExtra("option3", optionC)
+                intent.putExtra("option4", optionD)
+                intent.putExtra("answer", answer)
+                intent.putExtra("repeated", repeated)
+                intent.putExtra("timer", timer)
+                itemView.context.startActivity(intent)
 
-        }
+            }
             val userID = FirebaseAuth.getInstance().currentUser?.uid
-            database = FirebaseDatabase.getInstance().getReference("Scores")
             if (userID != null) {
-                database.child("$userID, $courseTitle").get().addOnSuccessListener {
-                    if (it.exists()) {
-                        val courseTitles = it.child("courseTitle").getValue(String::class.java)!!
-                        if (repeated == "Once") {
-                            Toast.makeText(itemView.context, "Access Denied", Toast.LENGTH_SHORT).show()
-                        } else {
-                            if (admin != "Admin") {
-                            val intent = Intent(itemView.context, SelectPlayersActivity::class.java)
-                            intent.putExtra(Constants.CLASS, "SS1")
-                            intent.putExtra("re", courseTitle)
-                            itemView.context.startActivity(intent)
+                if (classs != null) {
+                    if (courseTitle != null) {
+                        if (repeated != null) {
+                            checkAcceptance(
+                                "AcceptedPlayers",
+                                userID,
+                                classs,
+                                courseTitle,
+                                itemView,
+                                repeated
+                            )
                         }
-                        }
-
-
-                    } else { if (admin != "Admin") {
-                        val intent = Intent(itemView.context, SelectPlayersActivity::class.java)
-                        intent.putExtra(Constants.CLASS, "SS1")
-                        intent.putExtra("re", courseTitle)
-                        itemView.context.startActivity(intent)
                     }
-                    }
-                }.addOnFailureListener {
-
-                    Toast.makeText(itemView.context, "Failed", Toast.LENGTH_SHORT).show()
-
-
                 }
             }
 
@@ -144,14 +132,7 @@ class MyAdapter(val admin: String) : RecyclerView.Adapter<MyAdapter.MyViewHolder
         }
 
 
-
-
-            }
-
-
-
-
-
+    }
 
 
     override fun getItemCount(): Int {
@@ -167,11 +148,11 @@ class MyAdapter(val admin: String) : RecyclerView.Adapter<MyAdapter.MyViewHolder
     }
 
 
-    class MyViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View, listener: onItemClickListener) :
+        RecyclerView.ViewHolder(itemView) {
 
         val courseTitle: TextView = itemView.findViewById(R.id.question)
-        val deleteImg : ImageView = itemView.findViewById(R.id.img_del)
-
+        val deleteImg: ImageView = itemView.findViewById(R.id.img_del)
 
 
         init {
@@ -184,9 +165,10 @@ class MyAdapter(val admin: String) : RecyclerView.Adapter<MyAdapter.MyViewHolder
 
     }
 
-    private fun deleteData(classs : String, topic: String, question : String, g: View ) {
+    private fun deleteData(classs: String, topic: String, question: String, g: View) {
 
-        var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs, $topic")
+        var database: DatabaseReference =
+            FirebaseDatabase.getInstance().getReference("$classs, $topic")
         database.child("$question").removeValue().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(g.context, "Successfuly Deleted", Toast.LENGTH_SHORT).show()
@@ -198,7 +180,7 @@ class MyAdapter(val admin: String) : RecyclerView.Adapter<MyAdapter.MyViewHolder
 
     }
 
-    private fun deleteData2(classs : String, topic: String, g: View ) {
+    private fun deleteData2(classs: String, topic: String, g: View) {
 
         var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("$classs")
         database.child("$topic").removeValue().addOnCompleteListener { task ->
@@ -212,4 +194,178 @@ class MyAdapter(val admin: String) : RecyclerView.Adapter<MyAdapter.MyViewHolder
 
     }
 
+    private fun checkAcceptance(
+        path: String,
+        pathString: String,
+        path2: String,
+        pathString2: String,
+        itemView: View,
+        repeated: String
+    ) {
+        database = FirebaseDatabase.getInstance().getReference(path2)
+        database.child(pathString2).get().addOnSuccessListener {
+            if (it.exists()) {
+                val restricted = it.child("restricted").getValue(String::class.java)
+                database = FirebaseDatabase.getInstance().getReference(path)
+                database.child(pathString).get().addOnSuccessListener {
+                    if (it.exists()) {
+                        val topic = it.child("topic").getValue(String::class.java)!!
+                        if (restricted == "Yes" && topic != pathString2) {
+                            Toast.makeText(itemView.context, "Access Denied", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            val userID = FirebaseAuth.getInstance().currentUser?.uid
+                            database = FirebaseDatabase.getInstance().getReference("Scores")
+                            if (userID != null) {
+                                database.child("$userID, $pathString2").get().addOnSuccessListener {
+                                    if (it.exists()) {
+                                        val courseTitles =
+                                            it.child("courseTitle").getValue(String::class.java)!!
+                                        if (repeated == "Once") {
+                                            Toast.makeText(
+                                                itemView.context,
+                                                "Access Denied",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                                .show()
+                                        } else {
+                                            if (admin != "Admin" && admin != "Select") {
+                                                val intent = Intent(
+                                                    itemView.context,
+                                                    SelectPlayersActivity::class.java
+                                                )
+                                                intent.putExtra(Constants.CLASS, "SS1")
+                                                intent.putExtra("re", pathString2)
+                                                itemView.context.startActivity(intent)
+                                            }
+                                        }
+
+
+                                    } else {
+                                        if (admin != "Admin" && admin != "Select") {
+                                            val intent = Intent(
+                                                itemView.context,
+                                                SelectPlayersActivity::class.java
+                                            )
+                                            intent.putExtra(Constants.CLASS, "SS1")
+                                            intent.putExtra("re", pathString2)
+                                            itemView.context.startActivity(intent)
+                                        }
+                                    }
+                                }.addOnFailureListener {
+
+                                    Toast.makeText(itemView.context, "Failed", Toast.LENGTH_SHORT)
+                                        .show()
+
+
+                                }
+                            }
+                        }
+
+                    } else if (restricted == "Yes") {
+                        Toast.makeText(itemView.context, "Access Denied", Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (restricted != "Yes") {
+                        val userID = FirebaseAuth.getInstance().currentUser?.uid
+                        database = FirebaseDatabase.getInstance().getReference("Scores")
+                        if (userID != null) {
+                            database.child("$userID, $pathString2").get().addOnSuccessListener {
+                                if (it.exists()) {
+                                    val courseTitles =
+                                        it.child("courseTitle").getValue(String::class.java)!!
+                                    if (repeated == "Once") {
+                                        Toast.makeText(
+                                            itemView.context,
+                                            "Access Denied",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
+                                    } else {
+                                        if (admin != "Admin" && admin != "Select") {
+                                            val intent = Intent(
+                                                itemView.context,
+                                                SelectPlayersActivity::class.java
+                                            )
+                                            intent.putExtra(Constants.CLASS, "SS1")
+                                            intent.putExtra("re", pathString2)
+                                            itemView.context.startActivity(intent)
+                                        }
+                                    }
+
+
+                                } else {
+                                    if (admin != "Admin" && admin != "Select") {
+                                        val intent = Intent(
+                                            itemView.context,
+                                            SelectPlayersActivity::class.java
+                                        )
+                                        intent.putExtra(Constants.CLASS, "SS1")
+                                        intent.putExtra("re", pathString2)
+                                        itemView.context.startActivity(intent)
+                                    }
+                                }
+                            }.addOnFailureListener {
+
+                                Toast.makeText(itemView.context, "Failed", Toast.LENGTH_SHORT)
+                                    .show()
+
+
+                            }
+                        }
+
+                    }
+
+
+                }
+            } else {
+                val userID = FirebaseAuth.getInstance().currentUser?.uid
+                database = FirebaseDatabase.getInstance().getReference("Scores")
+                if (userID != null) {
+                    database.child("$userID, $pathString2").get().addOnSuccessListener {
+                        if (it.exists()) {
+                            val courseTitles =
+                                it.child("courseTitle").getValue(String::class.java)!!
+                            if (repeated == "Once") {
+                                Toast.makeText(
+                                    itemView.context,
+                                    "Access Denied",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            } else {
+                                if (admin != "Admin" && admin != "Select") {
+                                    val intent = Intent(
+                                        itemView.context,
+                                        SelectPlayersActivity::class.java
+                                    )
+                                    intent.putExtra(Constants.CLASS, "SS1")
+                                    intent.putExtra("re", pathString2)
+                                    itemView.context.startActivity(intent)
+                                }
+                            }
+
+
+                        } else {
+                            if (admin != "Admin" && admin != "Select") {
+                                val intent = Intent(
+                                    itemView.context,
+                                    SelectPlayersActivity::class.java
+                                )
+                                intent.putExtra(Constants.CLASS, "SS1")
+                                intent.putExtra("re", pathString2)
+                                itemView.context.startActivity(intent)
+                            }
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(itemView.context, "Failed", Toast.LENGTH_SHORT)
+                            .show()
+
+
+                    }
+                }
+
+            }
+        }
+
+    }
 }

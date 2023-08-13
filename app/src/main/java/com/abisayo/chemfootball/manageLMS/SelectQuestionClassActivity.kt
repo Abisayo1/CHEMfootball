@@ -17,12 +17,14 @@ class SelectQuestionClassActivity : AppCompatActivity() {
     private lateinit var radioGroup: RadioGroup
     private lateinit var radioGroup2: RadioGroup
     private lateinit var radioGroup3: RadioGroup
+    private lateinit var radioGroup4: RadioGroup
     private lateinit var nextButton: Button
     private lateinit var editText: EditText
 
     var selectedOption = ""
     var selectedOption2 = ""
     var selectedOption3 = ""
+    var selectedOption4 = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class SelectQuestionClassActivity : AppCompatActivity() {
         nextButton = findViewById(R.id.button)
         radioGroup2 = findViewById(R.id.radio_group2)
         radioGroup3 = findViewById(R.id.radio_group3)
+        radioGroup4 = findViewById(R.id.radio_groupres)
 
         editText = findViewById(R.id.questionEditText)
 
@@ -70,16 +73,24 @@ class SelectQuestionClassActivity : AppCompatActivity() {
 
         }
 
+        radioGroup4.setOnCheckedChangeListener { _, checkedId ->
+            val selectedRadioButton = findViewById<RadioButton>(checkedId)
+            selectedOption4 = selectedRadioButton.text.toString()
+
+            nextButton.isEnabled = true
+        }
+
 
 
 
        nextButton.setOnClickListener {
-           if (topic.isNotEmpty()) {
+           if (topic.isNotEmpty() && selectedOption4 != "") {
                val intent = Intent(this, AddQuestionsActivity::class.java)
                intent.putExtra("selectedOption", selectedOption)
                intent.putExtra("selectedOption2", selectedOption2)
                intent.putExtra("selectedOption3", selectedOption3)
                intent.putExtra("tt", "$topic")
+               intent.putExtra("res", selectedOption4)
                startActivity(intent)
            } else {
                Toast.makeText(this, "Please enter a topic", Toast.LENGTH_SHORT).show()

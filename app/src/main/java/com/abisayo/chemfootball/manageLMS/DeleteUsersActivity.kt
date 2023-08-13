@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import com.abisayo.chemfootball.R
+import com.abisayo.chemfootball.SelectClassActivity
 import com.abisayo.chemfootball.databinding.ActivityDeleteUsersBinding
 import com.abisayo.chemfootball.displayAvailablePlayers.DisplayAvailablePlayersActivity
 
 class DeleteUsersActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDeleteUsersBinding
+    var admin = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +26,16 @@ class DeleteUsersActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.deleteUsers.setOnClickListener {
+            admin = "Admin"
             val intent = Intent(this, DisplayAvailablePlayersActivity::class.java)
-            intent.putExtra("Admin", "Admin")
+            intent.putExtra("Admin", admin)
+            startActivity(intent)
+        }
+
+        binding.selectUsers.setOnClickListener {
+            admin = "Select"
+            val intent = Intent(this, SelectClassActivity::class.java)
+            intent.putExtra("Admin", admin)
             startActivity(intent)
         }
     }

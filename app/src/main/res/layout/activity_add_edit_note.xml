@@ -24,7 +24,8 @@
                 android:text="Topic:"
                 android:textAlignment="center"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center_horizontal" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/topic"
@@ -45,13 +46,15 @@
                 android:text="Select class"
                 android:textAlignment="center"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center_horizontal" />
 
             <RadioGroup
                 android:id="@+id/radio_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp">
 
                 <RadioButton
                     android:id="@+id/radio_option1"
@@ -73,6 +76,43 @@
 
             </RadioGroup>
 
+            <!-- Restricted Text -->
+            <TextView
+                android:id="@+id/restrictedTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingBottom="8dp"
+                android:text="Restricted?"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center_horizontal" />
+
+            <RadioGroup
+                android:id="@+id/radio_groupres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp">
+
+                <RadioButton
+                    android:id="@+id/Yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/No"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+
+            </RadioGroup>
+
+
+
             <!-- Question Text -->
             <TextView
                 android:id="@+id/questionTextView2"
@@ -83,13 +123,15 @@
                 android:text="How many times for game-play?"
                 android:textAlignment="center"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center_horizontal" />
 
             <RadioGroup
                 android:id="@+id/radio_group2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp">
 
                 <RadioButton
                     android:id="@+id/radio_option12"

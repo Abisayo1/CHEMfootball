@@ -12,6 +12,7 @@ import com.abisayo.chemfootball.ConfirmDetailsActivity
 import com.abisayo.chemfootball.R
 import com.abisayo.chemfootball.SelectPlayers.SelectPlayersActivity
 import com.abisayo.chemfootball.data.Constants
+import com.abisayo.chemfootball.models.Accept
 import com.abisayo.chemfootball.models.Credentials
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -81,10 +82,9 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
 
 
         itemView.setOnClickListener {
-            if (userID == specialCode) {
+            if (userID == specialCode && admin != "Select") {
                 Toast.makeText(itemView.context, "You cannot play against yourself", Toast.LENGTH_SHORT).show()
-
-            } else {
+            } else if (admin != "Select") {
                 val intent = Intent(itemView.context, ConfirmDetailsActivity::class.java)
                 intent.putExtra("1111", specialCode)
                 intent.putExtra("oppName", playerName)
@@ -96,13 +96,22 @@ class AvailablePlayersAdapter(val clas: String, val player: String, val name: St
                 intent.putExtra(Constants.GAME_MODE, "multi_player")
                 intent.putExtra("re", topic)
                 itemView.context.startActivity(intent)
-
-
+            } else if (admin == "Select") {
+                acceptedPlayers("${holder.specialCode.text}", itemView)
             }
         }
     }
 
+    private fun acceptedPlayers(userID: String, itemView: View) {
+        database = FirebaseDatabase.getInstance().getReference("AcceptedPlayers")
+        val credential = Accept(clas, topic, userID)
+            database.child("$userID").setValue(credential).addOnSuccessListener {
+                Toast.makeText(itemView.context, "Successfully updated", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(itemView.context, "Failed", Toast.LENGTH_SHORT).show()
 
+        }
+    }
 
 
 

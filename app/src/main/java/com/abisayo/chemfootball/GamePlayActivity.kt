@@ -206,6 +206,7 @@ class GamePlayActivity : AppCompatActivity() {
         getOppScore(gameCode)
 
         if (trialNumm >= questionCount && trial == 123) {
+                saveScore()
                 Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, GameFinishedActivity::class.java)
                 intent.putExtra(Constants.CLASS, clas)
@@ -231,6 +232,7 @@ class GamePlayActivity : AppCompatActivity() {
         val name = intent.getStringExtra(Constants.NAME).toString()
 
         if (trial >= questionCount && trial != 0) {
+            saveScore()
             Toast.makeText(this, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, GameFinishedActivity::class.java)
             intent.putExtra(Constants.CLASS, clas)
@@ -639,35 +641,6 @@ class GamePlayActivity : AppCompatActivity() {
                 binding.scoreC.text = "$code"
                 scoreCT = code
                 trialOpp = trialNum
-            } else {
-                Toast.makeText(this, "Your Opponent is offline", Toast.LENGTH_SHORT).show()
-            }
-        }.addOnFailureListener {
-
-            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-        }
-
-    }
-
-    private fun getOppScoress(code: String) {
-        database = FirebaseDatabase.getInstance().getReference("Multiplayer")
-        database.child(code).get().addOnSuccessListener {
-
-            if (it.exists()) {
-
-                val trialNum = it.child("trialNum").getValue(Int::class.java)!!
-                val code = it.child("my_score").getValue(String::class.java)!!
-                binding.scoreC.text = "$code"
-                scoreCT = code
-                val ques = questionCount * 2
-                val west = ques - 1
-
-                if (trialNum == west) {
-                    dismissDialog()
-                    shouldCheck = false
-                    executeAfter2Secondssw()
-                }
-
             } else {
                 Toast.makeText(this, "Your Opponent is offline", Toast.LENGTH_SHORT).show()
             }
@@ -1087,6 +1060,7 @@ class GamePlayActivity : AppCompatActivity() {
 
                 if (trial >= questions && trial != 0) {
                     shouldCheck = false
+                    saveScore()
                     Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext, GameFinishedActivity::class.java)
                     intent.putExtra(Constants.CLASS, clas)
@@ -1136,6 +1110,7 @@ class GamePlayActivity : AppCompatActivity() {
 
                 if (trial >= questions && trial != 0) {
                     shouldCheck = false
+                    saveScore()
                     Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext, GameFinishedActivity::class.java)
                     intent.putExtra(Constants.CLASS, clas)
@@ -1159,103 +1134,9 @@ class GamePlayActivity : AppCompatActivity() {
         timer?.start()
     }
 
-    private fun executeAfter2Minutes() {
-        timer = object : CountDownTimer(120_000, 1_000) {
-            override fun onTick(p0: Long) {
 
-            }
 
-            override fun onFinish() {
-                val gameCode = intent.getStringExtra("1111").toString()
-                val name = intent.getStringExtra(Constants.NAME).toString()
-                val questions = questionCount * 2
-                saveScore()
-                val topic = intent.getStringExtra("re").toString()
-                getOppScore(gameCode)
 
-                clas = intent.getStringExtra(Constants.CLASS).toString()
-                val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
-
-                val oppName = intent.getStringExtra("oppName").toString()
-                val playFirst = intent.getStringExtra("samyy")
-                val jointCode = intent.getStringExtra("123")
-
-                player = intent.getStringExtra(Constants.PLAYER).toString()
-                clas = intent.getStringExtra(Constants.CLASS).toString()
-
-                if (trial >= questions && trial != 0) {
-                    shouldCheck = false
-                    Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(applicationContext, GameFinishedActivity::class.java)
-                    intent.putExtra(Constants.CLASS, clas)
-                    intent.putExtra("re", "$topic")
-                    intent.putExtra("scr", "$score")
-                    intent.putExtra("comp", "$scoreCT")
-                    intent.putExtra("opp", oppName)
-                    intent.putExtra("name", name)
-                    startActivity(intent)
-                    onDestroy()
-                    finish()
-                    // Perform the desired action here
-
-                } else if (trial <= questions) {
-                    trial++
-                    playVideos("lose", true, "left")
-                }
-            }
-
-        }
-        timer?.start()
-    }
-
-    private fun executeAfter3Minutes() {
-        timer = object : CountDownTimer(180_000, 1_000) {
-            override fun onTick(p0: Long) {
-
-            }
-
-            override fun onFinish() {
-                val gameCode = intent.getStringExtra("1111").toString()
-                val name = intent.getStringExtra(Constants.NAME).toString()
-                val questions = questionCount * 2
-                saveScore()
-                val topic = intent.getStringExtra("re").toString()
-                getOppScore(gameCode)
-
-                clas = intent.getStringExtra(Constants.CLASS).toString()
-                val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
-
-                val oppName = intent.getStringExtra("oppName").toString()
-                val playFirst = intent.getStringExtra("samyy")
-                val jointCode = intent.getStringExtra("123")
-
-                player = intent.getStringExtra(Constants.PLAYER).toString()
-                clas = intent.getStringExtra(Constants.CLASS).toString()
-
-                if (trial >= questions && trial != 0) {
-                    shouldCheck = false
-                    Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(applicationContext, GameFinishedActivity::class.java)
-                    intent.putExtra(Constants.CLASS, clas)
-                    intent.putExtra("re", "$topic")
-                    intent.putExtra("scr", "$score")
-                    intent.putExtra("comp", "$scoreCT")
-                    intent.putExtra("opp", oppName)
-                    intent.putExtra("name", name)
-                    startActivity(intent)
-                    onDestroy()
-                    finish()
-                    // Perform the desired action here
-
-                } else if (trial <= questions) {
-                    trial++
-                    playVideos("lose", true, "left")
-                }
-            }
-
-        }
-        timer?.start()
-    }
 
     private fun SaveTrialNum(
         name: String,
@@ -1340,34 +1221,6 @@ class GamePlayActivity : AppCompatActivity() {
 
 
 
-    private fun executeAfter2Secondssw() {
-                if (trial != 0) {
-                    val name = intent.getStringExtra(Constants.NAME).toString()
-                    val topic = intent.getStringExtra("re").toString()
-
-                    Toast.makeText(
-                        applicationContext,
-                        "You have reached the end of this game",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    val intent = Intent(applicationContext, GameFinishedActivity::class.java)
-                    intent.putExtra(Constants.CLASS, clas)
-                    intent.putExtra("re", "$topic")
-                    intent.putExtra("scr", "$score")
-                    intent.putExtra("comp", "$scoreCT")
-                    intent.putExtra("opp", oppName)
-                    intent.putExtra("name", name)
-                    startActivity(intent)
-                    onDestroy()
-                    finish()
-                    // Perform the desired action here
-
-                }
-
-
-
-    }
-
 
     private fun executeAfter2Secondss() {
         timer = object : CountDownTimer(1_000, 1_000) {
@@ -1431,6 +1284,42 @@ class GamePlayActivity : AppCompatActivity() {
                     }
                 }
             }
+
+    fun saveScore1() {
+        val name = intent.getStringExtra(Constants.NAME).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+        val topic = intent.getStringExtra("re").toString()
+
+        player = intent.getStringExtra(Constants.PLAYER).toString()
+        clas = intent.getStringExtra(Constants.CLASS).toString()
+
+
+        val studentName = name
+        val courseTitle = topic
+        studentScore = "$name: $score - $oppName: $scoreC"
+        val userID = FirebaseAuth.getInstance().currentUser?.uid
+
+        database = FirebaseDatabase.getInstance().getReference("Scores")
+        val scores = Scores(studentName, courseTitle, studentScore, userID)
+        if (userID != null) {
+            database.child("$userID, $topic").setValue(scores).addOnSuccessListener {
+                Toast.makeText(this, "$oppName is done playing, scores saved" , Toast.LENGTH_SHORT).show()
+                val name = intent.getStringExtra(Constants.NAME).toString()
+                val topic = intent.getStringExtra("re").toString()
+                val intent = Intent(this, GameFinishedActivity::class.java)
+                intent.putExtra(Constants.CLASS, clas)
+                intent.putExtra("re", "$topic")
+                intent.putExtra("scr", "$score")
+                intent.putExtra("comp", "$scoreCT")
+                intent.putExtra("opp", oppName)
+                intent.putExtra("name", name)
+                startActivity(intent)
+                finish()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     fun dismissDialog() {
         mydialog?.dismiss()
@@ -1707,19 +1596,7 @@ class GamePlayActivity : AppCompatActivity() {
 
 
     fun goToNextActivity(){
-        Toast.makeText(this, "$oppName is done playing" , Toast.LENGTH_SHORT).show()
-        saveScore()
-        val name = intent.getStringExtra(Constants.NAME).toString()
-        val topic = intent.getStringExtra("re").toString()
-        val intent = Intent(this, GameFinishedActivity::class.java)
-        intent.putExtra(Constants.CLASS, clas)
-        intent.putExtra("re", "$topic")
-        intent.putExtra("scr", "$score")
-        intent.putExtra("comp", "$scoreCT")
-        intent.putExtra("opp", oppName)
-        intent.putExtra("name", name)
-        startActivity(intent)
-        finish()
+        saveScore1()
     }
 
 

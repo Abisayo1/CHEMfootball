@@ -26,10 +26,12 @@ class AddEditNoteActivity : AppCompatActivity() {
     private lateinit var radioGroup: RadioGroup
     private lateinit var radioGroup2: RadioGroup
     private lateinit var radioGroup3: RadioGroup
+    private lateinit var radioGroup4: RadioGroup
 
     var selectedOption = ""
     var selectedOption2 = ""
     var selectedOption3 = ""
+    var selectedOption4 = ""
     var answer = ""
 
 
@@ -44,6 +46,7 @@ class AddEditNoteActivity : AppCompatActivity() {
         radioGroup = findViewById(R.id.radio_group)
         radioGroup2 = findViewById(R.id.radio_group2)
         radioGroup3 = findViewById(R.id.radio_group3)
+        radioGroup4 = findViewById(R.id.radio_groupres)
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             val selectedRadioButton = findViewById<RadioButton>(checkedId)
@@ -61,6 +64,11 @@ class AddEditNoteActivity : AppCompatActivity() {
             val selectedRadioButton = findViewById<RadioButton>(checkedId)
             selectedOption3 = selectedRadioButton.text.toString()
 
+        }
+
+        radioGroup4.setOnCheckedChangeListener { _, checkedId ->
+            val selectedRadioButton = findViewById<RadioButton>(checkedId)
+            selectedOption4 = selectedRadioButton.text.toString()
         }
 
         val noteType = intent.getStringExtra("noteType")
@@ -252,12 +260,12 @@ class AddEditNoteActivity : AppCompatActivity() {
         }
     }
 
-    fun saveTopics(clas: String, topic: String, repeated: String, timer: String, option1: String, option2: String, option3: String, option4: String, answer: String) {
+    fun saveTopics(clas: String, topic: String, repeated: String, timer: String, option1: String, option2: String, option3: String, option4: String, answer: String, restricted: String) {
         val question = binding.questionn.text.toString()
         val  userID = FirebaseAuth.getInstance().currentUser?.uid
 
         database = FirebaseDatabase.getInstance().getReference("$clas")
-        val courses = Courses(topic, repeated, timer, clas, "$question", option1, option2, option3, option4, answer)
+        val courses = Courses(topic, repeated, timer, clas, "$question", option1, option2, option3, option4, answer, restricted)
         if (userID != null) {
             database.child(topic).setValue(courses).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
@@ -272,7 +280,7 @@ class AddEditNoteActivity : AppCompatActivity() {
         val Question = Questions(classs, selectedOption2, question, "$optionA", "$optionB", "$optionC", "$optionD", answer, selectedOption3)
         database.child("$question").setValue(Question).addOnSuccessListener {
             Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-            saveTopics("$selectedOption", "$topic", selectedOption2, selectedOption3, "$optionA", "$optionB", "$optionC", "$optionD", "$answer")
+            saveTopics("$selectedOption", "$topic", selectedOption2, selectedOption3, "$optionA", "$optionB", "$optionC", "$optionD", "$answer", selectedOption4)
         }.addOnFailureListener {
             Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
         }
