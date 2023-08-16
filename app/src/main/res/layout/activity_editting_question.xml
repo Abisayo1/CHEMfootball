@@ -24,54 +24,47 @@
             android:text="Topic:"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:gravity="center_horizontal" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/topic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:hint="Enter topic"
-            android:inputType="text" />
 
-        <!-- Question Text -->
+
+        <!-- Restricted Text -->
         <TextView
-            android:id="@+id/questionTextView"
+            android:id="@+id/restrictedTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:paddingBottom="8dp"
-            android:text="Select class"
+            android:text="Restricted?"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:gravity="center_horizontal" />
 
         <RadioGroup
-            android:id="@+id/radio_group"
+            android:id="@+id/radio_groupres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp">
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp">
 
             <RadioButton
-                android:id="@+id/radio_option1"
+                android:id="@+id/Yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SS1" />
+                android:text="Yes" />
 
             <RadioButton
-                android:id="@+id/radio_option2"
+                android:id="@+id/No"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SS2" />
+                android:text="No" />
 
-            <RadioButton
-                android:id="@+id/radio_option3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SS3" />
 
         </RadioGroup>
+
+
 
         <!-- Question Text -->
         <TextView
@@ -220,7 +213,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/custom_drawable"
-                android:text="update"/>
+                android:text="update"
+                android:layout_marginRight="20dp" />
 
 
         </LinearLayout>

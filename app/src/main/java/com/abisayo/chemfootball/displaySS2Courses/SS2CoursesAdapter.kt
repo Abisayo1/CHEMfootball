@@ -64,6 +64,7 @@ class SS2CoursesAdapter(val admin: String): RecyclerView.Adapter<SS2CoursesAdapt
         val optionD = currentitem.option4
         val answer = currentitem.answer
         val timer = currentitem.timer
+        val restricted = currentitem.restricted
 
 
 
@@ -112,6 +113,7 @@ class SS2CoursesAdapter(val admin: String): RecyclerView.Adapter<SS2CoursesAdapt
                 intent.putExtra("answer", answer)
                 intent.putExtra("repeated", repeated)
                 intent.putExtra("timer", timer)
+                intent.putExtra("restricted", restricted)
                 itemView.context.startActivity(intent)
 
             }
