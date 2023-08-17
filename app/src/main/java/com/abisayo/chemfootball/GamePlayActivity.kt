@@ -1039,55 +1039,6 @@ class GamePlayActivity : AppCompatActivity() {
 
     }
 
-    private fun executeAfter30Seconds() {
-        timer = object : CountDownTimer(30_000, 1_000) {
-            override fun onTick(p0: Long) {
-
-            }
-
-            override fun onFinish() {
-                val gameCode = intent.getStringExtra("1111").toString()
-                val name = intent.getStringExtra(Constants.NAME).toString()
-                val questions = questionCount * 2
-                saveScore()
-                val topic = intent.getStringExtra("re").toString()
-                getOppScore(gameCode)
-
-                clas = intent.getStringExtra(Constants.CLASS).toString()
-                val game_mode = intent.getStringExtra(Constants.GAME_MODE).toString()
-
-                val oppName = intent.getStringExtra("oppName").toString()
-                val playFirst = intent.getStringExtra("samyy")
-                val jointCode = intent.getStringExtra("123")
-
-                player = intent.getStringExtra(Constants.PLAYER).toString()
-                clas = intent.getStringExtra(Constants.CLASS).toString()
-
-                if (trial >= questions && trial != 0) {
-                    shouldCheck = false
-                    saveScore()
-                    Toast.makeText(applicationContext, "You have reached the end of this game", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(applicationContext, GameFinishedActivity::class.java)
-                    intent.putExtra(Constants.CLASS, clas)
-                    intent.putExtra("re", "$topic")
-                    intent.putExtra("scr", "$score")
-                    intent.putExtra("comp", "$scoreCT")
-                    intent.putExtra("opp", oppName)
-                    intent.putExtra("name", name)
-                    startActivity(intent)
-                    onDestroy()
-                    finish()
-                    // Perform the desired action here
-
-                } else if (trial <= questions) {
-                    trial++
-                    playVideos("lose", true, "left")
-                }
-            }
-
-        }
-        timer?.start()
-    }
 
     private fun executeAfter1Minute() {
         timer = object : CountDownTimer(60_000, 1_000) {

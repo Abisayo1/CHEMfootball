@@ -1,14 +1,17 @@
 package com.abisayo.chemfootball.manageLMS
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.*
+import com.abisayo.chemfootball.GameFinishedActivity
 import com.abisayo.chemfootball.R
 import com.abisayo.chemfootball.data.Constants
 import com.abisayo.chemfootball.databinding.ActivityEdittingQuestionBinding
@@ -17,7 +20,7 @@ import com.abisayo.chemfootball.models.Questions
 import com.abisayo.chemfootball.models.SS2
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import java.util.ArrayList
+import java.util.*
 
 class EdittingQuestionActivity : AppCompatActivity() {
 
@@ -30,8 +33,11 @@ class EdittingQuestionActivity : AppCompatActivity() {
     var topic = ""
     var restricted = ""
     var v = 0
+    var question12 = ""
+    private var timers: CountDownTimer? = null
 
-    private lateinit var database : DatabaseReference
+
+    private lateinit var database: DatabaseReference
     private lateinit var radioGroup: RadioGroup
     private lateinit var radioGroup2: RadioGroup
     private lateinit var radioGroup3: RadioGroup
@@ -77,17 +83,11 @@ class EdittingQuestionActivity : AppCompatActivity() {
             selectedOption4 = selectedRadioButton.text.toString()
         }
 
-        val question = intent.getStringExtra("question")
-        val optionA = intent.getStringExtra("option1")
-        val optionB = intent.getStringExtra("option2")
-        val optionC = intent.getStringExtra("option3")
-        val optionD = intent.getStringExtra("option4")
-        val answers = intent.getStringExtra("answer")
-        val counter = intent.getStringExtra("repeated")
-        val timer = intent.getStringExtra("timer")
         topic = intent.getStringExtra("re").toString()
         val classs = intent.getStringExtra(Constants.CLASS)
         restricted = intent.getStringExtra("restricted").toString()
+
+
 
         binding.topic12.setText("$topic")
 
@@ -105,16 +105,73 @@ class EdittingQuestionActivity : AppCompatActivity() {
         }
 
         binding.addUpdateBtn.setOnClickListener {
-            if (v ==0 ) {
-                currentQuestionIndex++
+            val answerSpinner = binding.answerSpinner
+            val selectedAnswer = answerSpinner.selectedItem as String
+            val question = binding.questionn.text.toString()
+            val optionA = binding.editNoteOptionA.text.toString()
+            val optionB = binding.editNoteOptionB.text.toString()
+            val optionC = binding.editNoteOptionC.text.toString()
+            val optionD = binding.editNoteOptionD.text.toString()
+
+            when (selectedAnswer) {
+                "Option A" -> {
+                    answer = "$optionA"
+                }
+                "Option B" -> {
+                    answer = "$optionB"
+                }
+                "Option C" -> {
+                    answer = "$optionC"
+
+                }
+                "Option D" -> {
+                    answer = "$optionD"
+
+                }
+
+                "Select Answer" -> {
+                    answer = "null"
+                }
+
             }
+
             if (classs != null) {
-                val ans = currentQuestionIndex+1
+                val ans = currentQuestionIndex + 1
                 if (questionCount == ans) {
                     v = 2
                     Toast.makeText(this, "You have reached the end", Toast.LENGTH_SHORT).show()
-                }else {
-                    getQuestions(classs, topic)
+                    launch(
+                        "$topic",
+                        "$classs",
+                        "$question",
+                        "$optionA",
+                        "$optionB",
+                        "$optionC",
+                        "$optionD"
+                    )
+                } else {
+                    val inputText = binding.questionn.text.toString()
+
+                    if (isPathValid(inputText)) {
+                        launch(
+                            "$topic",
+                            "$classs",
+                            "$question",
+                            "$optionA",
+                            "$optionB",
+                            "$optionC",
+                            "$optionD"
+                        )
+                        getQuestions(classs, topic)
+                    } else {
+                        // The path contains disallowed symbols
+                        Toast.makeText(
+                            applicationContext,
+                            "Invalid path: Path contains disallowed symbols",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
                 }
             }
         }
@@ -122,57 +179,6 @@ class EdittingQuestionActivity : AppCompatActivity() {
 
     }
 
-    fun saveTopics(clas: String, topic: String, repeated: String, timer: String, option1: String, option2: String, option3: String, option4: String, answer: String, restricted: String) {
-        val question = binding.questionn.text.toString()
-        val  userID = FirebaseAuth.getInstance().currentUser?.uid
-
-        database = FirebaseDatabase.getInstance().getReference("$clas")
-        val courses = Courses(topic, repeated, timer, clas, "$question", option1, option2, option3, option4, answer, restricted)
-        if (userID != null) {
-            database.child(topic).setValue(courses).addOnSuccessListener {
-                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener {
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    fun launch(classs: String, answer: String) {
-        val question = binding.questionn.text.toString()
-        val optionA = binding.editNoteOptionA.text.toString()
-        val optionB = binding.editNoteOptionB.text.toString()
-        val optionC = binding.editNoteOptionC.text.toString()
-        val optionD = binding.editNoteOptionD.text.toString()
-
-        database = FirebaseDatabase.getInstance().getReference("$selectedOption, $topic")
-        val Question = Questions(classs, selectedOption2, "$question", "$optionA", "$optionB", "$optionC", "$optionD", answer, selectedOption3)
-        database.child("$question").setValue(Question).addOnSuccessListener {
-            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-            saveTopics("$selectedOption", "$topic", selectedOption2, selectedOption3, "$optionA", "$optionB", "$optionC", "$optionD", "$answer", selectedOption4)
-        }.addOnFailureListener {
-            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun deleteData2(classs: String, answer: String) {
-        val question = binding.questionn.text.toString()
-        val optionA = binding.editNoteOptionA.text.toString()
-        val optionB = binding.editNoteOptionB.text.toString()
-        val optionC = binding.editNoteOptionC.text.toString()
-        val optionD = binding.editNoteOptionD.text.toString()
-
-        var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("$selectedOption, $topic")
-        database.child("$question").removeValue().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(this, "Successfuly Deleted", Toast.LENGTH_SHORT).show()
-                launch("$classs", answer)
-
-            } else {
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    }
 
     private fun getQuestions(classs: String, topic: String) {
         // Retrieve the "questions" node from the database
@@ -227,6 +233,7 @@ class EdittingQuestionActivity : AppCompatActivity() {
         val question = currentQuestion.question
         val restricted = "$restricted"
         val timer = currentQuestion.timer
+        question12 = currentQuestion.question.toString()
 
 
         when (restricted) {
@@ -269,7 +276,6 @@ class EdittingQuestionActivity : AppCompatActivity() {
         binding.editNoteOptionD.setText("$optionD")
 
 
-
         val answerSpinner = binding.answerSpinner
         val selectedAnswer = answerSpinner.selectedItem as String
         val items = resources.getStringArray(R.array.answer_options)
@@ -306,44 +312,226 @@ class EdittingQuestionActivity : AppCompatActivity() {
                 Toast.makeText(this, "What is the answer for this question?", Toast.LENGTH_SHORT)
             }
         }
+    }
 
 
+    fun saveTopics(
+        clas: String,
+        topic: String,
+        repeated: String,
+        timer: String,
+        option1: String,
+        option2: String,
+        option3: String,
+        option4: String,
+        answer: String,
+        restricted: String
+    ) {
+        val question = binding.questionn.text.toString()
+        val userID = FirebaseAuth.getInstance().currentUser?.uid
 
-        // Inflate the dialog box with the question and options
-        // You can use a custom dialog or an AlertDialog for this
+        database = FirebaseDatabase.getInstance().getReference("$clas")
+        val courses = Courses(
+            topic,
+            repeated,
+            timer,
+            clas,
+            "$question",
+            option1,
+            option2,
+            option3,
+            option4,
+            answer,
+            restricted
+        )
+        if (userID != null) {
+            database.child(topic).setValue(courses).addOnSuccessListener {
+                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
-// Set the question and options in the dialog
+    fun launch(
+        topic: String,
+        classs: String,
+        question: String,
+        optionA: String,
+        optionB: String,
+        optionC: String,
+        optionD: String
+    ) {
+        val inputText = binding.questionn.text.toString()
+
+        if (isPathValid(inputText)) {
+            if (binding.questionn.text.toString() != question12) {
+                val ans = currentQuestionIndex + 1
+                if (questionCount == ans) {
+                    v = 2
+                    currentQuestionIndex--
+                    onBackPressed()
+                    executeAfter3Seconds("$classs", "$question", "$optionA", "$optionB", "$optionC", "$optionD")
+                    Toast.makeText(this, "You have reached the end", Toast.LENGTH_SHORT).show()
+                } else {
+                var database: DatabaseReference =
+                    FirebaseDatabase.getInstance().getReference("$classs, $topic")
+                database.child("$question12").removeValue().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        database = FirebaseDatabase.getInstance().getReference("$classs, $topic")
+                        val Question = Questions(
+                            classs,
+                            selectedOption2,
+                            question,
+                            "$optionA",
+                            "$optionB",
+                            "$optionC",
+                            "$optionD",
+                            answer,
+                            selectedOption3
+                        )
+                        database.child("$question").setValue(Question).addOnSuccessListener {
+                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+                            saveTopics(
+                                "$classs",
+                                "$topic",
+                                selectedOption2,
+                                selectedOption3,
+                                "$optionA",
+                                "$optionB",
+                                "$optionC",
+                                "$optionD",
+                                "$answer",
+                                selectedOption4
+                            )
+                            onBackPressed()
+
+                            if (v == 0) {
+                                val ans = currentQuestionIndex + 1
+                                if (questionCount != ans) {
+                                    currentQuestionIndex++
+                                } else {
+                                    v = 2
+                                    Toast.makeText(
+                                        this,
+                                        "You have reached the end",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+
+                            Toast.makeText(this, "Successfuly Updated", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+
+                            Toast.makeText(this, "Failed to Update", Toast.LENGTH_SHORT).show()
+
+                        }
+
+                    } else {
+                        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            } else {
+                if (v == 0) {
+                    val ans = currentQuestionIndex + 1
+                    if (questionCount != ans) {
+                        currentQuestionIndex++
 
 
-// Store the correct answer
-        if (currentQuestionIndex + 1 > questionCount) {
-            Toast.makeText(this, "You have reached the end of the game", Toast.LENGTH_SHORT).show()
+                    } else {
+                        v = 2
+                        Toast.makeText(
+                            this,
+                            "You have reached the end",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+
         } else {
-            if (currentQuestionIndex < questionCount) {
-
-            }
+            // The path contains disallowed symbols
+            Toast.makeText(
+                applicationContext,
+                "Invalid path: Path contains disallowed symbols",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
+    }
 
-        // All questions have been answered
-        // Handle end of quiz or any other desired action
-
-        // Dismiss the dialog
+    private fun deleteData(classs: String) {
 
 
-// Set click listeners for the option buttons
+    }
 
+    fun isPathValid(input: String): Boolean {
+        val disallowedSymbols = arrayOf('.', '#', '$', '[', ']')
+        return !disallowedSymbols.any { input.contains(it) }
+    }
 
-
-
-                    // Handle option selection here
-                    // You can check if the selected option is correct and perform any necessary actions
-
-                    // Check if the selected option is the correct answer
+    private fun executeAfter3Seconds(classs: String, question: String, optionA: String, optionB: String, optionC: String, optionD: String) {
+        timers = object : CountDownTimer(1_000, 1_000) {
+            override fun onTick(p0: Long) {
 
             }
 
+            override fun onFinish() {
+                var database: DatabaseReference =
+                    FirebaseDatabase.getInstance().getReference("$classs, $topic")
+                database.child("$question12").removeValue().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        database = FirebaseDatabase.getInstance().getReference("$classs, $topic")
+                        val Question = Questions(
+                            classs,
+                            selectedOption2,
+                            question,
+                            "$optionA",
+                            "$optionB",
+                            "$optionC",
+                            "$optionD",
+                            answer,
+                            selectedOption3
+                        )
+                        database.child("$question").setValue(Question).addOnSuccessListener {
+                            Toast.makeText(this@EdittingQuestionActivity, "Successfully Saved", Toast.LENGTH_SHORT).show()
+                            saveTopics(
+                                "$classs",
+                                "$topic",
+                                selectedOption2,
+                                selectedOption3,
+                                "$optionA",
+                                "$optionB",
+                                "$optionC",
+                                "$optionD",
+                                "$answer",
+                                selectedOption4
+                            )
+
+                            Toast.makeText(this@EdittingQuestionActivity, "Successfuly Updated", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+
+                            Toast.makeText(this@EdittingQuestionActivity, "Failed to Update", Toast.LENGTH_SHORT).show()
+
+                        }
+
+                    } else {
+                        Toast.makeText(this@EdittingQuestionActivity, "Failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            }
 
         }
+        timers?.start()
+    }
+
+
+}
+
+
+
+
 
 
